@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.sensors.AbsoluteSensorRange;
 import com.ctre.phoenix.sensors.CANCoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
@@ -22,13 +23,13 @@ public class Arm extends SubsystemBase{
     private RelativeEncoder armEncoder;
 
     public enum Position{
-        HIGH_GOAL(0.0), 
-        MID_GOAL(0.0),
+        HIGH_GOAL(26.5), 
+        MID_GOAL(11.865),
+        LOW_GOAL(-53.96),
         HUMAN_PLAYER_STATION(0.0),
-        PICK_UP(0.0),
-        LOWEST_POINT(0.0),
+        PICK_UP(-74.785),
         CHARGING_STATION(0.0),
-        DRIVE(0.0);
+        DRIVE(-88.68);
         private final double angleDegrees;
 
         Position(double angleDegrees){
@@ -41,10 +42,11 @@ public class Arm extends SubsystemBase{
     }
 
     public Arm(){
-        armMotor = new CANSparkMax(Constants.Swerve.ARM_MOTOR_ID, MotorType.kBrushless);
+        armMotor = new CANSparkMax(Constants.ARM_MOTOR_ID, MotorType.kBrushless);
         armMotor.setIdleMode(IdleMode.kBrake);
 
-        // armCanCoder = new CANCoder(armCanCoderID);
+        armCanCoder = new CANCoder(Constants.ARM_CAN_CODER_ID);
+        armCanCoder.configAbsoluteSensorRange(AbsoluteSensorRange.Signed_PlusMinus180);
 
         armEncoder = armMotor.getEncoder();
         armEncoder.setPosition(0.0);
@@ -62,7 +64,7 @@ public class Arm extends SubsystemBase{
     }
 
     public void moveUp(){
-        moveToPos(Position.DRIVE);
+        armMotor.set(-0.3);
     }
 
     public void stop(){
@@ -70,11 +72,11 @@ public class Arm extends SubsystemBase{
     }
 
     public void moveDown(){
-        armMotor.set(-0.02);
+        armMotor.set(0.3);
     }
 
     public void moveToPos(Arm.Position desiredPosition){
-        armMotorController.setReference(22, CANSparkMax.ControlType.kPosition);
+        //armMotorController.setReference(22, CANSparkMax.ControlType.kPosition);
     }
     public void highGoal(){
         
@@ -84,7 +86,7 @@ public class Arm extends SubsystemBase{
 
     }
 
-    public void lowestPoint(){
+    public void lowGoal(){
 
     }
 
@@ -108,5 +110,9 @@ public class Arm extends SubsystemBase{
 
     public void resetArmEncoder(){
         armEncoder.setPosition(0.0);
+    }
+
+    public double getCANCoderPosition() {
+        return armCanCoder.getAbsolutePosition();
     }
 }

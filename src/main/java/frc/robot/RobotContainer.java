@@ -14,9 +14,11 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RepeatCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.autos.*;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
+import frc.robot.subsystems.Arm.Position;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -35,7 +37,7 @@ public class RobotContainer {
 
   /* Driver Buttons */
   private final JoystickButton zeroGyro =
-      new JoystickButton(driver, XboxController.Button.kY.value);
+      new JoystickButton(driver, XboxController.Button.kRightBumper.value);
 
   private final JoystickButton robotCentric =
       new JoystickButton(driver, XboxController.Button.kLeftBumper.value);
@@ -44,13 +46,13 @@ public class RobotContainer {
       new JoystickButton(driver, XboxController.Button.kB.value);
 
   private final JoystickButton armMotorForward = 
-      new JoystickButton(driver, XboxController.Button.kX.value);
+      new JoystickButton(driver, XboxController.Button.kY.value);
 
   private final JoystickButton armMotorReverse = 
-      new JoystickButton(driver, XboxController.Button.kRightBumper.value);
+      new JoystickButton(driver, XboxController.Button.kA.value);
 
   private final JoystickButton enableArmLimitSwitches =
-      new JoystickButton(driver, XboxController.Button.kA.value);
+      new JoystickButton(driver, XboxController.Button.kX.value);
 
   private final JoystickButton autoAlignMacroButton =
       new JoystickButton(driver, XboxController.Button.kStart.value);
@@ -101,8 +103,12 @@ public class RobotContainer {
     toggleTesterButton.onTrue(new InstantCommand(() -> limelight.toggleStreamMode()));
     autoAlignMacroButton.onTrue(new PoleAlignmentCommand(s_Swerve, limelight));
 
-    armMotorForward.onTrue(new InstantCommand(() -> arm.moveUp()));
-    armMotorReverse.onTrue(new InstantCommand(() -> arm.moveDown()));
+    //armMotorForward.onTrue(new InstantCommand(() -> arm.moveUp()));
+    //armMotorReverse.onTrue(new InstantCommand(() -> arm.moveDown()));
+    Trigger armMotorForwardTrigger = armMotorForward.whileTrue(new RepeatCommand(new InstantCommand(() -> arm.moveUp())));
+    armMotorForwardTrigger.onFalse(new InstantCommand(() -> arm.stop()));
+    Trigger armMotorReverseTrigger = armMotorReverse.whileTrue(new RepeatCommand(new InstantCommand(() -> arm.moveDown())));
+    armMotorReverseTrigger.onFalse(new InstantCommand(() -> arm.stop()));
 
     autoAlignMacroButton.onTrue(new PoleAlignmentCommand(s_Swerve, limelight));
 
@@ -110,13 +116,13 @@ public class RobotContainer {
     enableArmLimitSwitches.onFalse(new InstantCommand(() -> arm.enableLimitSwitches()));
 
     // NOTE: These are just debugging examples of possible ways to use dpad
-    dpadUp.onTrue(new InstantCommand(() -> System.out.println("dpadUp")));
-    dpadRight.onTrue(new InstantCommand(() -> System.out.println("dpadRight")));
-    dpadDown.onTrue(new InstantCommand(() -> System.out.println("dpadDown")));
-    dpadLeft.onTrue(new InstantCommand(() -> System.out.println("dpadLeft")));
+    dpadUp.onTrue(new InstantCommand(() -> arm.moveToPos(Position.HIGH_GOAL)));
+    dpadRight.onTrue(new InstantCommand(() -> arm.moveToPos(Position.DRIVE)));
+    dpadDown.onTrue(new InstantCommand(() -> arm.moveToPos(Position.PICK_UP)));
+    dpadLeft.onTrue(new InstantCommand(() -> arm.moveToPos(Position.MID_GOAL)));
 
-    dpadUp.whileTrue(new RepeatCommand(new InstantCommand(() -> System.out.println("arm up"))));
-    dpadDown.whileTrue(new RepeatCommand(new InstantCommand(() -> System.out.println("arm down"))));
+    //dpadUp.whileTrue(new RepeatCommand(new InstantCommand(() -> System.out.println("arm up"))));
+    //dpadDown.whileTrue(new RepeatCommand(new InstantCommand(() -> System.out.println("arm down"))));
   }
 
   /**

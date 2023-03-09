@@ -19,6 +19,7 @@ public class ArmCommand extends CommandBase{
     @Override
     public void execute(){
         SmartDashboard.putNumber("Arm Motor Encoder", arm.getEncoder());
+        SmartDashboard.putNumber("arm CAN Coder", arm.getCANCoderPosition());
     }
 
     @Override 

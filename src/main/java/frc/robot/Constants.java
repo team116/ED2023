@@ -17,13 +17,16 @@ import static frc.robot.RobotSpecificConstants.getAngleOffsetModule3;
 
 public final class Constants {
 
+  public static final int ARM_MOTOR_ID = 51;
+  public static final int GRABBER_MOTOR_ID = 52;
+  public static final int ARM_CAN_CODER_ID = 50;
+
   public static final class Swerve {
     public static final double STICK_DEADBAND = 0.1;
 
     public static final int PIGEON_ID = 7;
     public static final int POWER_DISTRIBUTION_CENTER = 6;
     public static final boolean INVERT_GYRO = false; // Always ensure Gyro is CCW+ CW-
-    public static final int ARM_MOTOR_ID = 51;
 
     /* Drivetrain Constants */
     public static final double FRONT_TO_BACK_AXLE_TO_AXLE_METERS = getFrontToBackAxleToAxleMeters();
