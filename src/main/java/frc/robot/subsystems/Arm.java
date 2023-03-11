@@ -6,6 +6,7 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxLimitSwitch;
 import com.revrobotics.SparkMaxPIDController;
+import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
@@ -58,13 +59,13 @@ public class Arm extends SubsystemBase{
         
         armMotorController = armMotor.getPIDController();
         armMotorController.setP(30.0);// original value before playing with is 0.001, 30 looks like it works nicely
-        armMotorController.setOutputRange(-0.1, 0.1);
+        armMotorController.setOutputRange(-0.2, 0.2);
         armMotorController.setFF(0.0);
         armMotor.burnFlash();
     }
 
     public void moveUp(){
-        armMotor.set(-0.3);
+        armMotor.set(-0.4);
     }
 
     public void stop(){
@@ -72,7 +73,15 @@ public class Arm extends SubsystemBase{
     }
 
     public void moveDown(){
-        armMotor.set(0.3);
+        armMotor.set(0.4);
+    }
+
+    public void nudgeUp(double positivePercentage) {
+        armMotor.set(-positivePercentage);
+    }
+
+    public void nudgeDown(double positivePercentage) {
+        armMotor.set(positivePercentage);
     }
 
     public void moveToPos(Arm.Position desiredPosition){

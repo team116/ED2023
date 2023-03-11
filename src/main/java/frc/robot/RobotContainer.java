@@ -105,10 +105,10 @@ public class RobotContainer {
 
     //armMotorForward.onTrue(new InstantCommand(() -> arm.moveUp()));
     //armMotorReverse.onTrue(new InstantCommand(() -> arm.moveDown()));
-    Trigger armMotorForwardTrigger = armMotorForward.whileTrue(new RepeatCommand(new InstantCommand(() -> arm.moveUp())));
-    armMotorForwardTrigger.onFalse(new InstantCommand(() -> arm.stop()));
-    Trigger armMotorReverseTrigger = armMotorReverse.whileTrue(new RepeatCommand(new InstantCommand(() -> arm.moveDown())));
-    armMotorReverseTrigger.onFalse(new InstantCommand(() -> arm.stop()));
+    Trigger armMotorForwardTrigger = armMotorForward.whileTrue(new RepeatCommand(new InstantCommand(() -> arm.moveUp(), arm)));
+    armMotorForwardTrigger.onFalse(new InstantCommand(() -> arm.stop(), arm));
+    Trigger armMotorReverseTrigger = armMotorReverse.whileTrue(new RepeatCommand(new InstantCommand(() -> arm.moveDown(), arm)));
+    armMotorReverseTrigger.onFalse(new InstantCommand(() -> arm.stop(), arm));
 
     autoAlignMacroButton.onTrue(new PoleAlignmentCommand(s_Swerve, limelight));
 
@@ -116,10 +116,10 @@ public class RobotContainer {
     enableArmLimitSwitches.onFalse(new InstantCommand(() -> arm.enableLimitSwitches()));
 
     // NOTE: These are just debugging examples of possible ways to use dpad
-    dpadUp.onTrue(new InstantCommand(() -> arm.moveToPos(Position.HIGH_GOAL)));
-    dpadRight.onTrue(new InstantCommand(() -> arm.moveToPos(Position.DRIVE)));
-    dpadDown.onTrue(new InstantCommand(() -> arm.moveToPos(Position.PICK_UP)));
-    dpadLeft.onTrue(new InstantCommand(() -> arm.moveToPos(Position.MID_GOAL)));
+    dpadUp.onTrue(new InstantCommand(() -> arm.moveToPos(Position.HIGH_GOAL), arm));
+    dpadRight.onTrue(new InstantCommand(() -> arm.moveToPos(Position.DRIVE), arm));
+    dpadDown.onTrue(new InstantCommand(() -> arm.moveToPos(Position.PICK_UP), arm));
+    dpadLeft.onTrue(new InstantCommand(() -> arm.moveToPos(Position.MID_GOAL), arm));
 
     //dpadUp.whileTrue(new RepeatCommand(new InstantCommand(() -> System.out.println("arm up"))));
     //dpadDown.whileTrue(new RepeatCommand(new InstantCommand(() -> System.out.println("arm down"))));
