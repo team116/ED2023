@@ -17,9 +17,13 @@ import static frc.robot.RobotSpecificConstants.getAngleOffsetModule3;
 
 public final class Constants {
 
+  public static final int DRIVER_XBOX_CONTROLLER_PORT = 0;
+
   public static final int ARM_MOTOR_ID = 51;
   public static final int GRABBER_MOTOR_ID = 52;
   public static final int ARM_CAN_CODER_ID = 50;
+
+  public static final int GRABBER_LIMIT_SWITCH_CHANNEL = 0;
 
   public static final class Swerve {
     public static final double STICK_DEADBAND = 0.1;
