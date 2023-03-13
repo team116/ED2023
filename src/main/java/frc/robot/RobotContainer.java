@@ -46,19 +46,22 @@ public class RobotContainer {
       new JoystickButton(driver, XboxController.Button.kLeftBumper.value);
 
   private final JoystickButton toggleTesterButton =
-      new JoystickButton(driver, XboxController.Button.kB.value);
-
-  private final JoystickButton armMotorForward = 
-      new JoystickButton(driver, XboxController.Button.kY.value);
-
-  private final JoystickButton armMotorReverse = 
-      new JoystickButton(driver, XboxController.Button.kA.value);
-
-  private final JoystickButton enableArmLimitSwitches =
       new JoystickButton(driver, XboxController.Button.kX.value);
 
-  private final JoystickButton autoAlignMacroButton =
+  // private final JoystickButton armMotorForward =
+  //     new JoystickButton(driver, XboxController.Button.kY.value);
+
+  // private final JoystickButton armMotorReverse =
+  //     new JoystickButton(driver, XboxController.Button.kA.value);
+
+  private final JoystickButton enableArmLimitSwitches =
       new JoystickButton(driver, XboxController.Button.kStart.value);
+
+  private final JoystickButton autoAlignMacroButton =
+      new JoystickButton(driver, XboxController.Button.kB.value);
+
+  private final JoystickButton toggleSlowModeButton =
+      new JoystickButton(driver, XboxController.Button.kY.value);
 
   private final JoystickButton gunnerIntakeButton = new JoystickButton(gunnerStation, 1);
   private final JoystickButton gunnerOutakeButton = new JoystickButton(gunnerStation, 2);
@@ -67,6 +70,11 @@ public class RobotContainer {
 
   private final Trigger driverLeftTrigger = driverXBoxController.leftTrigger(0.5);
   private final Trigger driverRightTrigger = driverXBoxController.rightTrigger(0.5);
+
+  private final POVButton dpadUp = new POVButton(driver, 0);
+  private final POVButton dpadRight = new POVButton(driver, 90);
+  private final POVButton dpadDown = new POVButton(driver, 180);
+  private final POVButton dpadLeft = new POVButton(driver, 270);
 
    /* Subsystems */
   private final Arm arm = new Arm();
@@ -115,10 +123,15 @@ public class RobotContainer {
 
     //armMotorForward.onTrue(new InstantCommand(() -> arm.moveUp()));
     //armMotorReverse.onTrue(new InstantCommand(() -> arm.moveDown()));
-    Trigger armMotorForwardTrigger = armMotorForward.whileTrue(new RepeatCommand(new InstantCommand(() -> arm.moveUp(), arm)));
-    armMotorForwardTrigger.onFalse(new InstantCommand(() -> arm.stop(), arm));
-    Trigger armMotorReverseTrigger = armMotorReverse.whileTrue(new RepeatCommand(new InstantCommand(() -> arm.moveDown(), arm)));
-    armMotorReverseTrigger.onFalse(new InstantCommand(() -> arm.stop(), arm));
+    //Trigger armMotorForwardTrigger = armMotorForward.whileTrue(new RepeatCommand(new InstantCommand(() -> arm.moveUp(), arm)));
+    //armMotorForwardTrigger.onFalse(new InstantCommand(() -> arm.stop(), arm));
+    //Trigger armMotorReverseTrigger = armMotorReverse.whileTrue(new RepeatCommand(new InstantCommand(() -> arm.moveDown(), arm)));
+    //armMotorReverseTrigger.onFalse(new InstantCommand(() -> arm.stop(), arm));
+
+    Trigger armForwardTrigger = dpadUp.whileTrue(new RepeatCommand(new InstantCommand(() -> arm.moveUp(), arm)));
+    armForwardTrigger.onFalse(new InstantCommand(() -> arm.stop(), arm));
+    Trigger armReverseTrigger = dpadDown.whileTrue(new RepeatCommand(new InstantCommand(() -> arm.moveDown(), arm)));
+    armReverseTrigger.onFalse(new InstantCommand(() -> arm.stop(), arm));
 
     autoAlignMacroButton.onTrue(new PoleAlignmentCommand(s_Swerve, limelight));
 
@@ -132,6 +145,13 @@ public class RobotContainer {
 
     gunnerOutakeButton.whileTrue(new RepeatCommand(new InstantCommand(() -> grabber.getRidOfGamePiece(), grabber)));
     gunnerIntakeButton.whileTrue(new RepeatCommand(new InstantCommand(() -> grabber.intakeGamePiece(), grabber)));
+
+    toggleSlowModeButton.onTrue(new InstantCommand(() -> s_Swerve.toggleSlowMode()));
+
+    // XBox
+    // Y for slow mode
+    // Right trigger - inwards
+    // Left trigger - outwards
 
     // Logitech
     // Raw 1 - Trigger - Stowed in robot ()

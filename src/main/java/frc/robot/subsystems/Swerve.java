@@ -23,6 +23,8 @@ public class Swerve extends SubsystemBase {
 
   private Field2d field;
 
+  private boolean inSlowMode = false;
+
   public Swerve() {
     gyro = new Pigeon2(Constants.Swerve.PIGEON_ID);
     gyro.configFactoryDefault();
@@ -170,5 +172,17 @@ public class Swerve extends SubsystemBase {
       SmartDashboard.putNumber(modName + " drive motor angle", mod.getPosition().angle.getDegrees());
       SmartDashboard.putNumber(modName + " drive motor encoder", mod.getDriveEncoder());
     }
+  }
+
+  public boolean inSlowMode() {
+    return inSlowMode;
+  }
+
+  public void setSlowMode(boolean newSlowModeValue) {
+    inSlowMode = newSlowModeValue;
+  }
+
+  public void toggleSlowMode() {
+    inSlowMode = !inSlowMode;
   }
 }
