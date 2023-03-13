@@ -22,15 +22,19 @@ public class Arm extends SubsystemBase{
     private SparkMaxLimitSwitch armBottomLimitSwitch;
     private SparkMaxPIDController armMotorController;
     private RelativeEncoder armEncoder;
+    private double desiredCANCoderPosition;
 
     public enum Position{
-        HIGH_GOAL(26.5), 
-        MID_GOAL(11.865),
+        CONE_HIGH_GOAL(26.5),   // 
+        CONE_MID_GOAL(11.865),
+        CUBE_HIGH_GOAL(26.5),
+        CUBE_MID_GOAL(11.865),
         LOW_GOAL(-53.96),
-        HUMAN_PLAYER_STATION(0.0),
-        PICK_UP(-74.785),
-        CHARGING_STATION(0.0),
-        DRIVE(-88.68);
+        HUMAN_PLAYER_STATION(0.0), // ??
+        FLOOR_INTAKE(-74.785),
+        CHARGING_STATION(-88.68), // Same as DRIVE/STOWED
+        STOWED(-88.68);
+
         private final double angleDegrees;
 
         Position(double angleDegrees){
@@ -65,7 +69,7 @@ public class Arm extends SubsystemBase{
     }
 
     public void moveUp(){
-        armMotor.set(-0.4);
+        armMotor.set(-0.3);
     }
 
     public void stop(){
@@ -73,7 +77,7 @@ public class Arm extends SubsystemBase{
     }
 
     public void moveDown(){
-        armMotor.set(0.4);
+        armMotor.set(0.2);
     }
 
     public void nudgeUp(double positivePercentage) {
@@ -84,9 +88,14 @@ public class Arm extends SubsystemBase{
         armMotor.set(positivePercentage);
     }
 
-    public void moveToPos(Arm.Position desiredPosition){
-        //armMotorController.setReference(22, CANSparkMax.ControlType.kPosition);
+    public void holdWithPower(double percentage) {
+        armMotor.set(-percentage);
     }
+
+    public void moveToPos(Arm.Position desiredArmPosition) {
+        this.setDesiredCANCoderPosition(desiredArmPosition.angleDegrees);
+    }
+
     public void highGoal(){
         
     }
@@ -119,6 +128,18 @@ public class Arm extends SubsystemBase{
 
     public void resetArmEncoder(){
         armEncoder.setPosition(0.0);
+    }
+
+    public void setDesiredCANCoderPosition(double desiredPosition) {
+        this.desiredCANCoderPosition = desiredPosition;
+    }
+
+    public void setDesiredCANCoderPositionToCurrentPosition() {
+        this.desiredCANCoderPosition = getCANCoderPosition();
+    }
+
+    public double getDesiredCANCoderPosition() {
+        return this.desiredCANCoderPosition;
     }
 
     public double getCANCoderPosition() {
