@@ -86,19 +86,19 @@ public class ArmCommand extends CommandBase{
 
         if (gunnerLogitech.getRawButtonPressed(1)) {
             desiredArmPosition = Arm.Position.STOWED;
-        } else if (gunnerLogitech.getRawButton(2)) {
+        } else if (gunnerLogitech.getRawButtonPressed(2)) {
             desiredArmPosition = Arm.Position.HUMAN_PLAYER_STATION;
-        } else if (gunnerLogitech.getRawButton(7)) {
+        } else if (gunnerLogitech.getRawButtonPressed(7)) {
             desiredArmPosition = Arm.Position.CONE_HIGH_GOAL;
-        } else if (gunnerLogitech.getRawButton(8)) {
+        } else if (gunnerLogitech.getRawButtonPressed(8)) {
             desiredArmPosition = Arm.Position.CUBE_HIGH_GOAL;
-        } else if (gunnerLogitech.getRawButton(9)) {
+        } else if (gunnerLogitech.getRawButtonPressed(9)) {
             desiredArmPosition = Arm.Position.CONE_MID_GOAL;
-        } else if (gunnerLogitech.getRawButton(10)) {
+        } else if (gunnerLogitech.getRawButtonPressed(10)) {
             desiredArmPosition = Arm.Position.CUBE_MID_GOAL;
-        } else if (gunnerLogitech.getRawButton(11)) {
+        } else if (gunnerLogitech.getRawButtonPressed(11)) {
             desiredArmPosition = Arm.Position.LOW_GOAL;
-        } else if (gunnerLogitech.getRawButton(12)) {
+        } else if (gunnerLogitech.getRawButtonPressed(12)) {
             desiredArmPosition = Arm.Position.FLOOR_INTAKE;
         }
 
