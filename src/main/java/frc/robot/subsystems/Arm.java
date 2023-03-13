@@ -6,6 +6,7 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxLimitSwitch;
 import com.revrobotics.SparkMaxPIDController;
+import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
@@ -21,15 +22,19 @@ public class Arm extends SubsystemBase{
     private SparkMaxLimitSwitch armBottomLimitSwitch;
     private SparkMaxPIDController armMotorController;
     private RelativeEncoder armEncoder;
+    private double desiredCANCoderPosition;
 
     public enum Position{
-        HIGH_GOAL(26.5), 
-        MID_GOAL(11.865),
+        CONE_HIGH_GOAL(26.5),   // 
+        CONE_MID_GOAL(11.865),
+        CUBE_HIGH_GOAL(26.5),
+        CUBE_MID_GOAL(11.865),
         LOW_GOAL(-53.96),
-        HUMAN_PLAYER_STATION(0.0),
-        PICK_UP(-74.785),
-        CHARGING_STATION(0.0),
-        DRIVE(-88.68);
+        HUMAN_PLAYER_STATION(0.0), // ??
+        FLOOR_INTAKE(-74.785),
+        CHARGING_STATION(-88.68), // Same as DRIVE/STOWED
+        STOWED(-88.68);
+
         private final double angleDegrees;
 
         Position(double angleDegrees){
@@ -58,7 +63,7 @@ public class Arm extends SubsystemBase{
         
         armMotorController = armMotor.getPIDController();
         armMotorController.setP(30.0);// original value before playing with is 0.001, 30 looks like it works nicely
-        armMotorController.setOutputRange(-0.1, 0.1);
+        armMotorController.setOutputRange(-0.2, 0.2);
         armMotorController.setFF(0.0);
         armMotor.burnFlash();
     }
@@ -72,12 +77,25 @@ public class Arm extends SubsystemBase{
     }
 
     public void moveDown(){
-        armMotor.set(0.3);
+        armMotor.set(0.2);
     }
 
-    public void moveToPos(Arm.Position desiredPosition){
-        //armMotorController.setReference(22, CANSparkMax.ControlType.kPosition);
+    public void nudgeUp(double positivePercentage) {
+        armMotor.set(-positivePercentage);
     }
+
+    public void nudgeDown(double positivePercentage) {
+        armMotor.set(positivePercentage);
+    }
+
+    public void holdWithPower(double percentage) {
+        armMotor.set(-percentage);
+    }
+
+    public void moveToPos(Arm.Position desiredArmPosition) {
+        this.setDesiredCANCoderPosition(desiredArmPosition.angleDegrees);
+    }
+
     public void highGoal(){
         
     }
@@ -110,6 +128,18 @@ public class Arm extends SubsystemBase{
 
     public void resetArmEncoder(){
         armEncoder.setPosition(0.0);
+    }
+
+    public void setDesiredCANCoderPosition(double desiredPosition) {
+        this.desiredCANCoderPosition = desiredPosition;
+    }
+
+    public void setDesiredCANCoderPositionToCurrentPosition() {
+        this.desiredCANCoderPosition = getCANCoderPosition();
+    }
+
+    public double getDesiredCANCoderPosition() {
+        return this.desiredCANCoderPosition;
     }
 
     public double getCANCoderPosition() {

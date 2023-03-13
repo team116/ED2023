@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj2.command.RepeatCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.autos.*;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
@@ -29,6 +30,8 @@ import frc.robot.subsystems.Arm.Position;
 public class RobotContainer {
   /* Controllers */
   private final Joystick driver = new Joystick(0);
+  private final Joystick gunnerStation = new Joystick(1);
+  private final Joystick gunnerLogitech = new Joystick(2);
 
   /* Drive Controls */
   private final int translationAxis = XboxController.Axis.kLeftY.value;
@@ -57,15 +60,19 @@ public class RobotContainer {
   private final JoystickButton autoAlignMacroButton =
       new JoystickButton(driver, XboxController.Button.kStart.value);
 
-  private final POVButton dpadUp = new POVButton(driver, 0);
-  private final POVButton dpadRight = new POVButton(driver, 90);
-  private final POVButton dpadDown = new POVButton(driver, 180);
-  private final POVButton dpadLeft = new POVButton(driver, 270);
+  private final JoystickButton gunnerIntakeButton = new JoystickButton(gunnerStation, 1);
+  private final JoystickButton gunnerOutakeButton = new JoystickButton(gunnerStation, 2);
+
+  private final CommandXboxController driverXBoxController = new CommandXboxController(Constants.DRIVER_XBOX_CONTROLLER_PORT);
+
+  private final Trigger driverLeftTrigger = driverXBoxController.leftTrigger(0.5);
+  private final Trigger driverRightTrigger = driverXBoxController.rightTrigger(0.5);
 
    /* Subsystems */
   private final Arm arm = new Arm();
   private final Limelight limelight = new Limelight();
   private final Swerve s_Swerve = new Swerve();
+  private final Grabber grabber = new Grabber();
 
   private final SendableChooser<Command> sendableChooser = new SendableChooser<>();
 
@@ -81,7 +88,10 @@ public class RobotContainer {
 
     limelight.setDefaultCommand(new DefaultLimelightCommand(limelight));
 
-    arm.setDefaultCommand(new ArmCommand(arm));
+    arm.setDefaultCommand(new ArmCommand(arm, gunnerLogitech, gunnerStation));
+
+    grabber.setDefaultCommand(new GrabberCommand(grabber));
+
     // Configure the button bindings
     configureButtonBindings();
 
@@ -105,24 +115,47 @@ public class RobotContainer {
 
     //armMotorForward.onTrue(new InstantCommand(() -> arm.moveUp()));
     //armMotorReverse.onTrue(new InstantCommand(() -> arm.moveDown()));
-    Trigger armMotorForwardTrigger = armMotorForward.whileTrue(new RepeatCommand(new InstantCommand(() -> arm.moveUp())));
-    armMotorForwardTrigger.onFalse(new InstantCommand(() -> arm.stop()));
-    Trigger armMotorReverseTrigger = armMotorReverse.whileTrue(new RepeatCommand(new InstantCommand(() -> arm.moveDown())));
-    armMotorReverseTrigger.onFalse(new InstantCommand(() -> arm.stop()));
+    Trigger armMotorForwardTrigger = armMotorForward.whileTrue(new RepeatCommand(new InstantCommand(() -> arm.moveUp(), arm)));
+    armMotorForwardTrigger.onFalse(new InstantCommand(() -> arm.stop(), arm));
+    Trigger armMotorReverseTrigger = armMotorReverse.whileTrue(new RepeatCommand(new InstantCommand(() -> arm.moveDown(), arm)));
+    armMotorReverseTrigger.onFalse(new InstantCommand(() -> arm.stop(), arm));
 
     autoAlignMacroButton.onTrue(new PoleAlignmentCommand(s_Swerve, limelight));
 
     enableArmLimitSwitches.onTrue(new InstantCommand(() -> arm.disableLimitSwitches()));
     enableArmLimitSwitches.onFalse(new InstantCommand(() -> arm.enableLimitSwitches()));
 
-    // NOTE: These are just debugging examples of possible ways to use dpad
-    dpadUp.onTrue(new InstantCommand(() -> arm.moveToPos(Position.HIGH_GOAL)));
-    dpadRight.onTrue(new InstantCommand(() -> arm.moveToPos(Position.DRIVE)));
-    dpadDown.onTrue(new InstantCommand(() -> arm.moveToPos(Position.PICK_UP)));
-    dpadLeft.onTrue(new InstantCommand(() -> arm.moveToPos(Position.MID_GOAL)));
-
     //dpadUp.whileTrue(new RepeatCommand(new InstantCommand(() -> System.out.println("arm up"))));
     //dpadDown.whileTrue(new RepeatCommand(new InstantCommand(() -> System.out.println("arm down"))));
+    driverLeftTrigger.whileTrue(new RepeatCommand(new InstantCommand(() -> grabber.getRidOfGamePiece(), grabber)));
+    driverRightTrigger.whileTrue(new RepeatCommand(new InstantCommand(() -> grabber.intakeGamePiece(), grabber)));
+
+    gunnerOutakeButton.whileTrue(new RepeatCommand(new InstantCommand(() -> grabber.getRidOfGamePiece(), grabber)));
+    gunnerIntakeButton.whileTrue(new RepeatCommand(new InstantCommand(() -> grabber.intakeGamePiece(), grabber)));
+
+    // Logitech
+    // Raw 1 - Trigger - Stowed in robot ()
+    // Raw 2 - Human Intake
+
+    // y-axis -> "up"/"down"   (invert, as negative)
+
+    // Raw 7  - Cone High
+    // Raw 8  - Cube High
+    // Raw 9  - Cone Mid
+    // Raw 10 - Cube Mid
+    // Raw 11 - Low Score
+    // Raw 12 - Floor Intake 
+
+
+    // Gunner
+    // Raw 1 - Intake
+    // Raw 2 - Outake
+
+    // Raw 3 - Claw Limit Switch Disable (if "on")
+    // Raw 4 - Arm Limit Switch Disable (if "on")
+    // Raw 5 - Disable all arm operations
+
+    // Raw 7 - Cube/Color Switch  (RGB somewhere)
   }
 
   /**

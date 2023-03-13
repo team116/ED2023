@@ -42,16 +42,26 @@ public class TeleopSwerve extends CommandBase {
 
   @Override
   public void execute() {
+
+    // Wants a toggle for slow mode/or hold button... someone matters
+    // Can do it either way...
+    double rawTranslationVal = translationSup.getAsDouble();
+    double rawStrafeVal = strafeSup.getAsDouble();
+    double rawRotationVal = rotationSup.getAsDouble();
+
+    // FIXME: Make slow-mode capability
+    // Need to read state from somewhere... s_Swerve maintain state?  Probably...
+
     /* Get Values, Deadband*/
     double translationVal =
         translationLimiter.calculate(
-            MathUtil.applyDeadband(translationSup.getAsDouble(), Constants.Swerve.STICK_DEADBAND));
+            MathUtil.applyDeadband(rawTranslationVal, Constants.Swerve.STICK_DEADBAND));
     double strafeVal =
         strafeLimiter.calculate(
-            MathUtil.applyDeadband(strafeSup.getAsDouble(), Constants.Swerve.STICK_DEADBAND));
+            MathUtil.applyDeadband(rawStrafeVal, Constants.Swerve.STICK_DEADBAND));
     double rotationVal =
         rotationLimiter.calculate(
-            MathUtil.applyDeadband(rotationSup.getAsDouble(), Constants.Swerve.STICK_DEADBAND));
+            MathUtil.applyDeadband(rawRotationVal, Constants.Swerve.STICK_DEADBAND));
 
     /* Drive */
     s_Swerve.drive(
