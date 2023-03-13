@@ -5,7 +5,7 @@ import edu.wpi.first.math.util.Units;
 
 public final class RobotSpecificConstants {
     
-    public static final boolean IS_COMPETITION_ROBOT = false; // Wonder if we can test robot itself to determine this
+    public static final boolean IS_COMPETITION_ROBOT = true; // Wonder if we can test robot itself to determine this
 
     public static double getFrontToBackAxleToAxleMeters() {
         return Units.inchesToMeters(ROBOT_SPECIFIC_CONSTANTS.getFrontToBackAxleToAxleInches());
