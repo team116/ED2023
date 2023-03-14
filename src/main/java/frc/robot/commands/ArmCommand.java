@@ -9,7 +9,9 @@ public class ArmCommand extends CommandBase{
     private Arm arm;
     private double desiredCanCoderPosition;
     private Joystick gunnerLogitech;
-    private Joystick gunnerStation;
+    private Joystick gunnerStation; // FIXME: Don't believe this ended up being necessary
+    private boolean moveToDesiredPosition = false;
+    private boolean manualMovementEngaged = false;
 
     public ArmCommand(Arm armSubSystem, Joystick gunnerLogitech, Joystick gunnerStation) {
         this.arm = armSubSystem;
@@ -32,8 +34,26 @@ public class ArmCommand extends CommandBase{
         SmartDashboard.putNumber("arm CAN Desired", desiredCanCoderPosition);
         SmartDashboard.putNumber("arm CAN Coder", arm.getCANCoderPosition());
 
-        checkForMoveToPositionRequests();
+        checkForDriverInputs();
 
+        if (!manualMovementEngaged) {
+            checkForMoveToPositionRequests();
+
+            if (moveToDesiredPosition) {
+                moveToDesiredPosition();
+            } else {
+                holdDesiredPosition();
+            }
+        }
+    }
+
+    @Override
+    public void end(boolean interrupted){
+        System.out.println("End Default Arm Command");
+        arm.stop();
+    }
+
+    private void holdDesiredPosition() {
         double currentCanCoderPosition = arm.getCANCoderPosition();
         double difference = desiredCanCoderPosition - currentCanCoderPosition;
 
@@ -42,21 +62,21 @@ public class ArmCommand extends CommandBase{
         double absDifference = Math.abs(difference);
         // cos(-90) is 0 -- aka low vertical  // -75.65 is vertical
         // subtract by 14.45 to get -90
-        double cosineVal = Math.toRadians(currentCanCoderPosition - 14.45);
+        double cosineVal = Math.cos(Math.toRadians(currentCanCoderPosition - 14.45));
         double absCosineVal = Math.abs(cosineVal);
 
         if (absDifference > 0.75) {
             double nudgeUpFactor = 0.015;
             double nudgeDownFactor = 0.01;
             if (absDifference > 20.0) {
-                nudgeUpFactor = 0.4;
-                nudgeDownFactor = 0.3;
+                nudgeUpFactor = 0.2;     // Was 0.4
+                nudgeDownFactor = 0.15;  // Was 0.3
             } else if (absDifference > 15.0) {
-                nudgeUpFactor = 0.2;
-                nudgeDownFactor = 0.1;
+                nudgeUpFactor = 0.1;     // Was 0.2
+                nudgeDownFactor = 0.05;  // Was 0.1
             } else if (absDifference > 8.0) {
-                nudgeUpFactor = 0.1;
-                nudgeDownFactor = 0.05;
+                nudgeUpFactor = 0.05;    // Was 0.1
+                nudgeDownFactor = 0.01;  // Was 0.5
             }
 
             double extraPower = (absCosineVal * absCosineVal) * 0.08;
@@ -74,10 +94,48 @@ public class ArmCommand extends CommandBase{
         }
     }
 
-    @Override 
-    public void end(boolean interrupted){
-        System.out.println("End Default Arm Command");
-        arm.stop();
+    private void moveToDesiredPosition() {
+        double currentCanCoderPosition = arm.getCANCoderPosition();
+        double difference = desiredCanCoderPosition - currentCanCoderPosition;
+
+        // 5 -> 0.1
+        // 10 -> 0.2
+        // 20+ -> 0.4 (0.3)
+
+        SmartDashboard.putNumber("arm CAN Difference", difference);
+
+        double absDifference = Math.abs(difference);
+        // cos(-90) is 0 -- aka low vertical  // -75.65 is vertical
+        // subtract by 14.45 to get -90
+        double cosineVal = Math.cos(Math.toRadians(currentCanCoderPosition - 14.45));
+        double absCosineVal = Math.abs(cosineVal);
+        // Might fold these values in...
+
+        if (absDifference > 2.0) {
+            if (difference > 0) {
+                arm.nudgeUp(Math.min(0.3, absDifference / 50.0));
+            } else {
+                arm.nudgeDown(Math.min(0.2, absDifference / 50.0));
+            }
+        } else {
+            moveToDesiredPosition = false;
+        }
+    }
+
+    private void checkForDriverInputs() {
+        double upDownValue = gunnerLogitech.getY();
+
+        double adjustedUpDownValue = upDownValue > 0 ? upDownValue * 0.2 : upDownValue * 0.3;
+
+        if (Math.abs(adjustedUpDownValue) > 0.03) {
+            moveToDesiredPosition = false;
+            manualMovementEngaged = true;
+            arm.move(adjustedUpDownValue);
+        } else if (manualMovementEngaged) {  // Previously was doing manual movement, but no longer, so turn it off
+            manualMovementEngaged = false;
+            arm.stop();
+            desiredCanCoderPosition = arm.getCANCoderPosition();
+        }
     }
 
     private void checkForMoveToPositionRequests() {
@@ -116,6 +174,7 @@ public class ArmCommand extends CommandBase{
 
         if (desiredArmPosition != null) {
             desiredCanCoderPosition = desiredArmPosition.getAngleDegrees();
+            moveToDesiredPosition = true;
         }
     }
 }

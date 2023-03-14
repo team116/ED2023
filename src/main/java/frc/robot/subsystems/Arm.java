@@ -80,6 +80,13 @@ public class Arm extends SubsystemBase{
         armMotor.set(0.2);
     }
 
+    /**
+     * Up is negative...
+     */
+    public void move(double percentagePower) {
+        armMotor.set(percentagePower);
+    }
+
     public void nudgeUp(double positivePercentage) {
         armMotor.set(-positivePercentage);
     }
