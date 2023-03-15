@@ -1,5 +1,7 @@
 package frc.robot.commands;
 
+import java.util.concurrent.CountDownLatch;
+
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -53,44 +55,23 @@ public class ArmCommand extends CommandBase{
         arm.stop();
     }
 
-    private void holdDesiredPosition() {
+    private void holdDesiredPosition() { 
         double currentCanCoderPosition = arm.getCANCoderPosition();
         double difference = desiredCanCoderPosition - currentCanCoderPosition;
 
         SmartDashboard.putNumber("arm CAN Difference", difference);
-
         double absDifference = Math.abs(difference);
-        // cos(-90) is 0 -- aka low vertical  // -75.65 is vertical
-        // subtract by 14.45 to get -90
-        double cosineVal = Math.cos(Math.toRadians(currentCanCoderPosition - 14.45));
-        double absCosineVal = Math.abs(cosineVal);
 
-        if (absDifference > 0.75) {
-            double nudgeUpFactor = 0.015;
-            double nudgeDownFactor = 0.01;
-            if (absDifference > 20.0) {
-                nudgeUpFactor = 0.2;     // Was 0.4
-                nudgeDownFactor = 0.15;  // Was 0.3
-            } else if (absDifference > 15.0) {
-                nudgeUpFactor = 0.1;     // Was 0.2
-                nudgeDownFactor = 0.05;  // Was 0.1
-            } else if (absDifference > 8.0) {
-                nudgeUpFactor = 0.05;    // Was 0.1
-                nudgeDownFactor = 0.01;  // Was 0.5
-            }
+        double holdValue = getHoldValueAtAngle(desiredCanCoderPosition);
 
-            double extraPower = (absCosineVal * absCosineVal) * 0.08;
-            SmartDashboard.putNumber("arm CAN Extra", extraPower);
-            if (difference > 0) {
-                arm.nudgeUp(Math.min((absDifference * nudgeUpFactor), 0.2) + extraPower);
-            } else {
-                arm.nudgeDown(/*(absDifference * 0.01)*/ 0.01);
-                //arm.nudgeDown(nudgeDownFactor);
-            }
+        if (absDifference < 0.75) {
+            arm.holdWithPower(holdValue);
         } else {
-            // This is technically insufficient -- will likely need some value to stop it from going down
-            arm.stop();
-            //arm.holdWithPower(cosineVal * cosineVal * 0.01);
+            if (difference > 0) {
+                arm.holdWithPower(holdValue + 0.02);
+            } else {
+                arm.holdWithPower(holdValue - 0.01);
+            }
         }
     }
 
@@ -105,33 +86,62 @@ public class ArmCommand extends CommandBase{
         SmartDashboard.putNumber("arm CAN Difference", difference);
 
         double absDifference = Math.abs(difference);
-        // cos(-90) is 0 -- aka low vertical  // -75.65 is vertical
+        // cos(-90) is 0 -- aka low vertical  // -75.65 is vertical down
         // subtract by 14.45 to get -90
-        double cosineVal = Math.cos(Math.toRadians(currentCanCoderPosition - 14.45));
+        double normalizedCanCoderPosition = currentCanCoderPosition - 14.45;
+
+        boolean behindVertical = normalizedCanCoderPosition < -90.0;
+
+        double cosineVal = Math.cos(Math.toRadians(normalizedCanCoderPosition));
         double absCosineVal = Math.abs(cosineVal);
+        double feedForward = absCosineVal * 0.03; // Need to find out what percentage is sufficient to hold... 
         // Might fold these values in...
 
         if (absDifference > 2.0) {
             if (difference > 0) {
-                arm.nudgeUp(Math.min(0.3, absDifference / 50.0));
+                arm.nudgeUp(between((absDifference / 50.0), 0.1, 0.3));
             } else {
-                arm.nudgeDown(Math.min(0.2, absDifference / 50.0));
+                arm.nudgeDown(between(absDifference / 50.0, 0.1, 0.2));
             }
         } else {
             moveToDesiredPosition = false;
         }
     }
 
+    boolean isBehindVertical(double angle) {
+        // cos(-90) is 0 -- aka low vertical  // -75.65 is vertical down
+        // subtract by 14.45 to get -90
+        double normalizedCanCoderPosition = angle - 14.45;
+        return normalizedCanCoderPosition < -90.0;
+    }
+
+    double getHoldValueAtAngle(double angle) {
+        // cos(-90) is 0 -- aka low vertical  // -75.65 is vertical down
+        // subtract by 14.45 to get -90
+        double normalizedCanCoderPosition = angle - 14.45;
+
+        double cosineVal = Math.cos(Math.toRadians(normalizedCanCoderPosition));
+        double absCosineVal = Math.abs(cosineVal);
+
+        double holdValue = absCosineVal * 0.09; // NOTE: This is the thing
+        return isBehindVertical(angle) ? -holdValue : holdValue;
+    }
+
     private void checkForDriverInputs() {
         double upDownValue = gunnerLogitech.getY();
+        upDownValue = shape(upDownValue);
 
-        double adjustedUpDownValue = upDownValue > 0 ? upDownValue * 0.2 : upDownValue * 0.3;
+        double adjustedUpDownValue = upDownValue > 0 ? upDownValue * 0.3 : upDownValue * 0.4;  // FIXME: Might even go faster than this
 
+        SmartDashboard.putNumber("arm Manual raw value", upDownValue);
+        SmartDashboard.putNumber("arm Manual value", adjustedUpDownValue);
         if (Math.abs(adjustedUpDownValue) > 0.03) {
+            SmartDashboard.putString("arm Manual In Process", "true");
             moveToDesiredPosition = false;
             manualMovementEngaged = true;
             arm.move(adjustedUpDownValue);
         } else if (manualMovementEngaged) {  // Previously was doing manual movement, but no longer, so turn it off
+            SmartDashboard.putString("arm Manual In Process", "false");
             manualMovementEngaged = false;
             arm.stop();
             desiredCanCoderPosition = arm.getCANCoderPosition();
@@ -176,5 +186,28 @@ public class ArmCommand extends CommandBase{
             desiredCanCoderPosition = desiredArmPosition.getAngleDegrees();
             moveToDesiredPosition = true;
         }
+    }
+
+    private static double between(double value, double min, double max) {
+        if (max < min) {
+            throw new IllegalArgumentException("Min : " + min + " cannot be larger than max: " + max);
+        }
+
+        if (value < min) {
+            return min;
+        }
+
+        if (value > max) {
+            return max;
+        }
+
+        return value;
+    }
+
+    public static double shape(double start) {
+        if (start < 0){
+          return -(start * start);
+        }
+        return start * start;
     }
 }
