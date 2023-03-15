@@ -6,17 +6,18 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Swerve;
 
-public class DriveStriaght extends CommandBase{
+public class DriveForwardInInches extends CommandBase{
     private static final double CONVERSION_FACTOR = 39.37;
     private Swerve swerve;
     private int pidSlot = 1;
-    private double distance = -36 / CONVERSION_FACTOR;
-    private int step = 0;
+    private double distance;
     Timer timer;
     private Rotation2d angle = Rotation2d.fromDegrees(0.0d);
     private SwerveModulePosition [] listOfModulePositions = new SwerveModulePosition[4];
 
-    public DriveStriaght(Swerve swerveSubsystem){
+    public DriveForwardInInches(Swerve swerveSubsystem, double inches, int pidSlot){
+        this.pidSlot = pidSlot;
+        distance = inches / CONVERSION_FACTOR;
         swerve = swerveSubsystem;
         swerve.setPID(10, 0, 0, pidSlot);
         swerve.setMinMax(-0.2, 0.2, pidSlot);
@@ -33,18 +34,10 @@ public class DriveStriaght extends CommandBase{
 
     @Override
     public void execute() {
-        switch(step){
-            case 0:
-                System.out.println("Executing step 0");
-                for (int i = 0; i < listOfModulePositions.length; i++){
-                    listOfModulePositions[i] = new SwerveModulePosition(distance, angle);
-                }
-                swerve.setModulePositions(listOfModulePositions);
-                if(timer.get() > 2){
-                    step++;
-                }
-                break;
+        for (int i = 0; i < listOfModulePositions.length; i++){
+            listOfModulePositions[i] = new SwerveModulePosition(distance, angle);
         }
+        swerve.setModulePositions(listOfModulePositions, pidSlot);
     }
 
     @Override

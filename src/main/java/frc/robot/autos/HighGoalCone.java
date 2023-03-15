@@ -46,23 +46,18 @@ public class HighGoalCone extends CommandBase {
         switch(step){
             case 0:
                 System.out.println("Executing step 0");
-                for (int i = 0; i < listOfModulePositions.length; i++){
-                    listOfModulePositions[i] = new SwerveModulePosition(distance, angle);
-                }
-                swerve.setModulePositions(listOfModulePositions);
                 if(timer.get() > 2){
                     step++;
                 }
                 break;
             case 1:
                 System.out.println("Executing step 1");
-                timer.reset();
-                step++;
+                reset();
                 break;  
             case 2:     
                 System.out.println("Executing step 2");
                 //move arm up to high position
-                step++;
+                reset();
                 break;
             case 3:
                 for (int i = 0; i < listOfModulePositions.length; i++){
@@ -74,15 +69,14 @@ public class HighGoalCone extends CommandBase {
                 }
                 break;
             case 4:
-                timer.reset();
-                step++;
+                reset();
                 break;
             case 5:
                 //get rid of the cone
                 step++;
                 break;
             case 6:
-                timer.reset();
+                reset();
                 break;
             case 7:
                 for (int i = 0; i < listOfModulePositions.length; i++){
@@ -95,7 +89,19 @@ public class HighGoalCone extends CommandBase {
                 break;
             case 8:
                 //move arm down to driving position
+                reset();
                 break;
+            case 9:
+                angle = Rotation2d.fromDegrees(90.0d);
+                distance = 0;
+                for (int i = 0; i < listOfModulePositions.length; i++){
+                    listOfModulePositions[i] = new SwerveModulePosition(distance, angle);
+                }
+                step++;
+            case 10:
+                reset();
+            case 11:
+                
             default:
                 System.out.println("default");
                 break;
@@ -105,5 +111,11 @@ public class HighGoalCone extends CommandBase {
     @Override
     public void end(boolean interrupted){
         System.out.println("end");
+    }
+
+    public void reset(){
+        timer.reset();
+        swerve.resetRelativeEncoders();
+        step++;
     }
 }
