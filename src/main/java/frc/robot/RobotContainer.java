@@ -133,8 +133,6 @@ public class RobotContainer {
     Trigger armReverseTrigger = dpadDown.whileTrue(new RepeatCommand(new InstantCommand(() -> arm.moveDown(), arm)));
     armReverseTrigger.onFalse(new InstantCommand(() -> arm.stop(), arm));
 
-    autoAlignMacroButton.onTrue(new PoleAlignmentCommand(s_Swerve, limelight));
-
     enableArmLimitSwitches.onTrue(new InstantCommand(() -> arm.disableLimitSwitches()));
     enableArmLimitSwitches.onFalse(new InstantCommand(() -> arm.enableLimitSwitches()));
 
@@ -197,6 +195,6 @@ public class RobotContainer {
   }
 
   public static double rotationShape(double start) {
-    return shape(start) / 2.0d;
+    return shape(start);  // was original dividing by 2 */ / 2.0d;
   }
 }

@@ -64,13 +64,13 @@ public class ArmCommand extends CommandBase{
 
         double holdValue = getHoldValueAtAngle(desiredCanCoderPosition);
 
-        if (absDifference < 0.75) {
+        if (absDifference < 0.25) {
             arm.holdWithPower(holdValue);
         } else {
             if (difference > 0) {
                 arm.holdWithPower(holdValue + 0.02);
             } else {
-                arm.holdWithPower(holdValue - 0.01);
+                arm.holdWithPower(holdValue - 0.02);
             }
         }
     }
@@ -128,7 +128,8 @@ public class ArmCommand extends CommandBase{
     }
 
     private void checkForDriverInputs() {
-        double upDownValue = gunnerLogitech.getY();
+        // NOTE: This is airplane mode
+        double upDownValue = -gunnerLogitech.getY();
         upDownValue = shape(upDownValue);
 
         double adjustedUpDownValue = upDownValue > 0 ? upDownValue * 0.3 : upDownValue * 0.4;  // FIXME: Might even go faster than this
