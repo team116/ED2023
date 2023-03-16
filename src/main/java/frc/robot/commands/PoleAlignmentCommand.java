@@ -50,7 +50,7 @@ public class PoleAlignmentCommand extends CommandBase {
     @Override
     public boolean isFinished() {
           // Only exit after 3 non-movements, or timer hits half second
-        return (stabilizedCount > 3 || (Timer.getFPGATimestamp() - startTime > 0.5d));
+        return (stabilizedCount > 3 || (Timer.getFPGATimestamp() - startTime > 1.5d));
     }
 
     @Override
