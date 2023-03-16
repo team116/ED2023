@@ -61,6 +61,9 @@ public class Robot extends TimedRobot {
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override
   public void autonomousInit() {
+    // NOTE: Believe all autonomous plays face towards alliance wall, if not, then need to move this down to individual auto plays
+    m_robotContainer.resetRobotToCorrectAutonomousFieldPosition();
+
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
     // schedule the autonomous command (example)

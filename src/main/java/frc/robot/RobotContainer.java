@@ -197,4 +197,8 @@ public class RobotContainer {
   public static double rotationShape(double start) {
     return shape(start);  // was original dividing by 2 */ / 2.0d;
   }
+
+  public void resetRobotToCorrectAutonomousFieldPosition() {
+    s_Swerve.reverseZeroGyro();
+  }
 }

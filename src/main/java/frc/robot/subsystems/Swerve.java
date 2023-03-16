@@ -139,8 +139,13 @@ public class Swerve extends SubsystemBase {
     return positions;
   }
 
+  // NOTE: If robot is facing our alliance wall, call this to reset field orientation.
+  public void reverseZeroGyro() {
+    gyro.setYaw(180.0);
+  }
+
   public void zeroGyro() {
-    gyro.setYaw(0);
+    gyro.setYaw(0.0);
   }
 
   public Rotation2d getYaw() {

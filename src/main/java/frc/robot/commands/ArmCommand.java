@@ -21,12 +21,17 @@ public class ArmCommand extends CommandBase{
         this.gunnerStation = gunnerStation;
 
         desiredCanCoderPosition = arm.getCANCoderPosition();
+        System.out.println("CONSTRUCTION: " + desiredCanCoderPosition);
         addRequirements(armSubSystem);
     }
 
     @Override
     public void initialize() {
         desiredCanCoderPosition = arm.getCANCoderPosition();
+        moveToDesiredPosition = false;
+        manualMovementEngaged = false;
+        arm.stop();
+        System.out.println("INITIALIZE: " + desiredCanCoderPosition);
     }
 
     @Override
@@ -185,6 +190,7 @@ public class ArmCommand extends CommandBase{
 
         if (desiredArmPosition != null) {
             desiredCanCoderPosition = desiredArmPosition.getAngleDegrees();
+            System.out.println("Requested desired position: " + desiredCanCoderPosition);
             moveToDesiredPosition = true;
         }
     }
