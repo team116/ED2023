@@ -18,7 +18,7 @@ public class GroundGoal extends SequentialCommandGroup {
 
         // REVISIT: Instead of CONE_HIGH_GOAL, might have a special lift strong
         ParallelCommandGroup liftConeFromFloor = new ParallelCommandGroup(
-            new MoveArmCommand(armSubsystem, CONE_HIGH_GOAL),
+            new MoveArmCommand(armSubsystem, LOW_GOAL),
             moveTinyBackwardsAtStart);
 
         MoveArmCommand liftArmToScoringPosition = new MoveArmCommand(armSubsystem, LOW_GOAL);

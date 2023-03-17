@@ -6,8 +6,8 @@ import frc.robot.subsystems.Arm;
 
 public class MoveArmCommand extends BaseArmCommand {
 
-    private static final double MAX_SECONDS_TO_WAIT = 3.0;
-    private static final double DEGREES_AWAY_FROM_DESIRED_THRESHOLD = 0.5;
+    private static final double MAX_SECONDS_TO_WAIT = 4.0;
+    private static final double DEGREES_AWAY_FROM_DESIRED_THRESHOLD = 1.0;
 
     private int stabilizedCount;
     private final Arm.Position desiredArmPosition;
@@ -41,7 +41,8 @@ public class MoveArmCommand extends BaseArmCommand {
 
     @Override
     public void end(boolean interrupted){
-       super.end(interrupted);
+        System.out.println("Auto lift arm exited???");
+        super.end(interrupted);
     }
 
     @Override

@@ -55,12 +55,10 @@ public abstract class BaseArmCommand extends CommandBase{
 
     protected void checkForDriverInputs() {
         // Override this to have manual inputs be handled
-        manualMovementEngaged = false;
     }
 
     protected void checkForMoveToPositionRequests() {
         // Override this to check for new position requests
-        moveToDesiredPosition = false;
     }
 
     private void holdDesiredPosition() { 
