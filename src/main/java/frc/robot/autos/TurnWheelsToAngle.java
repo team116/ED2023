@@ -28,7 +28,7 @@ public class TurnWheelsToAngle extends DurationCommand {
     @Override
     public void initialize() {
         super.initialize();
-        swerve.resetRelativeEncoders();
+        swerve.resetAngleEncoders();
         swerve.turnWheelsToToAngle(desiredAngle);
     }
 

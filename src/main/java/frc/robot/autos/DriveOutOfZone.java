@@ -15,10 +15,10 @@ public class DriveOutOfZone extends SequentialCommandGroup {
             new DriveDistanceAtAngle(swerve, 12.0, REVERSE),
             new DriveDistanceAtAngle(swerve, 12.0, FORWARD),
             new DriveDistanceAtAngle(swerve, 12.0, LEFT),
-            new DriveDistanceAtAngle(swerve, 12.0, RIGHT),
-            new DriveDistanceAtAngle(swerve, 12.0, DIAGONAL_BACKWARD_LEFT),
-            new DriveDistanceAtAngle(swerve, 12.0, DIAGONAL_FORWARD_RIGHT),
-            new DriveDistanceAtAngle(swerve, 12.0, DIAGONAL_BACKWARD_RIGHT),
-            new DriveDistanceAtAngle(swerve, 12.0, DIAGONAL_FORWARD_LEFT));
+            new DriveDistanceAtAngle(swerve, 12.0, RIGHT));/*,
+            //new DriveDistanceAtAngle(swerve, 12.0, DIAGONAL_BACKWARD_LEFT),
+            //new DriveDistanceAtAngle(swerve, 12.0, DIAGONAL_FORWARD_RIGHT),
+            //new DriveDistanceAtAngle(swerve, 12.0, DIAGONAL_BACKWARD_RIGHT),
+            //new DriveDistanceAtAngle(swerve, 12.0, DIAGONAL_FORWARD_LEFT));*/
     }
 }

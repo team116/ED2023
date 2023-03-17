@@ -50,6 +50,18 @@ public class Swerve extends SubsystemBase {
     }
   }
 
+  public void resetAngleEncoders() {
+    for (SwerveModule swerveModule : mSwerveMods) {
+      swerveModule.resetToAbsolute();
+    }
+  }
+
+  public void resetDriveEncoders() {
+    for (SwerveModule swerveModule : mSwerveMods) {
+      swerveModule.resetDriveEncoder();
+    }
+  }
+
   public void setMinMax(double min, double max, int pidSlot){
     for (SwerveModule swerveModule : mSwerveMods){
       swerveModule.setMinMax(min, max, pidSlot);

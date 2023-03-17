@@ -84,7 +84,7 @@ public class SwerveModule {
     setPosition(desiredPosition, pidSlot);
   }
 
-  private void resetToAbsolute() {
+  public void resetToAbsolute() {
     double absolutePosition = getCanCoder().getDegrees() - angleOffset.getDegrees();
     integratedAngleEncoder.setPosition(absolutePosition);
     lastAngle = Rotation2d.fromDegrees(absolutePosition);
@@ -93,7 +93,7 @@ public class SwerveModule {
 
   public void resetRelativeEncoders() {
     //integratedAngleEncoder.setPosition(0.0);
-    driveEncoder.setPosition(0.0);
+    resetDriveEncoder();
     //lastAngle = getState().angle;
     resetToAbsolute();
   }
