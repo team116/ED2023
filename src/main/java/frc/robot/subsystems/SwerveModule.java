@@ -188,8 +188,12 @@ public class SwerveModule {
   }
 
   public void setAngle(SwerveModulePosition desiredPosition) {
-    angleController.setReference(desiredPosition.angle.getDegrees(), ControlType.kPosition);
-    lastAngle = desiredPosition.angle;
+    setAngle(desiredPosition.angle);
+  }
+
+  public void setAngle(Rotation2d desiredAngle) {
+    angleController.setReference(desiredAngle.getDegrees(), ControlType.kPosition);
+    lastAngle = desiredAngle;
   }
 
   private void setPosition(SwerveModulePosition desiredPosition) {
@@ -238,7 +242,7 @@ public class SwerveModule {
     return angleOffset.getDegrees();
   }
 
-  public double getDesiredAngle() {
+  public double getDesiredAngleAsDegrees() {
     return lastAngle.getDegrees();
   }
 

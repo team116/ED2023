@@ -115,8 +115,14 @@ public class Swerve extends SubsystemBase {
     }
   }
   public void runToPosition(double position, int pidSlot){
-    for (SwerveModule mod : mSwerveMods){
+    for (SwerveModule mod : mSwerveMods) {
       mod.goToPosition(position, pidSlot);
+    }
+  }
+
+  public void turnWheelsToToAngle(Rotation2d angle) {
+    for (SwerveModule mod : mSwerveMods) {
+      mod.setAngle(angle);
     }
   }
 
@@ -176,7 +182,7 @@ public class Swerve extends SubsystemBase {
       SmartDashboard.putNumber(
           modName + " Velocity", mod.getState().speedMetersPerSecond);
       SmartDashboard.putNumber(
-        modName + " Desired", mod.getDesiredAngle());
+        modName + " Desired", mod.getDesiredAngleAsDegrees());
       SmartDashboard.putNumber(
         modName + " Adj Cancoder", mod.getCanCoder().getDegrees() - mod.getAngleOffset());
       SmartDashboard.putNumber(modName + " distance Meters", mod.getPosition().distanceMeters);
