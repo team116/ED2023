@@ -106,6 +106,7 @@ public class RobotContainer {
     sendableChooser.setDefaultOption("Do Nothing", new DoNothingCommand());
     sendableChooser.addOption("Drive To Position", new HighGoalCone(s_Swerve, arm, grabber));
     sendableChooser.addOption("Just drive out of zone", new DriveOutOfZone(s_Swerve));
+    sendableChooser.addOption("Score cone low goal", new GroundGoal(s_Swerve, arm, grabber));
     SmartDashboard.putData(sendableChooser);
   }
 

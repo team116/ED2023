@@ -29,7 +29,7 @@ public class DriveDistance extends DurationCommand {
     @Override
     public void initialize() {
         super.initialize();
-        swerve.resetRelativeEncoders();
+        swerve.resetDriveEncoders();
         swerve.runToPosition(distance, PID_SLOT);
     }
 
@@ -61,7 +61,7 @@ public class DriveDistance extends DurationCommand {
     }
 
     private static double deriveMaxTimeoutFromDistance(double distanceInches) {
-        // NOTE: Assuming we can 
-        return (distanceInches / WORST_CASE_INCHES_PER_SECOND);
+        // NOTE: All times should be non-negative
+        return Math.abs(distanceInches / WORST_CASE_INCHES_PER_SECOND);
     }
 }
