@@ -93,6 +93,12 @@ public class Swerve extends SubsystemBase {
     }
   }
 
+  public void stop() {
+    for (SwerveModule mod : mSwerveMods) {
+      mod.stop();
+    }
+  }
+
   public void setPID(double p, double i, double d, int pidSlot){
     for (SwerveModule mod : mSwerveMods){
       mod.setP(p, pidSlot);

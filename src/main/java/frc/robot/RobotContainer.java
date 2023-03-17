@@ -103,8 +103,9 @@ public class RobotContainer {
     // Configure the button bindings
     configureButtonBindings();
 
-    sendableChooser.addOption("Do Nothing", new DoNothingCommand());
-    sendableChooser.setDefaultOption("Drive To Position", new HighGoalCone(s_Swerve, arm, grabber));
+    sendableChooser.setDefaultOption("Do Nothing", new DoNothingCommand());
+    sendableChooser.addOption("Drive To Position", new HighGoalCone(s_Swerve, arm, grabber));
+    sendableChooser.addOption("Just drive out of zone", new DriveOutOfZone(s_Swerve));
     SmartDashboard.putData(sendableChooser);
   }
 
@@ -195,7 +196,7 @@ public class RobotContainer {
   }
 
   public static double rotationShape(double start) {
-    return shape(start);  // was original dividing by 2 */ / 2.0d;
+    return start * start * start;  // was original dividing by 2 */ / 2.0d;
   }
 
   public void resetRobotToCorrectAutonomousFieldPosition() {
