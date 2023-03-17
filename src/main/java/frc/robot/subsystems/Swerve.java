@@ -93,6 +93,12 @@ public class Swerve extends SubsystemBase {
     }
   }
 
+  public void stop() {
+    for (SwerveModule mod : mSwerveMods) {
+      mod.stop();
+    }
+  }
+
   public void setPID(double p, double i, double d, int pidSlot){
     for (SwerveModule mod : mSwerveMods){
       mod.setP(p, pidSlot);
@@ -109,8 +115,14 @@ public class Swerve extends SubsystemBase {
     }
   }
   public void runToPosition(double position, int pidSlot){
-    for (SwerveModule mod : mSwerveMods){
+    for (SwerveModule mod : mSwerveMods) {
       mod.goToPosition(position, pidSlot);
+    }
+  }
+
+  public void turnWheelsToToAngle(Rotation2d angle) {
+    for (SwerveModule mod : mSwerveMods) {
+      mod.setAngle(angle);
     }
   }
 
@@ -139,8 +151,13 @@ public class Swerve extends SubsystemBase {
     return positions;
   }
 
+  // NOTE: If robot is facing our alliance wall, call this to reset field orientation.
+  public void reverseZeroGyro() {
+    gyro.setYaw(180.0);
+  }
+
   public void zeroGyro() {
-    gyro.setYaw(0);
+    gyro.setYaw(0.0);
   }
 
   public Rotation2d getYaw() {
@@ -165,7 +182,7 @@ public class Swerve extends SubsystemBase {
       SmartDashboard.putNumber(
           modName + " Velocity", mod.getState().speedMetersPerSecond);
       SmartDashboard.putNumber(
-        modName + " Desired", mod.getDesiredAngle());
+        modName + " Desired", mod.getDesiredAngleAsDegrees());
       SmartDashboard.putNumber(
         modName + " Adj Cancoder", mod.getCanCoder().getDegrees() - mod.getAngleOffset());
       SmartDashboard.putNumber(modName + " distance Meters", mod.getPosition().distanceMeters);

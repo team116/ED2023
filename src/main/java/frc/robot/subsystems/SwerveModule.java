@@ -145,6 +145,12 @@ public class SwerveModule {
     driveController.setD(Constants.Swerve.DRIVE_KD);
     driveController.setFF(Constants.Swerve.DRIVE_KFF);
 
+    driveController.setP(10, 1); // FIXME: Should be defined as constants!!!!!
+    driveController.setI(0, 1);
+    driveController.setD(0, 1);
+    driveController.setFF(0, 1);
+    driveController.setOutputRange(-0.2, 0.2, 1);
+
     driveMotor.enableVoltageCompensation(Constants.Swerve.VOLTAGE_COMP);
     driveMotor.burnFlash();
     driveEncoder.setPosition(0.0);
@@ -166,6 +172,10 @@ public class SwerveModule {
     }
   }
 
+  public void stop() {
+    driveMotor.set(0.0);
+  }
+
   private void setAngle(SwerveModuleState desiredState) {
     // Prevent rotating module if speed is less then 1%. Prevents jittering.
     Rotation2d angle =
@@ -178,8 +188,12 @@ public class SwerveModule {
   }
 
   public void setAngle(SwerveModulePosition desiredPosition) {
-    angleController.setReference(desiredPosition.angle.getDegrees(), ControlType.kPosition);
-    lastAngle = desiredPosition.angle;
+    setAngle(desiredPosition.angle);
+  }
+
+  public void setAngle(Rotation2d desiredAngle) {
+    angleController.setReference(desiredAngle.getDegrees(), ControlType.kPosition);
+    lastAngle = desiredAngle;
   }
 
   private void setPosition(SwerveModulePosition desiredPosition) {
@@ -228,7 +242,7 @@ public class SwerveModule {
     return angleOffset.getDegrees();
   }
 
-  public double getDesiredAngle() {
+  public double getDesiredAngleAsDegrees() {
     return lastAngle.getDegrees();
   }
 
