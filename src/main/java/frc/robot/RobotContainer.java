@@ -96,7 +96,7 @@ public class RobotContainer {
 
     limelight.setDefaultCommand(new DefaultLimelightCommand(limelight));
 
-    arm.setDefaultCommand(new ArmCommand(arm, gunnerLogitech, gunnerStation));
+    arm.setDefaultCommand(new DefaultArmCommand(arm, gunnerLogitech, gunnerStation));
 
     grabber.setDefaultCommand(new GrabberCommand(grabber));
 
