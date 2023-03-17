@@ -2,14 +2,11 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Arm;
 
 public class DefaultArmCommand extends BaseArmCommand {
     private Joystick gunnerLogitech;
     private Joystick gunnerStation; // FIXME: Don't believe this ended up being necessary
-    private boolean moveToDesiredPosition = false;
-    private boolean manualMovementEngaged = false;
 
     public DefaultArmCommand(Arm armSubSystem, Joystick gunnerLogitech, Joystick gunnerStation) {
         super(armSubSystem);

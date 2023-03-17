@@ -12,6 +12,7 @@ public class GrabberIntakeCommand extends DurationCommand {
     public GrabberIntakeCommand(Grabber grabber) {
         super(MAX_INTAKE_WAIT_SECONDS);
         this.grabber = grabber;
+        addRequirements(grabber);
     }
 
     @Override

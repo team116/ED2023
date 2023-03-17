@@ -4,17 +4,19 @@ import frc.robot.subsystems.Grabber;
 
 public class GrabberExpelCommand extends DurationCommand {
 
-    private static final double MAX_EXPEL_SECONDS = 0.5;
+    private static final double MAX_EXPEL_SECONDS = 1.0;
 
     private final Grabber grabber;
 
     public GrabberExpelCommand(Grabber grabber) {
         super(MAX_EXPEL_SECONDS);
         this.grabber = grabber;
+        addRequirements(grabber);
     }
 
     @Override
     public void initialize() {
+        super.initialize();
         grabber.getRidOfGamePiece();
     }
 
