@@ -1,104 +1,39 @@
 package frc.robot.autos;
 
-
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.kinematics.SwerveModulePosition;
-import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Grabber;
 import frc.robot.subsystems.Swerve;
 
-public class MidGoalCube extends CommandBase{
-    private static final double CONVERSION_FACTOR = 39.37;
-    private Swerve swerve;
-    private Arm arm;
-    private Grabber grabber;
-    private int pidSlot = 1;
-    private double distance = -36 / CONVERSION_FACTOR;
-    private int step = 0;
-    Timer timer;
-    private Rotation2d angle = Rotation2d.fromDegrees(0.0d);
-    private SwerveModulePosition [] listOfModulePositions = new SwerveModulePosition[4];
+import static frc.robot.subsystems.Arm.Position.*;
+import static frc.robot.autos.DriveDistanceAtAngle.Direction.*;
 
-    public MidGoalCube(Swerve swerveSubsystem){
-        swerve = swerveSubsystem;
-        swerve.setPID(10, 0, 0, pidSlot);
-        swerve.setMinMax(-0.2, 0.2, pidSlot);
-        swerve.burnFlash();
-        addRequirements(swerveSubsystem);
-    }
+public class MidGoalCube extends SequentialCommandGroup{
+    public MidGoalCube(Swerve swerveSubsystem, Arm armSubsystem, Grabber grabberSubsystem) {
+        GrabberIntakeCommand grabConeFromFloorCommand = new GrabberIntakeCommand(grabberSubsystem);
 
-    @Override
-    public void initialize() {
-        swerve.resetRelativeEncoders();
-        timer = new Timer();
-        timer.start();
-    }
+        DriveDistanceAtAngle moveTinyBackwardsAtStart = new DriveDistanceAtAngle(swerveSubsystem, 12.0, REVERSE);
 
-    @Override
-    public void execute() {
-        switch(step){
-            case 0:
-                System.out.println("Executing step 0");
-                for (int i = 0; i < listOfModulePositions.length; i++){
-                    listOfModulePositions[i] = new SwerveModulePosition(distance, angle);
-                }
-                swerve.setModulePositions(listOfModulePositions);
-                if(timer.get() > 2){
-                    step++;
-                }
-                break;
-            case 1:
-                System.out.println("Executing step 1");
-                timer.reset();
-                step++;
-                break;  
-            case 2:     
-                System.out.println("Executing step 2");
-                //move arm up to mid position
-                step++;
-                break;
-            case 3:
-                for (int i = 0; i < listOfModulePositions.length; i++){
-                    listOfModulePositions[i] = new SwerveModulePosition(-distance, angle);
-                }
-                swerve.setModulePositions(listOfModulePositions);
-                if(timer.get() > 2){
-                    step++;
-                }
-                break;
-            case 4:
-                timer.reset();
-                step++;
-                break;
-            case 5:
-                //get rid of the cone
-                step++;
-                break;
-            case 6:
-                timer.reset();
-                break;
-            case 7:
-                for (int i = 0; i < listOfModulePositions.length; i++){
-                    listOfModulePositions[i] = new SwerveModulePosition(distance, angle);
-                }
-                swerve.setModulePositions(listOfModulePositions);
-                if(timer.get() > 2){
-                    step++;
-                }
-                break;
-            case 8:
-                //move arm down to driving position
-                break;
-            default:
-                System.out.println("default");
-                break;
-        }
-    }
+        // REVISIT: Instead of CONE_HIGH_GOAL, might have a special lift strong
+        ParallelCommandGroup liftConeFromFloor = new ParallelCommandGroup(
+            new MoveArmCommand(armSubsystem, LOW_GOAL),
+            moveTinyBackwardsAtStart);
 
-    @Override
-    public void end(boolean interrupted) {
-        
+        MoveArmCommand liftArmToScoringPosition = new MoveArmCommand(armSubsystem, CUBE_MID_GOAL);
+
+        DriveDistanceAtAngle moveForward = new DriveDistanceAtAngle(swerveSubsystem, 18.0, FORWARD);
+
+        GrabberExpelCommand scoreCone = new GrabberExpelCommand(grabberSubsystem);
+
+        DriveDistanceAtAngle moveBackwards = new DriveDistanceAtAngle(swerveSubsystem, 6.0, REVERSE);
+
+        addCommands(
+            grabConeFromFloorCommand,
+            liftConeFromFloor,
+            liftArmToScoringPosition,
+            moveForward,
+            scoreCone,
+            moveBackwards);
     }
 }

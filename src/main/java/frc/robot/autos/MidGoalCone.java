@@ -37,5 +37,4 @@ public class MidGoalCone extends SequentialCommandGroup {
             scoreCone,
             moveBackwards);
     }
-
 }
