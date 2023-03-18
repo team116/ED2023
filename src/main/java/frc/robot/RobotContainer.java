@@ -84,6 +84,8 @@ public class RobotContainer {
 
   private final SendableChooser<Command> sendableChooser = new SendableChooser<>();
 
+  private final ToggleStateBooleanSupplier robotCentricState = new ToggleStateBooleanSupplier();
+
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     s_Swerve.setDefaultCommand(
@@ -92,7 +94,7 @@ public class RobotContainer {
             () -> shape(-driver.getRawAxis(translationAxis)),
             () -> shape(-driver.getRawAxis(strafeAxis)),
             () -> rotationShape(-driver.getRawAxis(rotationAxis)),
-            () -> robotCentric.getAsBoolean()));
+            () -> robotCentricState.getAsBoolean()));
 
     limelight.setDefaultCommand(new DefaultLimelightCommand(limelight));
 
@@ -104,9 +106,11 @@ public class RobotContainer {
     configureButtonBindings();
 
     sendableChooser.setDefaultOption("Do Nothing", new DoNothingCommand());
+    sendableChooser.addOption("Score cone high goal", new HighGoalCone(s_Swerve, arm, grabber));
     sendableChooser.addOption("Score cone mid goal", new MidGoalCone(s_Swerve, arm, grabber));
-    sendableChooser.addOption("Just drive out of zone", new DriveOutOfZone(s_Swerve));
+    //sendableChooser.addOption("Just drive out of zone", new DriveOutOfZone(s_Swerve));
     sendableChooser.addOption("Score cone low goal", new GroundGoal(s_Swerve, arm, grabber));
+    sendableChooser.addOption("Charge station after ground", new ChargeStationAfterGround(s_Swerve, arm, grabber));
     SmartDashboard.putData(sendableChooser);
   }
 
@@ -148,6 +152,7 @@ public class RobotContainer {
 
     toggleSlowModeButton.onTrue(new InstantCommand(() -> s_Swerve.toggleSlowMode()));
 
+    robotCentric.onTrue(new InstantCommand(() -> robotCentricState.toggleState()));
     // XBox
     // Y for slow mode
     // Right trigger - inwards
@@ -197,7 +202,8 @@ public class RobotContainer {
   }
 
   public static double rotationShape(double start) {
-    return start * start * start;  // was original dividing by 2 */ / 2.0d;
+    //return (start * start * start) /2.0 ;  // was original dividing by 2 */ / 2.0d;
+    return shape(start);
   }
 
   public void resetRobotToCorrectAutonomousFieldPosition() {
