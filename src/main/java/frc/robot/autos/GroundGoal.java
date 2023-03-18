@@ -14,7 +14,7 @@ public class GroundGoal extends SequentialCommandGroup {
     public GroundGoal(Swerve swerveSubsystem, Arm armSubsystem, Grabber grabberSubsystem) {
         GrabberIntakeCommand grabConeFromFloorCommand = new GrabberIntakeCommand(grabberSubsystem);
 
-        DriveDistanceAtAngle moveTinyBackwardsAtStart = new DriveDistanceAtAngle(swerveSubsystem, 24.0, REVERSE);
+        DriveDistanceAtAngle moveTinyBackwardsAtStart = new DriveDistanceAtAngle(swerveSubsystem, 14.0, REVERSE);
 
         // REVISIT: Instead of CONE_HIGH_GOAL, might have a special lift strong
         ParallelCommandGroup liftConeFromFloor = new ParallelCommandGroup(
@@ -29,7 +29,7 @@ public class GroundGoal extends SequentialCommandGroup {
 
         GrabberExpelCommand scoreCone = new GrabberExpelCommand(grabberSubsystem);
 
-        DriveDistanceAtAngle moveBackwards = new DriveDistanceAtAngle(swerveSubsystem, 140.0, REVERSE);
+        DriveDistanceAtAngle moveBackwards = new DriveDistanceAtAngle(swerveSubsystem, 150.0, REVERSE);
 
         addCommands(
             grabConeFromFloorCommand,

@@ -23,13 +23,14 @@ public class HighGoalCone extends SequentialCommandGroup {
 
         MoveArmCommand liftArmToScoringPosition = new MoveArmCommand(armSubsystem, CONE_HIGH_GOAL);
 
-        DriveDistanceAtAngle moveForward = new DriveDistanceAtAngle(swerveSubsystem, 0.0, FORWARD);
+        DriveDistanceAtAngle moveForward = new DriveDistanceAtAngle(swerveSubsystem, 12.0, FORWARD);
 
         MoveArmCommand stowArm = new MoveArmCommand(armSubsystem, STOWED);
 
         GrabberExpelCommand scoreCone = new GrabberExpelCommand(grabberSubsystem);
 
-        DriveDistanceAtAngle moveBackwards = new DriveDistanceAtAngle(swerveSubsystem, 140.0, REVERSE);
+        // FIXME: Put back to 150.0 inches... afterwards
+        DriveDistanceAtAngle moveBackwards = new DriveDistanceAtAngle(swerveSubsystem, 0.0, REVERSE);
 
         addCommands(
             grabConeFromFloorCommand,

@@ -9,9 +9,9 @@ import frc.robot.subsystems.Swerve;
 import static frc.robot.subsystems.Arm.Position.*;
 import static frc.robot.autos.DriveDistanceAtAngle.Direction.*;
 
-public class MidGoalCone extends SequentialCommandGroup {
+public class GroundGoalRedBumpSide extends SequentialCommandGroup {
 
-    public MidGoalCone(Swerve swerveSubsystem, Arm armSubsystem, Grabber grabberSubsystem) {
+    public GroundGoalRedBumpSide(Swerve swerveSubsystem, Arm armSubsystem, Grabber grabberSubsystem) {
         GrabberIntakeCommand grabConeFromFloorCommand = new GrabberIntakeCommand(grabberSubsystem);
 
         DriveDistanceAtAngle moveTinyBackwardsAtStart = new DriveDistanceAtAngle(swerveSubsystem, 14.0, REVERSE);
@@ -21,13 +21,15 @@ public class MidGoalCone extends SequentialCommandGroup {
             new MoveArmCommand(armSubsystem, LOW_GOAL),
             moveTinyBackwardsAtStart);
 
-        MoveArmCommand liftArmToScoringPosition = new MoveArmCommand(armSubsystem, CONE_MID_GOAL);
+        MoveArmCommand liftArmToScoringPosition = new MoveArmCommand(armSubsystem, LOW_GOAL);
 
         DriveDistanceAtAngle moveForward = new DriveDistanceAtAngle(swerveSubsystem, 0.0, FORWARD);
 
         MoveArmCommand stowArm = new MoveArmCommand(armSubsystem, STOWED);
 
         GrabberExpelCommand scoreCone = new GrabberExpelCommand(grabberSubsystem);
+
+        DriveDistanceAtAngle strafeLeft = new DriveDistanceAtAngle(swerveSubsystem, 4.0, LEFT);
 
         DriveDistanceAtAngle moveBackwards = new DriveDistanceAtAngle(swerveSubsystem, 150.0, REVERSE);
 
@@ -38,6 +40,8 @@ public class MidGoalCone extends SequentialCommandGroup {
             moveForward,
             scoreCone,
             stowArm,
+            strafeLeft,
             moveBackwards);
     }
+
 }

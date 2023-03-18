@@ -21,12 +21,15 @@ public class GrabberCommand extends CommandBase {
 
     @Override
     public void execute() {
+        grabber.slowStallIntake();
 
+        /*
         if (grabber.limitSwitchIsPressed()) {
             grabber.slowStallIntake();
         } else {
             grabber.stop();
         }
+        */
 
     }
 

@@ -14,7 +14,7 @@ public class ChargeStationAfterGround extends SequentialCommandGroup {
     public ChargeStationAfterGround(Swerve swerveSubsystem, Arm armSubsystem, Grabber grabberSubsystem) {
         GrabberIntakeCommand grabConeFromFloorCommand = new GrabberIntakeCommand(grabberSubsystem);
 
-        DriveDistanceAtAngle moveTinyBackwardsAtStart = new DriveDistanceAtAngle(swerveSubsystem, 24.0, REVERSE);
+        DriveDistanceAtAngle moveTinyBackwardsAtStart = new DriveDistanceAtAngle(swerveSubsystem, 14.0, REVERSE);
 
         // REVISIT: Instead of CONE_HIGH_GOAL, might have a special lift strong
         ParallelCommandGroup liftConeFromFloor = new ParallelCommandGroup(
@@ -29,7 +29,9 @@ public class ChargeStationAfterGround extends SequentialCommandGroup {
 
         GrabberExpelCommand scoreCone = new GrabberExpelCommand(grabberSubsystem);
 
-        DriveDistanceAtAngle moveBackwards = new DriveDistanceAtAngle(swerveSubsystem, 96.0, REVERSE);
+        DriveDistanceAtAngle moveBackwards = new DriveDistanceAtAngle(swerveSubsystem, 95.0, REVERSE);
+
+        DriveDistanceAtAngle turnWheels = new DriveDistanceAtAngle(swerveSubsystem, 0.0, LEFT);
 
         addCommands(
             grabConeFromFloorCommand,
@@ -38,7 +40,8 @@ public class ChargeStationAfterGround extends SequentialCommandGroup {
             moveForward,
             scoreCone,
             stowArm,
-            moveBackwards);
+            moveBackwards,
+            turnWheels);
     }
 
 }

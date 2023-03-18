@@ -111,6 +111,8 @@ public class RobotContainer {
     //sendableChooser.addOption("Just drive out of zone", new DriveOutOfZone(s_Swerve));
     sendableChooser.addOption("Score cone low goal", new GroundGoal(s_Swerve, arm, grabber));
     sendableChooser.addOption("Charge station after ground", new ChargeStationAfterGround(s_Swerve, arm, grabber));
+    sendableChooser.addOption("Blue bump side low goal", new GroundGoalBlueBumpSide(s_Swerve, arm, grabber));
+    sendableChooser.addOption("Red bump side low goal", new GroundGoalRedBumpSide(s_Swerve, arm, grabber));
     SmartDashboard.putData(sendableChooser);
   }
 
