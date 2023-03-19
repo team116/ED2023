@@ -126,7 +126,7 @@ public class RobotContainer {
     /* Driver Buttons */
     zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
 
-    toggleTesterButton.onTrue(new InstantCommand(() -> limelight.toggleStreamMode()));
+    // toggleTesterButton.onTrue(new InstantCommand(() -> limelight.toggleStreamMode()));
     autoAlignMacroButton.onTrue(new PoleAlignmentCommand(s_Swerve, limelight));
 
     //armMotorForward.onTrue(new InstantCommand(() -> arm.moveUp()));
