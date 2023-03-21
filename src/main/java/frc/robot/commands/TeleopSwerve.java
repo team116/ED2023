@@ -52,7 +52,7 @@ public class TeleopSwerve extends CommandBase {
     if (s_Swerve.inSlowMode()) {
       rawTranslationVal *= 0.5;
       rawStrafeVal *= 0.5;
-      rawRotationVal *= 0.5;
+      //rawRotationVal *= 0.5;
     }
     // FIXME: Make slow-mode capability
     // Need to read state from somewhere... s_Swerve maintain state?  Probably...
