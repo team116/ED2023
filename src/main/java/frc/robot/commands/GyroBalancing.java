@@ -6,17 +6,16 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Swerve;
 
 public class GyroBalancing extends CommandBase{
-    private Pigeon2 gyro;
     private Swerve swerve;
 
-    public GyroBalancing(Pigeon2 gyro, Swerve swerveSubsystem){
-        this.gyro = gyro;
+    public GyroBalancing(Swerve swerveSubsystem){
         swerve = swerveSubsystem;
+        addRequirements(swerveSubsystem);
     }
 
     @Override
     public void initialize() {
-        
+        swerve.resetRelativeEncoders();
     }
 
     @Override

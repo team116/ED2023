@@ -14,24 +14,28 @@ public class ChargeStationAfterHighCone extends SequentialCommandGroup {
     public ChargeStationAfterHighCone(Swerve swerveSubsystem, Arm armSubsystem, Grabber grabberSubsystem) {
         GrabberIntakeCommand grabConeFromFloorCommand = new GrabberIntakeCommand(grabberSubsystem);
 
-        DriveDistanceAtAngle moveTinyBackwardsAtStart = new DriveDistanceAtAngle(swerveSubsystem, 14.0, REVERSE);
+        DriveDistanceAtAngle moveTinyBackwardsAtStart = new DriveDistanceAtAngle(swerveSubsystem, 24.0, REVERSE);
 
         // REVISIT: Instead of CONE_HIGH_GOAL, might have a special lift strong
         ParallelCommandGroup liftConeFromFloor = new ParallelCommandGroup(
             new MoveArmCommand(armSubsystem, LOW_GOAL),
             moveTinyBackwardsAtStart);
 
-        MoveArmCommand liftArmToScoringPosition = new MoveArmCommand(armSubsystem, LOW_GOAL);
+        MoveArmCommand liftArmToScoringPosition = new MoveArmCommand(armSubsystem, CONE_HIGH_GOAL);
 
-        DriveDistanceAtAngle moveForward = new DriveDistanceAtAngle(swerveSubsystem, 0.0, FORWARD);
-        
-        GrabberExpelCommand scoreCone = new GrabberExpelCommand(grabberSubsystem);
+        DriveDistanceAtAngle moveForward = new DriveDistanceAtAngle(swerveSubsystem, 24.0, FORWARD);
 
-        DriveDistanceAtAngle moveBackAfterScore = new DriveDistanceAtAngle(swerveSubsystem, 0, REVERSE);
+        MoveArmCommand lowerArm = new MoveArmCommand(armSubsystem, CUBE_HIGH_GOAL);
+
+        ParallelCommandGroup driveBackAndScoreCone = new ParallelCommandGroup(new GrabberExpelCommand(grabberSubsystem), 
+        new DriveDistanceAtAngle(swerveSubsystem, 28.0, REVERSE));
 
         MoveArmCommand stowArm = new MoveArmCommand(armSubsystem, STOWED);
 
-        DriveDistanceAtAngle moveBackwards = new DriveDistanceAtAngle(swerveSubsystem, 96.0, REVERSE);
+        // FIXME: Put back to 150.0 inches... afterwards
+        DriveDistanceAtAngle moveBackwardsOffOfChargeStation = new DriveDistanceAtAngle(swerveSubsystem, 150.0, REVERSE);
+
+        DriveDistanceAtAngle moveForwardsOnToChargeStation = new DriveDistanceAtAngle(swerveSubsystem, 40.0, FORWARD);
 
         DriveDistanceAtAngle turnWheels = new DriveDistanceAtAngle(swerveSubsystem, 0.0, LEFT);
 
@@ -40,10 +44,11 @@ public class ChargeStationAfterHighCone extends SequentialCommandGroup {
             liftConeFromFloor,
             liftArmToScoringPosition,
             moveForward,
-            scoreCone,
-            moveBackAfterScore,
+            lowerArm,
+            driveBackAndScoreCone,
             stowArm,
-            moveBackwards,
+            moveBackwardsOffOfChargeStation,
+            moveForwardsOnToChargeStation,
             turnWheels);
     }
 
