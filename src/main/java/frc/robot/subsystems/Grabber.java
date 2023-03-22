@@ -21,7 +21,7 @@ public class Grabber extends SubsystemBase{
         if (!limitSwitchIsPressed()) {
             grabberMotor.set(0.7);
         } else {
-            stop();
+            slowStallIntake();
         }
     }
 

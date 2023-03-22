@@ -13,7 +13,7 @@ import com.ctre.phoenix.sensors.Pigeon2;
 
 public class ChargeStationAfterGroundWithGyro extends SequentialCommandGroup{
 
-    public ChargeStationAfterGroundWithGyro(Swerve swerveSubsystem, Arm armSubsystem, Grabber grabberSubsystem, Pigeon2 gyro) {
+    public ChargeStationAfterGroundWithGyro(Swerve swerveSubsystem, Arm armSubsystem, Grabber grabberSubsystem) {
         GrabberIntakeCommand grabConeFromFloorCommand = new GrabberIntakeCommand(grabberSubsystem);
 
         DriveDistanceAtAngle moveTinyBackwardsAtStart = new DriveDistanceAtAngle(swerveSubsystem, 14.0, REVERSE);

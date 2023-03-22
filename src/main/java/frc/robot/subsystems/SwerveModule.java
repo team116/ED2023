@@ -208,6 +208,10 @@ public class SwerveModule {
       ControlType.kPosition, pidSlot);  // NOTE: Have 0..3 pid controller positions if we choose to use them
   }
 
+  public void setSpeedPercent(double percent){
+    driveMotor.set(percent);
+  }
+
   public void goToPosition(double desiredPosition, int pidSlot) {
     driveController.setReference(
       desiredPosition, // in to meters is / 39.37
