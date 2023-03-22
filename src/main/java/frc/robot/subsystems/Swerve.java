@@ -119,7 +119,11 @@ public class Swerve extends SubsystemBase {
     }
   }
 
-  
+  public void setSpeedPercent(double percent){
+    for (SwerveModule mod : mSwerveMods){
+      mod.setSpeedPercent(percent);
+    }
+  }
 
   public void burnFlash(){
     for (SwerveModule mod : mSwerveMods){

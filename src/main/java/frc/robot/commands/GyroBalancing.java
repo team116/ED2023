@@ -7,6 +7,7 @@ import frc.robot.subsystems.Swerve;
 
 public class GyroBalancing extends CommandBase{
     private Swerve swerve;
+    private int isBalancedCount = 0;
 
     public GyroBalancing(Swerve swerveSubsystem){
         swerve = swerveSubsystem;
@@ -15,12 +16,21 @@ public class GyroBalancing extends CommandBase{
 
     @Override
     public void initialize() {
-        swerve.resetRelativeEncoders();
+        
     }
 
     @Override
     public void execute() {
-        
+        double pitch = swerve.getPitch();
+        if (pitch == 0.0){
+            isBalancedCount++;
+        }else if (pitch > 3.0){
+            isBalancedCount = 0;
+            swerve.setSpeedPercent(0.1);
+        }else {
+            isBalancedCount = 0;
+            swerve.setSpeedPercent(-0.1);
+        }
     }
 
     @Override
