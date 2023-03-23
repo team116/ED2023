@@ -26,6 +26,7 @@ public class DefaultArmCommand extends BaseArmCommand {
 
     @Override
     public void end(boolean interrupted){
+        System.out.println("End Default Arm Command");
        super.end(interrupted);
     }
 
