@@ -58,7 +58,7 @@ public class Grabber extends SubsystemBase{
     }
 
     public void slowStallIntake() {
-        grabberMotor.set(0.12);
+        grabberMotor.set(0.04);
     }
     
 }

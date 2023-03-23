@@ -6,16 +6,22 @@ import frc.robot.subsystems.Arm;
 
 public class MoveArmCommand extends BaseArmCommand {
 
-    private static final double MAX_SECONDS_TO_WAIT = 4.0;
+    private static final double DEFAULT_MAX_SECONDS_TO_WAIT = 4.0;
     private static final double DEGREES_AWAY_FROM_DESIRED_THRESHOLD = 1.0;
 
     private int stabilizedCount;
     private final Arm.Position desiredArmPosition;
     private double startTime;
+    private final double timeToWaitSeconds;
 
     public MoveArmCommand(Arm armSubSystem, Arm.Position desiredArmPosition) {
+        this(armSubSystem, desiredArmPosition, DEFAULT_MAX_SECONDS_TO_WAIT);
+    }
+
+    public MoveArmCommand(Arm armSubSystem, Arm.Position desiredArmPosition, double maxWaitSeconds) {
         super(armSubSystem);
         this.desiredArmPosition = desiredArmPosition;
+        timeToWaitSeconds = maxWaitSeconds;
     }
 
     @Override
@@ -47,6 +53,6 @@ public class MoveArmCommand extends BaseArmCommand {
 
     @Override
     public boolean isFinished() {
-        return (stabilizedCount > 3 || (Timer.getFPGATimestamp() - startTime > MAX_SECONDS_TO_WAIT));
+        return (stabilizedCount > 3 || (Timer.getFPGATimestamp() - startTime > timeToWaitSeconds));
     }
 }

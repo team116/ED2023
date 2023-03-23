@@ -12,16 +12,14 @@ import static frc.robot.autos.DriveDistanceAtAngle.Direction.*;
 public class HighGoalCone extends SequentialCommandGroup {
 
     public HighGoalCone(Swerve swerveSubsystem, Arm armSubsystem, Grabber grabberSubsystem) {
-        GrabberIntakeCommand grabConeFromFloorCommand = new GrabberIntakeCommand(grabberSubsystem);
-
         DriveDistanceAtAngle moveTinyBackwardsAtStart = new DriveDistanceAtAngle(swerveSubsystem, 24.0, REVERSE);
 
         // REVISIT: Instead of CONE_HIGH_GOAL, might have a special lift strong
         ParallelCommandGroup liftConeFromFloor = new ParallelCommandGroup(
-            new MoveArmCommand(armSubsystem, LOW_GOAL),
+            new MoveArmCommand(armSubsystem, LOW_GOAL, 2.0),
             moveTinyBackwardsAtStart);
 
-        MoveArmCommand liftArmToScoringPosition = new MoveArmCommand(armSubsystem, CONE_HIGH_GOAL);
+        MoveArmCommand liftArmToScoringPosition = new MoveArmCommand(armSubsystem, CONE_HIGH_GOAL, 4.0);
 
         DriveDistanceAtAngle moveForward = new DriveDistanceAtAngle(swerveSubsystem, 24.0, FORWARD);
 
@@ -36,7 +34,6 @@ public class HighGoalCone extends SequentialCommandGroup {
         DriveDistanceAtAngle moveBackwards = new DriveDistanceAtAngle(swerveSubsystem, 0.0, REVERSE);
 
         addCommands(
-            grabConeFromFloorCommand,
             liftConeFromFloor,
             liftArmToScoringPosition,
             moveForward,
