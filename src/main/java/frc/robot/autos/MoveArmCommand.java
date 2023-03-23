@@ -13,15 +13,27 @@ public class MoveArmCommand extends BaseArmCommand {
     private final Arm.Position desiredArmPosition;
     private double startTime;
     private final double timeToWaitSeconds;
+    private final HoldArmCommand holdArmCommand;
 
+    // FIXME: THIS SHOULD NOT BE USED IN THE FUTURE, TAKE IT OUT!!!!!!
     public MoveArmCommand(Arm armSubSystem, Arm.Position desiredArmPosition) {
         this(armSubSystem, desiredArmPosition, DEFAULT_MAX_SECONDS_TO_WAIT);
     }
-
+   
     public MoveArmCommand(Arm armSubSystem, Arm.Position desiredArmPosition, double maxWaitSeconds) {
+        this(armSubSystem, desiredArmPosition, maxWaitSeconds, null);
+    }
+    // FIXME: Both of the above constructors need to be removed, only leaving to not change billizions of code yet
+
+    public MoveArmCommand(Arm armSubSystem, Arm.Position desiredArmPosition, HoldArmCommand holdArmCommand) {
+        this(armSubSystem, desiredArmPosition, DEFAULT_MAX_SECONDS_TO_WAIT, holdArmCommand);
+    }
+
+    public MoveArmCommand(Arm armSubSystem, Arm.Position desiredArmPosition, double maxWaitSeconds, HoldArmCommand holdArmCommand) {
         super(armSubSystem);
         this.desiredArmPosition = desiredArmPosition;
         timeToWaitSeconds = maxWaitSeconds;
+        this.holdArmCommand = holdArmCommand;
     }
 
     @Override
@@ -31,6 +43,9 @@ public class MoveArmCommand extends BaseArmCommand {
         moveToDesiredPosition = true;
         stabilizedCount = 0;
         startTime = Timer.getFPGATimestamp();
+        if (holdArmCommand != null) {
+            holdArmCommand.disable();
+        }
     }
 
     @Override
@@ -49,6 +64,9 @@ public class MoveArmCommand extends BaseArmCommand {
     public void end(boolean interrupted){
         System.out.println("Auto lift arm exited???");
         super.end(interrupted);
+        if (holdArmCommand != null) {
+            holdArmCommand.enable();
+        }
     }
 
     @Override

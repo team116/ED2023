@@ -11,11 +11,17 @@ public abstract class BaseArmCommand extends CommandBase{
     protected boolean manualMovementEngaged = false;
 
     public BaseArmCommand(Arm armSubSystem) {
+        this(armSubSystem, true);
+    }
+
+    public BaseArmCommand(Arm armSubSystem, boolean addArmAsRequirement) {
         this.arm = armSubSystem;
 
         desiredCanCoderPosition = arm.getCANCoderPosition();
         System.out.println("CONSTRUCTION: " + desiredCanCoderPosition);
-        addRequirements(armSubSystem);
+        if (addArmAsRequirement) {
+            addRequirements(armSubSystem);
+        }  
     }
 
     @Override
