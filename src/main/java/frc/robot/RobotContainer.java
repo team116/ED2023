@@ -55,7 +55,7 @@ public class RobotContainer {
   //     new JoystickButton(driver, XboxController.Button.kA.value);
 
   private final JoystickButton enableArmLimitSwitches =
-      new JoystickButton(driver, XboxController.Button.kStart.value);
+      new JoystickButton(gunnerStation, 4);
 
   private final JoystickButton autoAlignMacroButton =
       new JoystickButton(driver, XboxController.Button.kB.value);
@@ -106,7 +106,7 @@ public class RobotContainer {
     configureButtonBindings();
 
     sendableChooser.setDefaultOption("Do Nothing", new DoNothingCommand());
-    sendableChooser.addOption("Score cone high goal", new HighGoalCone(s_Swerve, arm, grabber));
+    sendableChooser.addOption("Score cone high goal", new HighGoalCone(s_Swerve, arm, grabber, limelight));
     sendableChooser.addOption("Score cone mid goal", new MidGoalCone(s_Swerve, arm, grabber));
     //sendableChooser.addOption("Just drive out of zone", new DriveOutOfZone(s_Swerve));
     sendableChooser.addOption("Score cone low goal", new GroundGoal(s_Swerve, arm, grabber));

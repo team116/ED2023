@@ -119,7 +119,11 @@ public class Swerve extends SubsystemBase {
     }
   }
 
-  
+  public void setSpeedPercent(double percent){
+    for (SwerveModule mod : mSwerveMods){
+      mod.setSpeedPercent(percent);
+    }
+  }
 
   public void burnFlash(){
     for (SwerveModule mod : mSwerveMods){
@@ -170,6 +174,14 @@ public class Swerve extends SubsystemBase {
 
   public void zeroGyro() {
     gyro.setYaw(0.0);
+  }
+
+  public double getPitch(){
+    return gyro.getPitch();
+  }
+
+  public double getRoll(){
+    return gyro.getRoll();
   }
 
   public Rotation2d getYaw() {

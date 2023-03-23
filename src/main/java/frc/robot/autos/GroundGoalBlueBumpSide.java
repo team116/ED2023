@@ -29,9 +29,9 @@ public class GroundGoalBlueBumpSide extends SequentialCommandGroup {
 
         GrabberExpelCommand scoreCone = new GrabberExpelCommand(grabberSubsystem);
 
-        DriveDistanceAtAngle strafeRight = new DriveDistanceAtAngle(swerveSubsystem, 4.0, RIGHT);
+        DriveDistanceAtAngle strafeRight = new DriveDistanceAtAngle(swerveSubsystem, 12.0, RIGHT);
 
-        DriveDistanceAtAngle moveBackwards = new DriveDistanceAtAngle(swerveSubsystem, 150.0, REVERSE);
+        DriveDistanceAtAngle moveBackwards = new DriveDistanceAtAngle(swerveSubsystem, 12.0, REVERSE);// origian value 150
 
         addCommands(
             grabConeFromFloorCommand,

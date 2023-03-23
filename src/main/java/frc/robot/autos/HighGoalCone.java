@@ -2,8 +2,10 @@ package frc.robot.autos;
 
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.commands.PoleAlignmentCommand;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Grabber;
+import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Swerve;
 
 import static frc.robot.subsystems.Arm.Position.*;
@@ -11,34 +13,44 @@ import static frc.robot.autos.DriveDistanceAtAngle.Direction.*;
 
 public class HighGoalCone extends SequentialCommandGroup {
 
-    public HighGoalCone(Swerve swerveSubsystem, Arm armSubsystem, Grabber grabberSubsystem) {
-        GrabberIntakeCommand grabConeFromFloorCommand = new GrabberIntakeCommand(grabberSubsystem);
+    public HighGoalCone(Swerve swerveSubsystem, Arm armSubsystem, Grabber grabberSubsystem, Limelight limelight) {
+        HoldArmCommand holdArmCommand = new HoldArmCommand(armSubsystem);
 
         DriveDistanceAtAngle moveTinyBackwardsAtStart = new DriveDistanceAtAngle(swerveSubsystem, 24.0, REVERSE);
 
         // REVISIT: Instead of CONE_HIGH_GOAL, might have a special lift strong
         ParallelCommandGroup liftConeFromFloor = new ParallelCommandGroup(
-            new MoveArmCommand(armSubsystem, LOW_GOAL),
+            new MoveArmCommand(armSubsystem, LOW_GOAL, 2.0, holdArmCommand),
             moveTinyBackwardsAtStart);
 
-        MoveArmCommand liftArmToScoringPosition = new MoveArmCommand(armSubsystem, CONE_HIGH_GOAL);
+        MoveArmCommand liftArmToScoringPosition = new MoveArmCommand(armSubsystem, CONE_HIGH_GOAL, 4.0, holdArmCommand);
 
-        DriveDistanceAtAngle moveForward = new DriveDistanceAtAngle(swerveSubsystem, 12.0, FORWARD);
+        DriveDistanceAtAngle moveForward = new DriveDistanceAtAngle(swerveSubsystem, 24.0, FORWARD);
 
-        MoveArmCommand stowArm = new MoveArmCommand(armSubsystem, STOWED);
+        MoveArmCommand lowerArm = new MoveArmCommand(armSubsystem, CUBE_HIGH_GOAL, 0.25, holdArmCommand);
 
-        GrabberExpelCommand scoreCone = new GrabberExpelCommand(grabberSubsystem);
+        ParallelCommandGroup driveBackAndScoreCone = new ParallelCommandGroup(new GrabberExpelCommand(grabberSubsystem), 
+        new DriveDistanceAtAngle(swerveSubsystem, 28.0, REVERSE));
+
+        MoveArmCommand stowArm = new MoveArmCommand(armSubsystem, STOWED, 1.5, holdArmCommand);
 
         // FIXME: Put back to 150.0 inches... afterwards
         DriveDistanceAtAngle moveBackwards = new DriveDistanceAtAngle(swerveSubsystem, 0.0, REVERSE);
 
-        addCommands(
-            grabConeFromFloorCommand,
+        PoleAlignmentCommand autoAlign = new PoleAlignmentCommand(swerveSubsystem, limelight);
+
+        SequentialCommandGroup internalCommandGroup = new SequentialCommandGroup(
             liftConeFromFloor,
             liftArmToScoringPosition,
             moveForward,
-            scoreCone,
+            autoAlign,
+            lowerArm,
+            driveBackAndScoreCone,
             stowArm,
             moveBackwards);
+
+        ParallelCommandGroup holdArmAndOthers = new ParallelCommandGroup(holdArmCommand, internalCommandGroup);
+
+        addCommands(holdArmAndOthers);
     }
 }
