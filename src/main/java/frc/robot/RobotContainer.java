@@ -39,14 +39,14 @@ public class RobotContainer {
   private final int rotationAxis = XboxController.Axis.kRightX.value;
 
   /* Driver Buttons */
-  private final JoystickButton zeroGyro =
-      new JoystickButton(driver, XboxController.Button.kRightBumper.value);
-
-  private final JoystickButton robotCentric =
+  private final JoystickButton zeroGyroReverse =
       new JoystickButton(driver, XboxController.Button.kLeftBumper.value);
 
-  private final JoystickButton toggleTesterButton =
-      new JoystickButton(driver, XboxController.Button.kX.value);
+  private final JoystickButton robotCentric =
+      new JoystickButton(driver, XboxController.Button.kRightBumper.value);
+
+  // private final JoystickButton toggleTesterButton =
+  //     new JoystickButton(driver, XboxController.Button.kX.value);
 
   // private final JoystickButton armMotorForward =
   //     new JoystickButton(driver, XboxController.Button.kY.value);
@@ -81,6 +81,7 @@ public class RobotContainer {
   private final Limelight limelight = new Limelight();
   private final Swerve s_Swerve = new Swerve();
   private final Grabber grabber = new Grabber();
+  private final Leds leds = new Leds();
 
   private final SendableChooser<Command> sendableChooser = new SendableChooser<>();
 
@@ -102,17 +103,19 @@ public class RobotContainer {
 
     grabber.setDefaultCommand(new GrabberCommand(grabber));
 
+    leds.setDefaultCommand(new DefaultLedCommand(leds));
+
     // Configure the button bindings
     configureButtonBindings();
 
     sendableChooser.setDefaultOption("Do Nothing", new DoNothingCommand());
     sendableChooser.addOption("Score cone high goal", new HighGoalCone(s_Swerve, arm, grabber, limelight));
-    sendableChooser.addOption("Score cone mid goal", new MidGoalCone(s_Swerve, arm, grabber));
+    //sendableChooser.addOption("Score cone mid goal", new MidGoalCone(s_Swerve, arm, grabber));
     //sendableChooser.addOption("Just drive out of zone", new DriveOutOfZone(s_Swerve));
     sendableChooser.addOption("Score cone low goal", new GroundGoal(s_Swerve, arm, grabber));
-    sendableChooser.addOption("Charge station after ground", new ChargeStationAfterGround(s_Swerve, arm, grabber));
-    sendableChooser.addOption("Blue bump side low goal", new GroundGoalBlueBumpSide(s_Swerve, arm, grabber));
-    sendableChooser.addOption("Red bump side low goal", new GroundGoalRedBumpSide(s_Swerve, arm, grabber));
+    sendableChooser.addOption("Charge station after high goal", new ChargeStationAfterHighCone(s_Swerve, arm, grabber, limelight));
+    sendableChooser.addOption("Blue bump side high goal", new HighGoalBlueBumpSide(s_Swerve, arm, grabber, limelight));
+    sendableChooser.addOption("Red bump side high goal", new HighGoalRedBumpSide(s_Swerve, arm, grabber, limelight));
     SmartDashboard.putData(sendableChooser);
   }
 
@@ -124,7 +127,8 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     /* Driver Buttons */
-    zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
+    zeroGyroReverse.onTrue(new InstantCommand(() -> s_Swerve.reverseZeroGyro()));
+    driverLeftTrigger.onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
 
     // toggleTesterButton.onTrue(new InstantCommand(() -> limelight.toggleStreamMode()));
     autoAlignMacroButton.onTrue(new PoleAlignmentCommand(s_Swerve, limelight));
@@ -136,6 +140,9 @@ public class RobotContainer {
     //Trigger armMotorReverseTrigger = armMotorReverse.whileTrue(new RepeatCommand(new InstantCommand(() -> arm.moveDown(), arm)));
     //armMotorReverseTrigger.onFalse(new InstantCommand(() -> arm.stop(), arm));
 
+    // FIXME: LED Lights control will be a switch on driver station yellow/purple, triggered by a
+    // whileTrue on a button press on the logitech joystick
+
     Trigger armForwardTrigger = dpadUp.whileTrue(new RepeatCommand(new InstantCommand(() -> arm.moveUp(), arm)));
     armForwardTrigger.onFalse(new InstantCommand(() -> arm.stop(), arm));
     Trigger armReverseTrigger = dpadDown.whileTrue(new RepeatCommand(new InstantCommand(() -> arm.moveDown(), arm)));
@@ -146,13 +153,13 @@ public class RobotContainer {
 
     //dpadUp.whileTrue(new RepeatCommand(new InstantCommand(() -> System.out.println("arm up"))));
     //dpadDown.whileTrue(new RepeatCommand(new InstantCommand(() -> System.out.println("arm down"))));
-    driverLeftTrigger.whileTrue(new RepeatCommand(new InstantCommand(() -> grabber.getRidOfGamePiece(), grabber)));
-    driverRightTrigger.whileTrue(new RepeatCommand(new InstantCommand(() -> grabber.intakeGamePiece(), grabber)));
+    // driverLeftTrigger.whileTrue(new RepeatCommand(new InstantCommand(() -> grabber.getRidOfGamePiece(), grabber)));
+    // driverRightTrigger.whileTrue(new RepeatCommand(new InstantCommand(() -> grabber.intakeGamePiece(), grabber)));
 
     gunnerOutakeButton.whileTrue(new RepeatCommand(new InstantCommand(() -> grabber.getRidOfGamePiece(), grabber)));
     gunnerIntakeButton.whileTrue(new RepeatCommand(new InstantCommand(() -> grabber.intakeGamePiece(), grabber)));
 
-    toggleSlowModeButton.onTrue(new InstantCommand(() -> s_Swerve.toggleSlowMode()));
+    driverRightTrigger.onTrue(new InstantCommand(() -> s_Swerve.toggleSlowMode()));
 
     robotCentric.onTrue(new InstantCommand(() -> robotCentricState.toggleState()));
     // XBox

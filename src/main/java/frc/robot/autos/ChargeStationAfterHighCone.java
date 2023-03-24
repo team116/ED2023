@@ -1,55 +1,42 @@
 package frc.robot.autos;
 
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Grabber;
+import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Swerve;
 
 import static frc.robot.subsystems.Arm.Position.*;
 import static frc.robot.autos.DriveDistanceAtAngle.Direction.*;
 
-public class ChargeStationAfterHighCone extends SequentialCommandGroup {
+public class ChargeStationAfterHighCone extends BaseHighGoalCone {
 
-    public ChargeStationAfterHighCone(Swerve swerveSubsystem, Arm armSubsystem, Grabber grabberSubsystem) {
-        GrabberIntakeCommand grabConeFromFloorCommand = new GrabberIntakeCommand(grabberSubsystem);
+    public ChargeStationAfterHighCone(Swerve swerveSubsystem, Arm armSubsystem, Grabber grabberSubsystem, Limelight limelight) {
+        super(swerveSubsystem, armSubsystem, grabberSubsystem, limelight);
 
-        DriveDistanceAtAngle moveTinyBackwardsAtStart = new DriveDistanceAtAngle(swerveSubsystem, 24.0, REVERSE);
+        HoldArmCommand holdArmCommand = new HoldArmCommand(armSubsystem);
 
-        // REVISIT: Instead of CONE_HIGH_GOAL, might have a special lift strong
-        ParallelCommandGroup liftConeFromFloor = new ParallelCommandGroup(
-            new MoveArmCommand(armSubsystem, LOW_GOAL),
-            moveTinyBackwardsAtStart);
-
-        MoveArmCommand liftArmToScoringPosition = new MoveArmCommand(armSubsystem, CONE_HIGH_GOAL);
-
-        DriveDistanceAtAngle moveForward = new DriveDistanceAtAngle(swerveSubsystem, 24.0, FORWARD);
-
-        MoveArmCommand lowerArm = new MoveArmCommand(armSubsystem, CUBE_HIGH_GOAL);
-
-        ParallelCommandGroup driveBackAndScoreCone = new ParallelCommandGroup(new GrabberExpelCommand(grabberSubsystem), 
-        new DriveDistanceAtAngle(swerveSubsystem, 28.0, REVERSE));
-
-        MoveArmCommand stowArm = new MoveArmCommand(armSubsystem, STOWED);
-
-        // FIXME: Put back to 150.0 inches... afterwards
-        DriveDistanceAtAngle moveBackwardsOffOfChargeStation = new DriveDistanceAtAngle(swerveSubsystem, 150.0, REVERSE);
+        // Start of after high cone
+        DriveDistanceAtAngle moveBackwardsOverChargeStation = new DriveDistanceAtAngle(swerveSubsystem, 150.0, REVERSE);
 
         DriveDistanceAtAngle moveForwardsOnToChargeStation = new DriveDistanceAtAngle(swerveSubsystem, 40.0, FORWARD);
 
         DriveDistanceAtAngle turnWheels = new DriveDistanceAtAngle(swerveSubsystem, 0.0, LEFT);
 
-        addCommands(
-            grabConeFromFloorCommand,
-            liftConeFromFloor,
-            liftArmToScoringPosition,
-            moveForward,
-            lowerArm,
-            driveBackAndScoreCone,
+        MoveArmCommand stowArm = new MoveArmCommand(armSubsystem, STOWED, 0.25, holdArmCommand);
+
+        SequentialCommandGroup internalCommandGroup = new SequentialCommandGroup(
             stowArm,
-            moveBackwardsOffOfChargeStation,
+            moveBackwardsOverChargeStation,
             moveForwardsOnToChargeStation,
-            turnWheels);
+            turnWheels,
+            new InstantCommand(() -> holdArmCommand.killIt()));
+
+        ParallelCommandGroup holdArmAndOthers = new ParallelCommandGroup(holdArmCommand, internalCommandGroup);
+
+        addCommands(holdArmAndOthers);
     }
 
 }

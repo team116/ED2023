@@ -90,7 +90,7 @@ public class DefaultArmCommand extends BaseArmCommand {
 
         if (desiredArmPosition != null) {
             desiredCanCoderPosition = desiredArmPosition.getAngleDegrees();
-            System.out.println("Requested desired position: " + desiredCanCoderPosition);
+            //System.out.println("Requested desired position: " + desiredCanCoderPosition);
             moveToDesiredPosition = true;
         }
     }
