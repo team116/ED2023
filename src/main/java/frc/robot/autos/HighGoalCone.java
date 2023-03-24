@@ -8,45 +8,18 @@ import frc.robot.subsystems.Grabber;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Swerve;
 
-import static frc.robot.subsystems.Arm.Position.*;
 import static frc.robot.autos.DriveDistanceAtAngle.Direction.*;
 
-public class HighGoalCone extends SequentialCommandGroup {
+public class HighGoalCone extends BaseHighGoalCone {
 
     public HighGoalCone(Swerve swerveSubsystem, Arm armSubsystem, Grabber grabberSubsystem, Limelight limelight) {
+        super(swerveSubsystem, armSubsystem, grabberSubsystem, limelight);
         HoldArmCommand holdArmCommand = new HoldArmCommand(armSubsystem);
 
-        DriveDistanceAtAngle moveTinyBackwardsAtStart = new DriveDistanceAtAngle(swerveSubsystem, 24.0, REVERSE);
-
-        // REVISIT: Instead of CONE_HIGH_GOAL, might have a special lift strong
-        ParallelCommandGroup liftConeFromFloor = new ParallelCommandGroup(
-            new MoveArmCommand(armSubsystem, LOW_GOAL, 2.0, holdArmCommand),
-            moveTinyBackwardsAtStart);
-
-        MoveArmCommand liftArmToScoringPosition = new MoveArmCommand(armSubsystem, CONE_HIGH_GOAL, 4.0, holdArmCommand);
-
-        DriveDistanceAtAngle moveForward = new DriveDistanceAtAngle(swerveSubsystem, 24.0, FORWARD);
-
-        MoveArmCommand lowerArm = new MoveArmCommand(armSubsystem, CUBE_HIGH_GOAL, 0.25, holdArmCommand);
-
-        ParallelCommandGroup driveBackAndScoreCone = new ParallelCommandGroup(new GrabberExpelCommand(grabberSubsystem), 
-        new DriveDistanceAtAngle(swerveSubsystem, 28.0, REVERSE));
-
-        MoveArmCommand stowArm = new MoveArmCommand(armSubsystem, STOWED, 1.5, holdArmCommand);
-
         // FIXME: Put back to 150.0 inches... afterwards
-        DriveDistanceAtAngle moveBackwards = new DriveDistanceAtAngle(swerveSubsystem, 0.0, REVERSE);
-
-        PoleAlignmentCommand autoAlign = new PoleAlignmentCommand(swerveSubsystem, limelight);
+        DriveDistanceAtAngle moveBackwards = new DriveDistanceAtAngle(swerveSubsystem, 6.0, REVERSE);
 
         SequentialCommandGroup internalCommandGroup = new SequentialCommandGroup(
-            liftConeFromFloor,
-            liftArmToScoringPosition,
-            moveForward,
-            autoAlign,
-            lowerArm,
-            driveBackAndScoreCone,
-            stowArm,
             moveBackwards);
 
         ParallelCommandGroup holdArmAndOthers = new ParallelCommandGroup(holdArmCommand, internalCommandGroup);

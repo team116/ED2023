@@ -83,7 +83,9 @@ public final class Constants {
 
     /* Swerve Profiling Values */
     public static final double MAX_SPEED = 3.5; // meters per second orginal value 4.5 FIXME: the speed does not seen to be changing
-    public static final double MAX_ANGULAR_VELOCITY = 2.0;//8.0;//11.5;
+    public static double MAX_ANGULAR_VELOCITY = 2.0;//8.0;//11.5;
+    public static double MAX_ANGULAR_VELOCITY_FAST_MODE = 4.0;
+    public static double MAX_ANGULAR_VELOCITY_SLOW_MODE = 2.0;
 
     /* Neutral Modes */
     public static final IdleMode ANGLE_NEUTRAL_MODE = IdleMode.kBrake;

@@ -49,10 +49,12 @@ public class TeleopSwerve extends CommandBase {
     double rawStrafeVal = strafeSup.getAsDouble();
     double rawRotationVal = rotationSup.getAsDouble();
 
+    double maxAngularVelocity = Constants.Swerve.MAX_ANGULAR_VELOCITY_FAST_MODE;
     if (s_Swerve.inSlowMode()) {
       rawTranslationVal *= 0.5;
       rawStrafeVal *= 0.5;
       //rawRotationVal *= 0.5;
+      maxAngularVelocity = Constants.Swerve.MAX_ANGULAR_VELOCITY_SLOW_MODE;
     }
     // FIXME: Make slow-mode capability
     // Need to read state from somewhere... s_Swerve maintain state?  Probably...
@@ -69,10 +71,19 @@ public class TeleopSwerve extends CommandBase {
             MathUtil.applyDeadband(rawRotationVal, Constants.Swerve.STICK_DEADBAND));
 
     /* Drive */
+    /*
     s_Swerve.drive(
         new Translation2d(translationVal, strafeVal).times(Constants.Swerve.MAX_SPEED),
         rotationVal * Constants.Swerve.MAX_ANGULAR_VELOCITY,
         !robotCentricSup.getAsBoolean(),
         true);
+    */
+
+    s_Swerve.drive(
+        new Translation2d(translationVal, strafeVal).times(Constants.Swerve.MAX_SPEED),
+        rotationVal * maxAngularVelocity,
+        !robotCentricSup.getAsBoolean(),
+        true);
+
   }
 }
