@@ -26,7 +26,7 @@ public class DefaultLedCommand extends CommandBase {
 
     @Override
     public void execute() {
-        if (gunnerLogitech.getRawButtonPressed(3)) {  // FIXME: Might want as gunner station switch to "hold"
+        if (gunnerLogitech.getRawButtonPressed(6)) {  // FIXME: Might want as gunner station switch to "hold"
             setLedsToDesiredElementColor();
         } else {
             setLedsToAllianceColor();
@@ -34,7 +34,7 @@ public class DefaultLedCommand extends CommandBase {
     }
 
     private void setLedsToDesiredElementColor() {
-        if (gunnerStation.getRawButton(3)) {  // FIXME: Button 3, 5, or something else?  [1,2,4] already in use
+        if (gunnerStation.getRawButton(7)) {  // FIXME: Button 3, 5, or something else?  [1,2,4] already in use
             leds.setColor(Leds.Color.YELLOW);
         } else {
             leds.setColor(Leds.Color.PURPLE);

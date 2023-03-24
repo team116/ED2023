@@ -55,10 +55,10 @@ public class Arm extends SubsystemBase{
         armEncoder = armMotor.getEncoder();
         armEncoder.setPosition(0.0);
 
-        armTopLimitSwitch = armMotor.getForwardLimitSwitch(SparkMaxLimitSwitch.Type.kNormallyClosed);
-        armTopLimitSwitch.enableLimitSwitch(false);
-        armBottomLimitSwitch = armMotor.getReverseLimitSwitch(SparkMaxLimitSwitch.Type.kNormallyClosed);
-        armBottomLimitSwitch.enableLimitSwitch(true); // WTF: looks like limit switches "switched" at some point
+        armTopLimitSwitch = armMotor.getReverseLimitSwitch(SparkMaxLimitSwitch.Type.kNormallyClosed);
+        armTopLimitSwitch.enableLimitSwitch(true);
+        armBottomLimitSwitch = armMotor.getForwardLimitSwitch(SparkMaxLimitSwitch.Type.kNormallyClosed);
+        armBottomLimitSwitch.enableLimitSwitch(false);
         
         armMotorController = armMotor.getPIDController();
         armMotorController.setP(30.0);// original value before playing with is 0.001, 30 looks like it works nicely
