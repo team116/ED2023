@@ -81,6 +81,7 @@ public class RobotContainer {
   private final Limelight limelight = new Limelight();
   private final Swerve s_Swerve = new Swerve();
   private final Grabber grabber = new Grabber();
+  private final Leds leds = new Leds();
 
   private final SendableChooser<Command> sendableChooser = new SendableChooser<>();
 
@@ -102,17 +103,19 @@ public class RobotContainer {
 
     grabber.setDefaultCommand(new GrabberCommand(grabber));
 
+    leds.setDefaultCommand(new DefaultLedCommand(leds));
+
     // Configure the button bindings
     configureButtonBindings();
 
     sendableChooser.setDefaultOption("Do Nothing", new DoNothingCommand());
     sendableChooser.addOption("Score cone high goal", new HighGoalCone(s_Swerve, arm, grabber, limelight));
-    sendableChooser.addOption("Score cone mid goal", new MidGoalCone(s_Swerve, arm, grabber));
+    //sendableChooser.addOption("Score cone mid goal", new MidGoalCone(s_Swerve, arm, grabber));
     //sendableChooser.addOption("Just drive out of zone", new DriveOutOfZone(s_Swerve));
     sendableChooser.addOption("Score cone low goal", new GroundGoal(s_Swerve, arm, grabber));
     sendableChooser.addOption("Charge station after high goal", new ChargeStationAfterHighCone(s_Swerve, arm, grabber, limelight));
-    sendableChooser.addOption("Blue bump side low goal", new GroundGoalBlueBumpSide(s_Swerve, arm, grabber));
-    sendableChooser.addOption("Red bump side low goal", new GroundGoalRedBumpSide(s_Swerve, arm, grabber));
+    sendableChooser.addOption("Blue bump side high goal", new HighGoalBlueBumpSide(s_Swerve, arm, grabber, limelight));
+    sendableChooser.addOption("Red bump side high goal", new HighGoalRedBumpSide(s_Swerve, arm, grabber, limelight));
     SmartDashboard.putData(sendableChooser);
   }
 
@@ -135,6 +138,9 @@ public class RobotContainer {
     //armMotorForwardTrigger.onFalse(new InstantCommand(() -> arm.stop(), arm));
     //Trigger armMotorReverseTrigger = armMotorReverse.whileTrue(new RepeatCommand(new InstantCommand(() -> arm.moveDown(), arm)));
     //armMotorReverseTrigger.onFalse(new InstantCommand(() -> arm.stop(), arm));
+
+    // FIXME: LED Lights control will be a switch on driver station yellow/purple, triggered by a
+    // whileTrue on a button press on the logitech joystick
 
     Trigger armForwardTrigger = dpadUp.whileTrue(new RepeatCommand(new InstantCommand(() -> arm.moveUp(), arm)));
     armForwardTrigger.onFalse(new InstantCommand(() -> arm.stop(), arm));

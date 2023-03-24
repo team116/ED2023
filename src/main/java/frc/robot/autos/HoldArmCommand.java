@@ -5,6 +5,7 @@ import frc.robot.subsystems.Arm;
 
 public class HoldArmCommand extends BaseArmCommand {
     private boolean disabled;
+    private boolean finished;
 
     public HoldArmCommand(Arm armSubSystem) {
         super(armSubSystem, false);
@@ -14,6 +15,7 @@ public class HoldArmCommand extends BaseArmCommand {
     public void initialize() {
         super.initialize();
         disabled = false;
+        finished = false;
     }
 
     @Override
@@ -40,6 +42,10 @@ public class HoldArmCommand extends BaseArmCommand {
 
     @Override
     public boolean isFinished() {
-        return super.isFinished();
+        return finished;
+    }
+
+    public void killIt() {
+        finished = true;
     }
 }
