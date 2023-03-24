@@ -39,14 +39,14 @@ public class RobotContainer {
   private final int rotationAxis = XboxController.Axis.kRightX.value;
 
   /* Driver Buttons */
-  private final JoystickButton zeroGyro =
-      new JoystickButton(driver, XboxController.Button.kRightBumper.value);
-
-  private final JoystickButton robotCentric =
+  private final JoystickButton zeroGyroReverse =
       new JoystickButton(driver, XboxController.Button.kLeftBumper.value);
 
-  private final JoystickButton toggleTesterButton =
-      new JoystickButton(driver, XboxController.Button.kX.value);
+  private final JoystickButton robotCentric =
+      new JoystickButton(driver, XboxController.Button.kRightBumper.value);
+
+  // private final JoystickButton toggleTesterButton =
+  //     new JoystickButton(driver, XboxController.Button.kX.value);
 
   // private final JoystickButton armMotorForward =
   //     new JoystickButton(driver, XboxController.Button.kY.value);
@@ -127,7 +127,8 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     /* Driver Buttons */
-    zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
+    zeroGyroReverse.onTrue(new InstantCommand(() -> s_Swerve.reverseZeroGyro()));
+    driverLeftTrigger.onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
 
     // toggleTesterButton.onTrue(new InstantCommand(() -> limelight.toggleStreamMode()));
     autoAlignMacroButton.onTrue(new PoleAlignmentCommand(s_Swerve, limelight));
@@ -152,13 +153,13 @@ public class RobotContainer {
 
     //dpadUp.whileTrue(new RepeatCommand(new InstantCommand(() -> System.out.println("arm up"))));
     //dpadDown.whileTrue(new RepeatCommand(new InstantCommand(() -> System.out.println("arm down"))));
-    driverLeftTrigger.whileTrue(new RepeatCommand(new InstantCommand(() -> grabber.getRidOfGamePiece(), grabber)));
-    driverRightTrigger.whileTrue(new RepeatCommand(new InstantCommand(() -> grabber.intakeGamePiece(), grabber)));
+    // driverLeftTrigger.whileTrue(new RepeatCommand(new InstantCommand(() -> grabber.getRidOfGamePiece(), grabber)));
+    // driverRightTrigger.whileTrue(new RepeatCommand(new InstantCommand(() -> grabber.intakeGamePiece(), grabber)));
 
     gunnerOutakeButton.whileTrue(new RepeatCommand(new InstantCommand(() -> grabber.getRidOfGamePiece(), grabber)));
     gunnerIntakeButton.whileTrue(new RepeatCommand(new InstantCommand(() -> grabber.intakeGamePiece(), grabber)));
 
-    toggleSlowModeButton.onTrue(new InstantCommand(() -> s_Swerve.toggleSlowMode()));
+    driverRightTrigger.onTrue(new InstantCommand(() -> s_Swerve.toggleSlowMode()));
 
     robotCentric.onTrue(new InstantCommand(() -> robotCentricState.toggleState()));
     // XBox
