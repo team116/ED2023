@@ -103,7 +103,7 @@ public class RobotContainer {
 
     grabber.setDefaultCommand(new GrabberCommand(grabber));
 
-    leds.setDefaultCommand(new DefaultLedCommand(leds));
+    leds.setDefaultCommand(new DefaultLedCommand(leds, gunnerLogitech, gunnerStation));
 
     // Configure the button bindings
     configureButtonBindings();
