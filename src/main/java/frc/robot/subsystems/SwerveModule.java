@@ -149,13 +149,13 @@ public class SwerveModule {
     driveController.setI(0, 1);
     driveController.setD(0, 1);
     driveController.setFF(0, 1);
-    driveController.setOutputRange(-0.2, 0.2, 1);  // FIXME: Bump this to be a tad higher?
+    driveController.setOutputRange(-0.25, 0.25, 1);  // FIXME: Bump this to be a tad higher?
 
     driveController.setP(10, 2);  // FAST
     driveController.setI(0, 2);
     driveController.setD(0, 2);
     driveController.setFF(0, 2);
-    driveController.setOutputRange(-0.3, 0.3, 2);
+    driveController.setOutputRange(-0.5, 0.5, 2);
 
     driveController.setP(10, 3);  // SLOW
     driveController.setI(0, 3);

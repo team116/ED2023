@@ -115,6 +115,8 @@ public class RobotContainer {
     //sendableChooser.addOption("Just drive out of zone", new DriveOutOfZone(s_Swerve));
     sendableChooser.addOption("Score cone low goal", new GroundGoal(s_Swerve, arm, grabber));
     sendableChooser.addOption("Charge station after high goal", new ChargeStationAfterHighCone(s_Swerve, arm, grabber, limelight));
+    sendableChooser.addOption("Charge station (simple) after high goal", new ChargeStationAfterHighConeSimple(s_Swerve, arm, grabber, limelight));
+    sendableChooser.addOption("Charge station NO MOVE AFTER high goal", new ChargeStationAfterHighConeNoMove(s_Swerve, arm, grabber, limelight));
     sendableChooser.addOption("Blue bump side high goal", new HighGoalBlueBumpSide(s_Swerve, arm, grabber, limelight));
     sendableChooser.addOption("Red bump side high goal", new HighGoalRedBumpSide(s_Swerve, arm, grabber, limelight));
     sendableChooser.addOption("Drive forward until level", new DriveDirectionUntilLevel(s_Swerve, Direction.FORWARD));

@@ -35,7 +35,7 @@ public abstract class BaseHighGoalCone extends SequentialCommandGroup {
         MoveArmCommand lowerArm = new MoveArmCommand(armSubsystem, CUBE_HIGH_GOAL, 0.25, holdArmCommand);
 
         SequentialCommandGroup delayedStowArmCommand = new SequentialCommandGroup(
-            new DurationCommand(0.5),
+            new DurationCommand(1.0),
             new MoveArmCommand(armSubsystem, STOWED, 1.25, holdArmCommand)
         );
 
