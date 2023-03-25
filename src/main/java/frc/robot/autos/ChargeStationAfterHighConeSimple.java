@@ -12,31 +12,21 @@ import frc.robot.subsystems.Swerve;
 import static frc.robot.subsystems.Arm.Position.*;
 import static frc.robot.autos.DriveDistanceAtAngle.Direction.*;
 
-public class ChargeStationAfterHighCone extends BaseHighGoalCone {
+public class ChargeStationAfterHighConeSimple extends BaseHighGoalCone {
 
-    public ChargeStationAfterHighCone(Swerve swerveSubsystem, Arm armSubsystem, Grabber grabberSubsystem, Limelight limelight) {
+    public ChargeStationAfterHighConeSimple(Swerve swerveSubsystem, Arm armSubsystem, Grabber grabberSubsystem, Limelight limelight) {
         super(swerveSubsystem, armSubsystem, grabberSubsystem, limelight);
 
         HoldArmCommand holdArmCommand = new HoldArmCommand(armSubsystem);
 
         // Start of after high cone
-        DriveDistanceAtAngle moveBackwardsOverChargeStation = new DriveDistanceAtAngle(swerveSubsystem, 150.0, REVERSE, Speed.FAST);
-
-        DriveDistanceAtAngle moveForwardsOnToChargeStation = new DriveDistanceAtAngle(swerveSubsystem, 40.0, FORWARD, Speed.FAST);
-
-        DriveDistanceAtAngle turnWheels = new DriveDistanceAtAngle(swerveSubsystem, 0.0, LEFT);
-
         MoveArmCommand stowArm = new MoveArmCommand(armSubsystem, STOWED, 0.25, holdArmCommand);
-        MoveArmCommand stowArm2 = new MoveArmCommand(armSubsystem, STOWED, 0.25, holdArmCommand);
-
-        DriveDirectionUntilLevel driveToBalanceOnChargeStation = new DriveDirectionUntilLevel(swerveSubsystem, FORWARD);
+        DriveDistanceAtAngle moveBackwardsOntoChargeStation = new DriveDistanceAtAngle(swerveSubsystem, 77.0, REVERSE, Speed.NORMAL);
+        DriveDistanceAtAngle turnWheels = new DriveDistanceAtAngle(swerveSubsystem, 0.0, LEFT);
 
         SequentialCommandGroup internalCommandGroup = new SequentialCommandGroup(
             stowArm,
-            moveBackwardsOverChargeStation,
-            stowArm2,
-            moveForwardsOnToChargeStation,
-            driveToBalanceOnChargeStation,
+            moveBackwardsOntoChargeStation,
             turnWheels,
             new InstantCommand(() -> holdArmCommand.killIt()));
 

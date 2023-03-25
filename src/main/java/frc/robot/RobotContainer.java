@@ -61,7 +61,7 @@ public class RobotContainer {
   private final JoystickButton autoAlignMacroButton =
       new JoystickButton(driver, XboxController.Button.kB.value);
 
-  private final JoystickButton toggleSlowModeButton =
+  private final JoystickButton resetAngleEncodersButton =
       new JoystickButton(driver, XboxController.Button.kY.value);
 
   private final JoystickButton gunnerIntakeButton = new JoystickButton(gunnerStation, 1);
@@ -115,6 +115,8 @@ public class RobotContainer {
     //sendableChooser.addOption("Just drive out of zone", new DriveOutOfZone(s_Swerve));
     sendableChooser.addOption("Score cone low goal", new GroundGoal(s_Swerve, arm, grabber));
     sendableChooser.addOption("Charge station after high goal", new ChargeStationAfterHighCone(s_Swerve, arm, grabber, limelight));
+    sendableChooser.addOption("Charge station (simple) after high goal", new ChargeStationAfterHighConeSimple(s_Swerve, arm, grabber, limelight));
+    sendableChooser.addOption("Charge station NO MOVE AFTER high goal", new ChargeStationAfterHighConeNoMove(s_Swerve, arm, grabber, limelight));
     sendableChooser.addOption("Blue bump side high goal", new HighGoalBlueBumpSide(s_Swerve, arm, grabber, limelight));
     sendableChooser.addOption("Red bump side high goal", new HighGoalRedBumpSide(s_Swerve, arm, grabber, limelight));
     sendableChooser.addOption("Drive forward until level", new DriveDirectionUntilLevel(s_Swerve, Direction.FORWARD));
@@ -134,6 +136,8 @@ public class RobotContainer {
 
     // toggleTesterButton.onTrue(new InstantCommand(() -> limelight.toggleStreamMode()));
     autoAlignMacroButton.onTrue(new PoleAlignmentCommand(s_Swerve, limelight));
+
+    resetAngleEncodersButton.onTrue(new InstantCommand(() -> s_Swerve.resetAngleEncoders()));
 
     //armMotorForward.onTrue(new InstantCommand(() -> arm.moveUp()));
     //armMotorReverse.onTrue(new InstantCommand(() -> arm.moveDown()));

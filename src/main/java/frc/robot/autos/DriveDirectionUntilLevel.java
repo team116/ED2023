@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import frc.robot.autos.DriveDistanceAtAngle.Direction;
+import frc.robot.autos.DriveDistanceAtAngle.Speed;
 import frc.robot.subsystems.Swerve;
 
 public class DriveDirectionUntilLevel extends ParallelDeadlineGroup {
@@ -46,7 +47,7 @@ public class DriveDirectionUntilLevel extends ParallelDeadlineGroup {
     public DriveDirectionUntilLevel(Swerve swerveSubsystem, Direction direction) {
         super(
             new GyroLevelDeadline(swerveSubsystem),
-            new DriveDistanceAtAngle(swerveSubsystem, 40.0, direction)
+            new DriveDistanceAtAngle(swerveSubsystem, 40.0, direction, Speed.FAST)
         );
     }
 }

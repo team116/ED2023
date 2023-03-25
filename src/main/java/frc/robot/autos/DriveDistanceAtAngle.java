@@ -23,7 +23,35 @@ public class DriveDistanceAtAngle extends SequentialCommandGroup {
             this.directionMultiplier = directionMultiplier;
         }
     }
-    
+
+    public enum Speed {
+        SLOW(DriveDistance.SLOW_PID_SLOT),
+        NORMAL(DriveDistance.NORMAL_PID_SLOT),
+        FAST(DriveDistance.FAST_PID_SLOT);
+
+        private final int driveDistancePidSlot;
+
+        private Speed(int pidSlot) {
+            this.driveDistancePidSlot = pidSlot;
+        }
+
+        public int getDriveDistancePidSlot() {
+            return driveDistancePidSlot;
+        }
+    }
+
+
+    /**
+     * The constructor to utilize to move the robot in the indicated direction for the distance specified in inches.
+     *
+     * @param swerveSubsystem the swerve subsystem
+     * @param distanceInches a positive value for the distance to drive
+     * @param direction the directioon to move
+     */
+    public DriveDistanceAtAngle(Swerve swerveSubsystem, double distanceInches, Direction direction) {
+        this(swerveSubsystem, distanceInches * direction.directionMultiplier, direction.angleDegrees, Speed.NORMAL);
+    }
+
     /**
      * The constructor to utilize to move the robot in the indicated direction for the distance specified in inches.
      * 
@@ -31,8 +59,8 @@ public class DriveDistanceAtAngle extends SequentialCommandGroup {
      * @param distanceInches a positive value for the distance to drive
      * @param direction the directioon to move
      */
-    public DriveDistanceAtAngle(Swerve swerveSubsystem, double distanceInches, Direction direction) {
-        this(swerveSubsystem, distanceInches * direction.directionMultiplier, direction.angleDegrees);
+    public DriveDistanceAtAngle(Swerve swerveSubsystem, double distanceInches, Direction direction, Speed speed) {
+        this(swerveSubsystem, distanceInches * direction.directionMultiplier, direction.angleDegrees, speed);
     }
 
     /**
@@ -42,9 +70,9 @@ public class DriveDistanceAtAngle extends SequentialCommandGroup {
      * @param distanceInches positive and negative distance in inches
      * @param angleDegrees the direction to move
      */
-    public DriveDistanceAtAngle(Swerve swerveSubsystem, double distanceInches, double angleDegrees) {
+    public DriveDistanceAtAngle(Swerve swerveSubsystem, double distanceInches, double angleDegrees, Speed speed) {
         TurnWheelsToAngle turnWheelsToAngle = new TurnWheelsToAngle(swerveSubsystem, angleDegrees);
-        DriveDistance driveDistance = new DriveDistance(swerveSubsystem, distanceInches);
+        DriveDistance driveDistance = new DriveDistance(swerveSubsystem, distanceInches, speed.driveDistancePidSlot);
 
         addCommands(
             turnWheelsToAngle,
