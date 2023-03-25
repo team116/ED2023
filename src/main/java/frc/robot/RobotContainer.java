@@ -61,7 +61,7 @@ public class RobotContainer {
   private final JoystickButton autoAlignMacroButton =
       new JoystickButton(driver, XboxController.Button.kB.value);
 
-  private final JoystickButton toggleSlowModeButton =
+  private final JoystickButton resetAngleEncodersButton =
       new JoystickButton(driver, XboxController.Button.kY.value);
 
   private final JoystickButton gunnerIntakeButton = new JoystickButton(gunnerStation, 1);
@@ -136,6 +136,8 @@ public class RobotContainer {
 
     // toggleTesterButton.onTrue(new InstantCommand(() -> limelight.toggleStreamMode()));
     autoAlignMacroButton.onTrue(new PoleAlignmentCommand(s_Swerve, limelight));
+
+    resetAngleEncodersButton.onTrue(new InstantCommand(() -> s_Swerve.resetAngleEncoders()));
 
     //armMotorForward.onTrue(new InstantCommand(() -> arm.moveUp()));
     //armMotorReverse.onTrue(new InstantCommand(() -> arm.moveDown()));
