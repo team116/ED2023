@@ -22,42 +22,36 @@ public abstract class BaseHighGoalCone extends SequentialCommandGroup {
 
         SequentialCommandGroup delayedArmCommand = new SequentialCommandGroup(
             new DurationCommand(0.25),
-            new MoveArmCommand(armSubsystem, LOW_GOAL, 1.25, holdArmCommand));
+            new MoveArmCommand(armSubsystem, CONE_HIGH_GOAL, 4.0, holdArmCommand));
 
-        ParallelCommandGroup liftConeFromFloor = new ParallelCommandGroup(
+        ParallelCommandGroup liftConeToHighScoringPositionWhileMovingBack = new ParallelCommandGroup(
             delayedArmCommand,
             moveTinyBackwardsAtStart);
 
-        /*
-        ParallelCommandGroup liftConeFromFloor = new ParallelCommandGroup(
-            new MoveArmCommand(armSubsystem, LOW_GOAL, 2.0, holdArmCommand),
-            moveTinyBackwardsAtStart);
-        */
-
-        MoveArmCommand liftArmToScoringPosition = new MoveArmCommand(armSubsystem, CONE_HIGH_GOAL, 4.0, holdArmCommand);
+        //MoveArmCommand liftArmToScoringPosition = new MoveArmCommand(armSubsystem, CONE_HIGH_GOAL, 4.0, holdArmCommand);
 
         DriveDistanceAtAngle moveForward = new DriveDistanceAtAngle(swerveSubsystem, 24.0, FORWARD);
 
         MoveArmCommand lowerArm = new MoveArmCommand(armSubsystem, CUBE_HIGH_GOAL, 0.25, holdArmCommand);
 
-        ParallelCommandGroup driveBackAndScoreCone = new ParallelCommandGroup(
-            new GrabberExpelCommand(grabberSubsystem),
-            new DriveDistanceAtAngle(swerveSubsystem, 28.0, REVERSE));
+        SequentialCommandGroup delayedStowArmCommand = new SequentialCommandGroup(
+            new DurationCommand(0.5),
+            new MoveArmCommand(armSubsystem, STOWED, 1.25, holdArmCommand)
+        );
 
-        // REVISIT: Should be able to stow while backing up, see if above duration delay technique can be used
-        //          to shave time off total movement
-        MoveArmCommand stowArm = new MoveArmCommand(armSubsystem, STOWED, 1.5, holdArmCommand);
+        ParallelCommandGroup scoreConeWhileDrivingBackAndStowingArm = new ParallelCommandGroup(
+            new GrabberExpelCommand(grabberSubsystem),
+            new DriveDistanceAtAngle(swerveSubsystem, 28.0, REVERSE),
+            delayedStowArmCommand);
 
         PoleAlignmentCommand autoAlign = new PoleAlignmentCommand(swerveSubsystem, limelight);
 
         SequentialCommandGroup internalCommandGroup = new SequentialCommandGroup(
-            liftConeFromFloor,
-            liftArmToScoringPosition,
+            liftConeToHighScoringPositionWhileMovingBack,
             moveForward,
             autoAlign,
             lowerArm,
-            driveBackAndScoreCone,
-            stowArm,
+            scoreConeWhileDrivingBackAndStowingArm,
             new InstantCommand(() -> holdArmCommand.killIt()));
 
         ParallelCommandGroup holdArmAndOthers = new ParallelCommandGroup(holdArmCommand, internalCommandGroup);
