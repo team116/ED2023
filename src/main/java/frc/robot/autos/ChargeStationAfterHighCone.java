@@ -27,10 +27,13 @@ public class ChargeStationAfterHighCone extends BaseHighGoalCone {
 
         MoveArmCommand stowArm = new MoveArmCommand(armSubsystem, STOWED, 0.25, holdArmCommand);
 
+        DriveDirectionUntilLevel driveToBalanceOnChargeStation = new DriveDirectionUntilLevel(swerveSubsystem, FORWARD);
+
         SequentialCommandGroup internalCommandGroup = new SequentialCommandGroup(
             stowArm,
             moveBackwardsOverChargeStation,
             moveForwardsOnToChargeStation,
+            driveToBalanceOnChargeStation,
             turnWheels,
             new InstantCommand(() -> holdArmCommand.killIt()));
 
