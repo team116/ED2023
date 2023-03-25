@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.autos.*;
+import frc.robot.autos.DriveDistanceAtAngle.Direction;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
 import frc.robot.subsystems.Arm.Position;
@@ -103,7 +104,7 @@ public class RobotContainer {
 
     grabber.setDefaultCommand(new GrabberCommand(grabber));
 
-    leds.setDefaultCommand(new DefaultLedCommand(leds));
+    leds.setDefaultCommand(new DefaultLedCommand(leds, gunnerLogitech, gunnerStation));
 
     // Configure the button bindings
     configureButtonBindings();
@@ -116,6 +117,7 @@ public class RobotContainer {
     sendableChooser.addOption("Charge station after high goal", new ChargeStationAfterHighCone(s_Swerve, arm, grabber, limelight));
     sendableChooser.addOption("Blue bump side high goal", new HighGoalBlueBumpSide(s_Swerve, arm, grabber, limelight));
     sendableChooser.addOption("Red bump side high goal", new HighGoalRedBumpSide(s_Swerve, arm, grabber, limelight));
+    sendableChooser.addOption("Drive forward until level", new DriveDirectionUntilLevel(s_Swerve, Direction.FORWARD));
     SmartDashboard.putData(sendableChooser);
   }
 
