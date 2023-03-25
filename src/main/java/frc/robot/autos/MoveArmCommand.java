@@ -62,7 +62,7 @@ public class MoveArmCommand extends BaseArmCommand {
 
     @Override
     public void end(boolean interrupted){
-        System.out.println("Auto lift arm exited???");
+        // System.out.println("Auto lift arm exited???");
         super.end(interrupted);
         if (holdArmCommand != null) {
             holdArmCommand.enable();

@@ -27,8 +27,8 @@ public class DriveDirectionUntilLevel extends ParallelDeadlineGroup {
         // What???? The gyro is between 1.5 to 3.0 driving on carpet ???
         @Override
         public void execute() {
-            System.out.println("pitch: " + swerveDriveSubsystem.getPitch());
-            System.out.println("roll: " + swerveDriveSubsystem.getRoll());
+            // System.out.println("pitch: " + swerveDriveSubsystem.getPitch());
+            // System.out.println("roll: " + swerveDriveSubsystem.getRoll());
             if ((Math.abs(swerveDriveSubsystem.getPitch()) - 2.25) > 0.75) {
                 stabilizedCount = 0;
             } else {

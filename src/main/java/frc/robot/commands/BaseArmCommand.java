@@ -18,7 +18,7 @@ public abstract class BaseArmCommand extends CommandBase{
         this.arm = armSubSystem;
 
         desiredCanCoderPosition = arm.getCANCoderPosition();
-        System.out.println("CONSTRUCTION: " + desiredCanCoderPosition);
+        // System.out.println("CONSTRUCTION: " + desiredCanCoderPosition);
         if (addArmAsRequirement) {
             addRequirements(armSubSystem);
         }  
@@ -30,15 +30,16 @@ public abstract class BaseArmCommand extends CommandBase{
         moveToDesiredPosition = false;
         manualMovementEngaged = false;
         arm.stop();
-        System.out.println("INITIALIZE: " + desiredCanCoderPosition);
+        // System.out.println("INITIALIZE: " + desiredCanCoderPosition);
     }
 
     @Override
     public void execute(){
         // Use this default command to keep the arm at the desired position
-        SmartDashboard.putNumber("Arm Motor Encoder", arm.getEncoder());
-        SmartDashboard.putNumber("arm CAN Desired", desiredCanCoderPosition);
-        SmartDashboard.putNumber("arm CAN Coder", arm.getCANCoderPosition());
+        
+        // SmartDashboard.putNumber("Arm Motor Encoder", arm.getEncoder());
+        // SmartDashboard.putNumber("arm CAN Desired", desiredCanCoderPosition);
+        // SmartDashboard.putNumber("arm CAN Coder", arm.getCANCoderPosition());
 
         checkForDriverInputs();
 
@@ -55,7 +56,7 @@ public abstract class BaseArmCommand extends CommandBase{
 
     @Override
     public void end(boolean interrupted){
-        System.out.println("End Base Arm Command");
+        // System.out.println("End Base Arm Command");
         arm.stop();
     }
 
@@ -71,7 +72,7 @@ public abstract class BaseArmCommand extends CommandBase{
         double currentCanCoderPosition = arm.getCANCoderPosition();
         double difference = desiredCanCoderPosition - currentCanCoderPosition;
 
-        SmartDashboard.putNumber("arm CAN Difference", difference);
+        // SmartDashboard.putNumber("arm CAN Difference", difference);
         double absDifference = Math.abs(difference);
 
         double holdValue = getHoldValueAtAngle(desiredCanCoderPosition);
@@ -95,7 +96,7 @@ public abstract class BaseArmCommand extends CommandBase{
         // 10 -> 0.2
         // 20+ -> 0.4 (0.3)
 
-        SmartDashboard.putNumber("arm CAN Difference", difference);
+        // SmartDashboard.putNumber("arm CAN Difference", difference);
 
         double absDifference = Math.abs(difference);
         // cos(-90) is 0 -- aka low vertical  // -75.65 is vertical down

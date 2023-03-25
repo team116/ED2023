@@ -40,7 +40,7 @@ public class HighGoalCube extends CommandBase{
     public void execute() {
         switch(step){
             case 0:
-                System.out.println("Executing step 0");
+                // System.out.println("Executing step 0");
                 for (int i = 0; i < listOfModulePositions.length; i++){
                     listOfModulePositions[i] = new SwerveModulePosition(distance, angle);
                 }
@@ -50,12 +50,12 @@ public class HighGoalCube extends CommandBase{
                 }
                 break;
             case 1:
-                System.out.println("Executing step 1");
+                // System.out.println("Executing step 1");
                 timer.reset();
                 step++;
                 break;  
             case 2:     
-                System.out.println("Executing step 2");
+                // System.out.println("Executing step 2");
                 //move arm up to high position
                 step++;
                 break;
@@ -92,7 +92,7 @@ public class HighGoalCube extends CommandBase{
                 //move arm down to driving position
                 break;
             default:
-                System.out.println("default");
+                // System.out.println("default");
                 break;
         }
     }

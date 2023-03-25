@@ -27,7 +27,7 @@ public class GrabberExpelCommand extends DurationCommand {
 
     @Override
     public void end(boolean interrupted){
-        System.out.println("End Expel Grabber Command");
+        // System.out.println("End Expel Grabber Command");
         grabber.stop();
         super.end(interrupted);
     }

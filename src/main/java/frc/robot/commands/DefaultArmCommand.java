@@ -26,7 +26,7 @@ public class DefaultArmCommand extends BaseArmCommand {
 
     @Override
     public void end(boolean interrupted){
-        System.out.println("End Default Arm Command");
+        // System.out.println("End Default Arm Command");
        super.end(interrupted);
     }
 
@@ -38,15 +38,15 @@ public class DefaultArmCommand extends BaseArmCommand {
 
         double adjustedUpDownValue = upDownValue > 0 ? upDownValue * 0.3 : upDownValue * 0.4;  // FIXME: Might even go faster than this
 
-        SmartDashboard.putNumber("arm Manual raw value", upDownValue);
-        SmartDashboard.putNumber("arm Manual value", adjustedUpDownValue);
+        // SmartDashboard.putNumber("arm Manual raw value", upDownValue);
+        // SmartDashboard.putNumber("arm Manual value", adjustedUpDownValue);
         if (Math.abs(adjustedUpDownValue) > 0.03) {
-            SmartDashboard.putString("arm Manual In Process", "true");
+            // SmartDashboard.putString("arm Manual In Process", "true");
             moveToDesiredPosition = false;
             manualMovementEngaged = true;
             arm.move(adjustedUpDownValue);
         } else if (manualMovementEngaged) {  // Previously was doing manual movement, but no longer, so turn it off
-            SmartDashboard.putString("arm Manual In Process", "false");
+            // SmartDashboard.putString("arm Manual In Process", "false");
             manualMovementEngaged = false;
             arm.stop();
             desiredCanCoderPosition = arm.getCANCoderPosition();
