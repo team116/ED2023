@@ -21,7 +21,7 @@ public class ChargeStationAfterHighConeSimple extends BaseHighGoalCone {
 
         // Start of after high cone
         MoveArmCommand stowArm = new MoveArmCommand(armSubsystem, STOWED, 0.25, holdArmCommand);
-        DriveDistanceAtAngle moveBackwardsOntoChargeStation = new DriveDistanceAtAngle(swerveSubsystem, 77.0, REVERSE, Speed.NORMAL);
+        DriveDistanceAtAngle moveBackwardsOntoChargeStation = new DriveDistanceAtAngle(swerveSubsystem, 78.0, REVERSE, Speed.NORMAL);
         DriveDistanceAtAngle turnWheels = new DriveDistanceAtAngle(swerveSubsystem, 0.0, LEFT);
 
         SequentialCommandGroup internalCommandGroup = new SequentialCommandGroup(
