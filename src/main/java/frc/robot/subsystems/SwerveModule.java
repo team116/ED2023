@@ -1,12 +1,9 @@
 package frc.robot.subsystems;
 
-import java.sql.Driver;
-
 import com.ctre.phoenix.sensors.CANCoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-import com.revrobotics.SparkMaxPIDController.AccelStrategy;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxPIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;

@@ -9,8 +9,6 @@ import frc.robot.subsystems.Swerve;
 import static frc.robot.subsystems.Arm.Position.*;
 import static frc.robot.autos.DriveDistanceAtAngle.Direction.*;
 
-import com.ctre.phoenix.sensors.Pigeon2;
-
 public class ChargeStationAfterGroundWithGyro extends SequentialCommandGroup{
 
     public ChargeStationAfterGroundWithGyro(Swerve swerveSubsystem, Arm armSubsystem, Grabber grabberSubsystem) {

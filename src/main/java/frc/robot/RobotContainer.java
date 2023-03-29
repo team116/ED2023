@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import com.ctre.phoenix.sensors.Pigeon2;
+
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
@@ -20,7 +22,6 @@ import frc.robot.autos.*;
 import frc.robot.autos.DriveDistanceAtAngle.Direction;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
-import frc.robot.subsystems.Arm.Position;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -83,6 +84,7 @@ public class RobotContainer {
   private final Swerve s_Swerve = new Swerve();
   private final Grabber grabber = new Grabber();
   private final Leds leds = new Leds();
+  private final Pigeon2 gyro = s_Swerve.getGyro();
 
   private final SendableChooser<Command> sendableChooser = new SendableChooser<>();
 
@@ -120,6 +122,7 @@ public class RobotContainer {
     sendableChooser.addOption("Blue bump side high goal", new HighGoalBlueBumpSide(s_Swerve, arm, grabber, limelight));
     sendableChooser.addOption("Red bump side high goal", new HighGoalRedBumpSide(s_Swerve, arm, grabber, limelight));
     sendableChooser.addOption("Drive forward until level", new DriveDirectionUntilLevel(s_Swerve, Direction.FORWARD));
+    sendableChooser.addOption("Scores high cone then gets a second peice and scores in ground goal", new PickUpSecondPieceAfterHighConeAndScoreInGroundGoal(s_Swerve, arm, grabber, limelight, gyro));
     SmartDashboard.putData(sendableChooser);
   }
 
