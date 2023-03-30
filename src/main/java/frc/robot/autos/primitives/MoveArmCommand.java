@@ -1,4 +1,4 @@
-package frc.robot.autos;
+package frc.robot.autos.primitives;
 
 import edu.wpi.first.wpilibj.Timer;
 import frc.robot.commands.BaseArmCommand;

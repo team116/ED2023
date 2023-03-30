@@ -1,4 +1,4 @@
-package frc.robot.autos;
+package frc.robot.autos.primitives;
 
 import frc.robot.subsystems.Grabber;
 

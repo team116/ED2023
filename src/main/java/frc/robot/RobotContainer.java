@@ -19,7 +19,8 @@ import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.autos.*;
-import frc.robot.autos.DriveDistanceAtAngle.Direction;
+import frc.robot.autos.primitives.DriveDirectionUntilLevel;
+import frc.robot.autos.primitives.DriveDistanceAtAngle.Direction;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
 
@@ -114,7 +115,6 @@ public class RobotContainer {
     sendableChooser.setDefaultOption("Do Nothing", new DoNothingCommand());
     sendableChooser.addOption("Score cone high goal", new HighGoalCone(s_Swerve, arm, grabber, limelight));
     //sendableChooser.addOption("Score cone mid goal", new MidGoalCone(s_Swerve, arm, grabber));
-    //sendableChooser.addOption("Just drive out of zone", new DriveOutOfZone(s_Swerve));
     sendableChooser.addOption("Score cone low goal", new GroundGoal(s_Swerve, arm, grabber));
     sendableChooser.addOption("Charge station after high goal", new ChargeStationAfterHighCone(s_Swerve, arm, grabber, limelight));
     sendableChooser.addOption("Charge station (simple) after high goal", new ChargeStationAfterHighConeSimple(s_Swerve, arm, grabber, limelight));

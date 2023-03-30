@@ -1,10 +1,10 @@
-package frc.robot.autos;
+package frc.robot.autos.primitives;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
-import frc.robot.autos.DriveDistanceAtAngle.Direction;
-import frc.robot.autos.DriveDistanceAtAngle.Speed;
+import frc.robot.autos.primitives.DriveDistanceAtAngle.Direction;
+import frc.robot.autos.primitives.DriveDistanceAtAngle.Speed;
 import frc.robot.subsystems.Swerve;
 
 public class DriveDirectionUntilLevel extends ParallelDeadlineGroup {
