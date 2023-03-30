@@ -3,13 +3,16 @@ package frc.robot.autos;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.autos.primitives.DriveDistanceAtAngle;
+import frc.robot.autos.primitives.HoldArmCommand;
+import frc.robot.autos.primitives.MoveArmCommand;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Grabber;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Swerve;
 
+import static frc.robot.autos.primitives.DriveDistanceAtAngle.Direction.*;
 import static frc.robot.subsystems.Arm.Position.*;
-import static frc.robot.autos.DriveDistanceAtAngle.Direction.*;
 
 public class HighGoalBlueBumpSide extends BaseHighGoalCone {
 

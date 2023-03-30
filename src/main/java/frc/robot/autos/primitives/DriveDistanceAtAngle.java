@@ -1,4 +1,4 @@
-package frc.robot.autos;
+package frc.robot.autos.primitives;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.subsystems.Swerve;
@@ -79,5 +79,4 @@ public class DriveDistanceAtAngle extends SequentialCommandGroup {
             driveDistance
         );
     }
-
 }

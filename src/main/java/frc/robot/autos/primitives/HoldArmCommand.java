@@ -1,4 +1,4 @@
-package frc.robot.autos;
+package frc.robot.autos.primitives;
 
 import frc.robot.commands.BaseArmCommand;
 import frc.robot.subsystems.Arm;
@@ -36,7 +36,7 @@ public class HoldArmCommand extends BaseArmCommand {
 
     @Override
     public void end(boolean interrupted){
-        System.out.println("Hold Arm Command exited");
+        // System.out.println("Hold Arm Command exited");
         super.end(interrupted);
     }
 

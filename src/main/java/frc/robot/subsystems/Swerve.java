@@ -13,7 +13,6 @@ import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import frc.robot.RobotContainer;
 
 public class Swerve extends SubsystemBase {
   private final Pigeon2 gyro;
@@ -41,7 +40,7 @@ public class Swerve extends SubsystemBase {
     swerveOdometry = new SwerveDriveOdometry(Constants.Swerve.SWERVE_KINEMATICS, getYaw(), getPositions());
 
     field = new Field2d();
-    SmartDashboard.putData("Field", field);
+    // SmartDashboard.putData("Field", field);
   }
 
   public void resetRelativeEncoders() {
@@ -130,16 +129,29 @@ public class Swerve extends SubsystemBase {
       mod.burnFlash();
     }
   }
+
   public void runToPosition(double position, int pidSlot){
     for (SwerveModule mod : mSwerveMods) {
       mod.goToPosition(position, pidSlot);
     }
   }
 
+
+  public void turnWheelsToAngles(Rotation2d[] angles) {
+    mSwerveMods[0].setAngle(angles[0]);
+    mSwerveMods[1].setAngle(angles[1]);
+    mSwerveMods[2].setAngle(angles[2]);
+    mSwerveMods[3].setAngle(angles[3]);
+  }
+
   public void turnWheelsToToAngle(Rotation2d angle) {
     for (SwerveModule mod : mSwerveMods) {
       mod.setAngle(angle);
     }
+  }
+
+  public Pigeon2 getGyro(){
+    return gyro;
   }
 
   public Pose2d getPose() {
@@ -196,23 +208,23 @@ public class Swerve extends SubsystemBase {
     // swerveOdometry.update(getYaw(), getStates());
     field.setRobotPose(getPose());
 
-    SmartDashboard.putString("Pose ", getPose().toString());
-    for (SwerveModule mod : mSwerveMods) {
-      String modName = "Mod " + mod.moduleNumber;
-      SmartDashboard.putNumber(
-          modName + " Cancoder", mod.getCanCoder().getDegrees());
-      SmartDashboard.putNumber(
-          modName + " Integrated", mod.getState().angle.getDegrees());
-      SmartDashboard.putNumber(
-          modName + " Velocity", mod.getState().speedMetersPerSecond);
-      SmartDashboard.putNumber(
-        modName + " Desired", mod.getDesiredAngleAsDegrees());
-      SmartDashboard.putNumber(
-        modName + " Adj Cancoder", mod.getCanCoder().getDegrees() - mod.getAngleOffset());
-      SmartDashboard.putNumber(modName + " distance Meters", mod.getPosition().distanceMeters);
-      SmartDashboard.putNumber(modName + " drive motor angle", mod.getPosition().angle.getDegrees());
-      SmartDashboard.putNumber(modName + " drive motor encoder", mod.getDriveEncoder());
-    }
+    // SmartDashboard.putString("Pose ", getPose().toString());
+    // for (SwerveModule mod : mSwerveMods) {
+    //   String modName = "Mod " + mod.moduleNumber;
+    //   // SmartDashboard.putNumber(
+    //   //     modName + " Cancoder", mod.getCanCoder().getDegrees());
+    //   // SmartDashboard.putNumber(
+    //   //     modName + " Integrated", mod.getState().angle.getDegrees());
+    //   // SmartDashboard.putNumber(
+    //   //     modName + " Velocity", mod.getState().speedMetersPerSecond);
+    //   // SmartDashboard.putNumber(
+    //   //   modName + " Desired", mod.getDesiredAngleAsDegrees());
+    //   // SmartDashboard.putNumber(
+    //   //   modName + " Adj Cancoder", mod.getCanCoder().getDegrees() - mod.getAngleOffset());
+    //   // SmartDashboard.putNumber(modName + " distance Meters", mod.getPosition().distanceMeters);
+    //   // SmartDashboard.putNumber(modName + " drive motor angle", mod.getPosition().angle.getDegrees());
+    //   // SmartDashboard.putNumber(modName + " drive motor encoder", mod.getDriveEncoder());
+    // }
   }
 
   public boolean inSlowMode() {

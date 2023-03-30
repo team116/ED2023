@@ -1,4 +1,4 @@
-package frc.robot.autos;
+package frc.robot.autos.primitives;
 
 import frc.robot.subsystems.Grabber;
 
@@ -37,7 +37,7 @@ public class GrabberIntakeCommand extends DurationCommand {
 
     @Override
     public void end(boolean interrupted){
-        System.out.println("End Intake Grabber Command");
+        // System.out.println("End Intake Grabber Command");
         grabber.stop();
         super.end(interrupted);
     }

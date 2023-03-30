@@ -1,12 +1,9 @@
 package frc.robot.subsystems;
 
-import java.sql.Driver;
-
 import com.ctre.phoenix.sensors.CANCoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-import com.revrobotics.SparkMaxPIDController.AccelStrategy;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxPIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
@@ -88,7 +85,7 @@ public class SwerveModule {
     double absolutePosition = getCanCoder().getDegrees() - angleOffset.getDegrees();
     integratedAngleEncoder.setPosition(absolutePosition);
     lastAngle = Rotation2d.fromDegrees(absolutePosition);
-    System.out.println("resetToAbsolute called: " + absolutePosition);
+    // System.out.println("resetToAbsolute called: " + absolutePosition);
   }
 
   public void resetRelativeEncoders() {
@@ -136,8 +133,8 @@ public class SwerveModule {
     driveMotor.setIdleMode(Constants.Swerve.DRIVE_NEUTRAL_MODE);
 
     driveEncoder.setVelocityConversionFactor(Constants.Swerve.DRIVE_CONVERSION_VELOCITY_FACTOR);
-    SmartDashboard.putNumber("Mod " + moduleNumber + " velocity conversion factor actual", driveEncoder.getVelocityConversionFactor());
-    SmartDashboard.putNumber("Mod " + moduleNumber + " velocity conversion factor desired", Constants.Swerve.DRIVE_CONVERSION_VELOCITY_FACTOR);
+    // SmartDashboard.putNumber("Mod " + moduleNumber + " velocity conversion factor actual", driveEncoder.getVelocityConversionFactor());
+    // SmartDashboard.putNumber("Mod " + moduleNumber + " velocity conversion factor desired", Constants.Swerve.DRIVE_CONVERSION_VELOCITY_FACTOR);
     driveEncoder.setPositionConversionFactor(Constants.Swerve.DRIVE_CONVERSION_POSITION_FACTOR);
 
     driveController.setP(Constants.Swerve.DRIVE_KP);
@@ -171,11 +168,11 @@ public class SwerveModule {
   private void setSpeed(SwerveModuleState desiredState, boolean isOpenLoop) {
     if (isOpenLoop) {
       double percentOutput = desiredState.speedMetersPerSecond / Constants.Swerve.MAX_SPEED;
-      SmartDashboard.putNumber("Mod " + moduleNumber + " speed", desiredState.speedMetersPerSecond);
-      SmartDashboard.putNumber("Mod " + moduleNumber + " % val", percentOutput);
+      // SmartDashboard.putNumber("Mod " + moduleNumber + " speed", desiredState.speedMetersPerSecond);
+      // SmartDashboard.putNumber("Mod " + moduleNumber + " % val", percentOutput);
       driveMotor.set(percentOutput);
     } else {
-      SmartDashboard.putNumber("Auto " + moduleNumber + " speed", desiredState.speedMetersPerSecond);
+      // SmartDashboard.putNumber("Auto " + moduleNumber + " speed", desiredState.speedMetersPerSecond);
       driveController.setReference(
           desiredState.speedMetersPerSecond,
           ControlType.kVelocity,

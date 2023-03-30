@@ -15,6 +15,14 @@ public final class RobotSpecificConstants {
         return Units.inchesToMeters(ROBOT_SPECIFIC_CONSTANTS.getSideToSideTreadCenterToTreadCenterInches());
     }
 
+    public static double getFrontToBackAxleToAxleInches() {
+        return ROBOT_SPECIFIC_CONSTANTS.getFrontToBackAxleToAxleInches();
+    }
+
+    public static double getSideToSideTreadCenterToTreadCenterInches() {
+        return ROBOT_SPECIFIC_CONSTANTS.getSideToSideTreadCenterToTreadCenterInches();
+    }
+
     public static Rotation2d getAngleOffsetModule0() {
         return Rotation2d.fromDegrees(ROBOT_SPECIFIC_CONSTANTS.getAngleOffsetDegreesMod0());
     }

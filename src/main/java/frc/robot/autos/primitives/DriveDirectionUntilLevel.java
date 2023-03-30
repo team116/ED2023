@@ -1,10 +1,10 @@
-package frc.robot.autos;
+package frc.robot.autos.primitives;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
-import frc.robot.autos.DriveDistanceAtAngle.Direction;
-import frc.robot.autos.DriveDistanceAtAngle.Speed;
+import frc.robot.autos.primitives.DriveDistanceAtAngle.Direction;
+import frc.robot.autos.primitives.DriveDistanceAtAngle.Speed;
 import frc.robot.subsystems.Swerve;
 
 public class DriveDirectionUntilLevel extends ParallelDeadlineGroup {
@@ -27,8 +27,8 @@ public class DriveDirectionUntilLevel extends ParallelDeadlineGroup {
         // What???? The gyro is between 1.5 to 3.0 driving on carpet ???
         @Override
         public void execute() {
-            System.out.println("pitch: " + swerveDriveSubsystem.getPitch());
-            System.out.println("roll: " + swerveDriveSubsystem.getRoll());
+            // System.out.println("pitch: " + swerveDriveSubsystem.getPitch());
+            // System.out.println("roll: " + swerveDriveSubsystem.getRoll());
             if ((Math.abs(swerveDriveSubsystem.getPitch()) - 2.25) > 0.75) {
                 stabilizedCount = 0;
             } else {

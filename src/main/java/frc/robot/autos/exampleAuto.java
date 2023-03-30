@@ -35,7 +35,7 @@ public class exampleAuto extends SequentialCommandGroup {
             new Pose2d(0.319 * 5.0, 0, new Rotation2d(0)), // x is 3 y is 0
             config);
 
-    SmartDashboard.putString("The Example trajectory", exampleTrajectory.toString());
+    // SmartDashboard.putString("The Example trajectory", exampleTrajectory.toString());
     var thetaController =
         new ProfiledPIDController(
             Constants.AutoConstants.PTHETA_CONTROLLER,

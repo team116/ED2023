@@ -1,6 +1,5 @@
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Grabber;
 
@@ -15,7 +14,7 @@ public class GrabberCommand extends CommandBase {
 
     @Override
     public void initialize() {
-        System.out.println("Begin Default Grabber Command");
+        // System.out.println("Begin Default Grabber Command");
         grabber.stop();
     }
 
@@ -35,7 +34,7 @@ public class GrabberCommand extends CommandBase {
 
     @Override
     public void end(boolean interrupted){
-        System.out.println("End Default Grabber Command");
+        // System.out.println("End Default Grabber Command");
         grabber.stop();
     }
 }

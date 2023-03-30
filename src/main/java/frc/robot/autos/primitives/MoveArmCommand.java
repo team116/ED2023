@@ -1,4 +1,4 @@
-package frc.robot.autos;
+package frc.robot.autos.primitives;
 
 import edu.wpi.first.wpilibj.Timer;
 import frc.robot.commands.BaseArmCommand;
@@ -62,7 +62,7 @@ public class MoveArmCommand extends BaseArmCommand {
 
     @Override
     public void end(boolean interrupted){
-        System.out.println("Auto lift arm exited???");
+        // System.out.println("Auto lift arm exited???");
         super.end(interrupted);
         if (holdArmCommand != null) {
             holdArmCommand.enable();
