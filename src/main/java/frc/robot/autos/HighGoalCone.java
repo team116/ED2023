@@ -3,6 +3,7 @@ package frc.robot.autos;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.autos.DriveDistanceAtAngle.Speed;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Grabber;
 import frc.robot.subsystems.Limelight;
@@ -16,7 +17,7 @@ public class HighGoalCone extends BaseHighGoalCone {
         super(swerveSubsystem, armSubsystem, grabberSubsystem, limelight);
         HoldArmCommand holdArmCommand = new HoldArmCommand(armSubsystem);
 
-        DriveDistanceAtAngle moveBackwards = new DriveDistanceAtAngle(swerveSubsystem, 150.0, REVERSE);
+        DriveDistanceAtAngle moveBackwards = new DriveDistanceAtAngle(swerveSubsystem, 150.0, REVERSE, Speed.FAST);
 
         SequentialCommandGroup internalCommandGroup = new SequentialCommandGroup(
             moveBackwards,

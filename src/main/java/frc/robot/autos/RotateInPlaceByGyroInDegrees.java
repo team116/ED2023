@@ -6,7 +6,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import frc.robot.subsystems.Swerve;
 
-public class RotateInPlaceInDegrees extends DurationCommand{
+public class RotateInPlaceByGyroInDegrees extends DurationCommand{
     Swerve swerve;
     Pigeon2 gyro;
     double deisredAngleDegrees;
@@ -15,7 +15,7 @@ public class RotateInPlaceInDegrees extends DurationCommand{
     int atAngleCount = 0;
 
 
-    public RotateInPlaceInDegrees(Swerve swerveSubsystem, Pigeon2 gyro, double deisredAngleDegrees, double percentPower){
+    public RotateInPlaceByGyroInDegrees(Swerve swerveSubsystem, Pigeon2 gyro, double deisredAngleDegrees, double percentPower){
         super(1.0);
         this.gyro = gyro;
         this.deisredAngleDegrees = deisredAngleDegrees;

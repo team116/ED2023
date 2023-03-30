@@ -129,10 +129,19 @@ public class Swerve extends SubsystemBase {
       mod.burnFlash();
     }
   }
+
   public void runToPosition(double position, int pidSlot){
     for (SwerveModule mod : mSwerveMods) {
       mod.goToPosition(position, pidSlot);
     }
+  }
+
+
+  public void turnWheelsToAngles(Rotation2d[] angles) {
+    mSwerveMods[0].setAngle(angles[0]);
+    mSwerveMods[1].setAngle(angles[1]);
+    mSwerveMods[2].setAngle(angles[2]);
+    mSwerveMods[3].setAngle(angles[3]);
   }
 
   public void turnWheelsToToAngle(Rotation2d angle) {
