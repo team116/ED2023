@@ -21,7 +21,7 @@ public class RotateInPlaceByEncoders extends SequentialCommandGroup {
      */
     public RotateInPlaceByEncoders(Swerve swerveSubsystem, double angle) {
         TurnWheelsForRotation turnWheelsForRotation = new TurnWheelsForRotation(swerveSubsystem);
-        DriveDistance driveDistance = new DriveDistance(swerveSubsystem,  ((angle / 360.0) * ROTATION_CIRCUMFERENCE_INCHES));
+        DriveDistance driveDistance = new DriveDistance(swerveSubsystem,  -((angle / 360.0) * ROTATION_CIRCUMFERENCE_INCHES), 3);
 
         addCommands(turnWheelsForRotation, driveDistance);
     }

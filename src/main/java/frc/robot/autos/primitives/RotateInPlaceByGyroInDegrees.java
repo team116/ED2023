@@ -7,12 +7,12 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import frc.robot.subsystems.Swerve;
 
 public class RotateInPlaceByGyroInDegrees extends DurationCommand{
-    Swerve swerve;
-    Pigeon2 gyro;
-    double deisredAngleDegrees;
-    double percentPower;
-    int pidSlot;
-    int atAngleCount = 0;
+    private Swerve swerve;
+    private Pigeon2 gyro;
+    private double deisredAngleDegrees;
+    private double percentPower;
+    private int atAngleCount = 0;
+    private static final double DEGREES_THERESHHOLD = 0.25;
 
 
     public RotateInPlaceByGyroInDegrees(Swerve swerveSubsystem, Pigeon2 gyro, double deisredAngleDegrees, double percentPower){
@@ -40,7 +40,8 @@ public class RotateInPlaceByGyroInDegrees extends DurationCommand{
 
     @Override
     public void execute() {
-        if (gyro.getYaw() < deisredAngleDegrees || gyro.getYaw() > deisredAngleDegrees){
+        double difference = Math.abs(gyro.getYaw() - deisredAngleDegrees);
+        if (difference > DEGREES_THERESHHOLD){
             swerve.setSpeedPercent(percentPower);
             atAngleCount = 0;
         }else {
@@ -59,4 +60,6 @@ public class RotateInPlaceByGyroInDegrees extends DurationCommand{
     public void end(boolean interrupted) {
         
     }
+
+
 }

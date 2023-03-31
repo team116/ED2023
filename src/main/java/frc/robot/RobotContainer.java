@@ -123,6 +123,7 @@ public class RobotContainer {
     sendableChooser.addOption("Red bump side high goal", new HighGoalRedBumpSide(s_Swerve, arm, grabber, limelight));
     sendableChooser.addOption("Drive forward until level", new DriveDirectionUntilLevel(s_Swerve, Direction.FORWARD));
     sendableChooser.addOption("Scores high cone then gets a second peice and scores in ground goal", new PickUpSecondPieceAfterHighConeAndScoreInGroundGoal(s_Swerve, arm, grabber, limelight, gyro));
+    sendableChooser.addOption("Rotate 180", new TestRotation(s_Swerve, gyro));
     SmartDashboard.putData(sendableChooser);
   }
 
