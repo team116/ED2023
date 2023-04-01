@@ -9,9 +9,12 @@ public class RotateInPlaceByEncoders extends SequentialCommandGroup {
 
     private static final double FRONT_TO_BACK_AXLE_TO_AXLE_INCHES = RobotSpecificConstants.getFrontToBackAxleToAxleInches();
     private static final double SIDE_TO_SIDE_TREAD_CENTER_TO_TREAD_CENTER_INCHES = RobotSpecificConstants.getSideToSideTreadCenterToTreadCenterInches();
-    private static final double ROTATION_CIRCUMFERENCE_INCHES = 
-        (Math.sqrt((FRONT_TO_BACK_AXLE_TO_AXLE_INCHES * FRONT_TO_BACK_AXLE_TO_AXLE_INCHES) + 
-                (SIDE_TO_SIDE_TREAD_CENTER_TO_TREAD_CENTER_INCHES * SIDE_TO_SIDE_TREAD_CENTER_TO_TREAD_CENTER_INCHES)) * Math.PI);
+    private static final double COMPUTED_ROTATION_DIAMETER_INCHES = Math.sqrt(
+        (FRONT_TO_BACK_AXLE_TO_AXLE_INCHES * FRONT_TO_BACK_AXLE_TO_AXLE_INCHES) + 
+        (SIDE_TO_SIDE_TREAD_CENTER_TO_TREAD_CENTER_INCHES * SIDE_TO_SIDE_TREAD_CENTER_TO_TREAD_CENTER_INCHES));
+
+    private static final double EMPERICAL_ROTATION_DIAMETER_INCHES = 35.25; // Measured is 35", but turning radius makes it not perfect
+    private static final double ROTATION_CIRCUMFERENCE_INCHES = (EMPERICAL_ROTATION_DIAMETER_INCHES * Math.PI);
 
     /**
      * 
