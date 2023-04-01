@@ -21,10 +21,10 @@ public class TurnWheelsForRotation extends DurationCommand {
     public TurnWheelsForRotation(Swerve swerveSubsystem) {
         super(MAX_SECONDS_TO_TURN_WHEELS);
         this.swerve = swerveSubsystem;
-        this.desiredAngles = new Rotation2d[] { Rotation2d.fromDegrees(-135.0),
-                                                Rotation2d.fromDegrees(-45.0),
-                                                Rotation2d.fromDegrees(135.0),
-                                                Rotation2d.fromDegrees(45.0)};
+        this.desiredAngles = new Rotation2d[] { Rotation2d.fromDegrees(135.0),
+                                                Rotation2d.fromDegrees(45.0),
+                                                Rotation2d.fromDegrees(-135.0),
+                                                Rotation2d.fromDegrees(-45.0)};
         addRequirements(swerveSubsystem);
     }
 
