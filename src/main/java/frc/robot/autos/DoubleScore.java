@@ -12,6 +12,7 @@ import frc.robot.autos.primitives.GrabberExpelCommand;
 import frc.robot.autos.primitives.HoldArmCommand;
 import frc.robot.autos.primitives.MoveArmCommand;
 import frc.robot.autos.primitives.RotateInPlaceByEncoders;
+import frc.robot.autos.primitives.RotateInPlaceByGyroInDegrees;
 import frc.robot.autos.primitives.RotationDirection;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Grabber;
@@ -30,11 +31,11 @@ public class DoubleScore extends SequentialCommandGroup {
 
         DriveDistanceAtAngle moveBackwardsFast = new DriveDistanceAtAngle(swerveSubsystem, driveBackDistanceInches, Direction.REVERSE, Speed.FAST);
 
-        RotateInPlaceByEncoders turnAroundToGetElement = new RotateInPlaceByEncoders(swerveSubsystem, rotationAngleDegrees, firstRotationDirection);
+        RotateInPlaceByGyroInDegrees turnAroundToGetElement = new RotateInPlaceByGyroInDegrees(swerveSubsystem, rotationAngleDegrees, firstRotationDirection);
 
         GrabElement grabElement = new GrabElement(armSubsystem, grabberSubsystem, holdArmCommand);
 
-        RotateInPlaceByEncoders turnBackAround = new RotateInPlaceByEncoders(swerveSubsystem, rotationAngleDegrees, firstRotationDirection.getInverse());
+        RotateInPlaceByGyroInDegrees turnBackAround = new RotateInPlaceByGyroInDegrees(swerveSubsystem, rotationAngleDegrees, firstRotationDirection.getInverse());
 
         DriveDistanceAtAngle moveForwardsFast = new DriveDistanceAtAngle(swerveSubsystem, driveForwardDistanceInches, Direction.FORWARD, Speed.FAST);
         MoveArmCommand liftToMidConeScore = new MoveArmCommand(armSubsystem, Arm.Position.CONE_HIGH_GOAL, 3.0, holdArmCommand);
@@ -55,13 +56,13 @@ public class DoubleScore extends SequentialCommandGroup {
             strafeToLineUpToElement,
             moveBackwardsFast,
             turnAroundToGetElement,
-            grabElement,
-            turnBackAround,
-            liftToScoreAndMoveForwardsFast,
-            strafeToLineUpWithPole,
-            autoAlign,
-            lowerArm,
-            scoreConeWhileDrivingBack,
+            //grabElement,
+            //turnBackAround,
+            //liftToScoreAndMoveForwardsFast,
+            //strafeToLineUpWithPole,
+            //autoAlign,
+            //lowerArm,
+            //scoreConeWhileDrivingBack,
             new InstantCommand(() -> holdArmCommand.killIt()));
 
         ParallelCommandGroup holdArmAndOthers = new ParallelCommandGroup(holdArmCommand, internalCommandGroup);

@@ -113,26 +113,23 @@ public class RobotContainer {
     configureButtonBindings();
 
     sendableChooser.setDefaultOption("Do Nothing", new DoNothingCommand());
+    sendableChooser.addOption("Charge Station Balance By Gyro", new ChargeStationBalanceByGyro(s_Swerve, arm, grabber, limelight));
+    sendableChooser.addOption("Double Score Blue Bump", new DoubleScoreBlueBump(s_Swerve, arm, grabber, limelight));
+    sendableChooser.addOption("Double Score Blue Easy", new DoubleScoreBlueEasy(s_Swerve, arm, grabber, limelight));
+    sendableChooser.addOption("Double Score Red Bump", new DoubleScoreRedBump(s_Swerve, arm, grabber, limelight));
+    sendableChooser.addOption("Double Score Red Easy", new DoubleScoreRedEasy(s_Swerve, arm, grabber, limelight));
     sendableChooser.addOption("Score cone high goal", new HighGoalCone(s_Swerve, arm, grabber, limelight));
     //sendableChooser.addOption("Score cone mid goal", new MidGoalCone(s_Swerve, arm, grabber));
     sendableChooser.addOption("Score cone low goal", new GroundGoal(s_Swerve, arm, grabber));
     sendableChooser.addOption("Charge station after high goal", new ChargeStationAfterHighCone(s_Swerve, arm, grabber, limelight));
     sendableChooser.addOption("Charge station (simple) after high goal", new ChargeStationAfterHighConeSimple(s_Swerve, arm, grabber, limelight));
     sendableChooser.addOption("Charge station NO MOVE AFTER high goal", new ChargeStationAfterHighConeNoMove(s_Swerve, arm, grabber, limelight));
-    sendableChooser.addOption("Blue bump side high goal", new HighGoalBlueBumpSide(s_Swerve, arm, grabber, limelight));
-    sendableChooser.addOption("Red bump side high goal", new HighGoalRedBumpSide(s_Swerve, arm, grabber, limelight));
-    sendableChooser.addOption("Drive forward until level", new DriveDirectionUntilLevel(s_Swerve, Direction.FORWARD));
-    sendableChooser.addOption("Scores high cone then gets a second peice and scores in ground goal", new PickUpSecondPieceAfterHighConeAndScoreInGroundGoal(s_Swerve, arm, grabber, limelight, gyro));
-    sendableChooser.addOption("Rotate 180 by encoders", new TestRotationByEncoders(s_Swerve, gyro));
-    sendableChooser.addOption("Rotate 180 by gyro", new TestRotationByGyro(s_Swerve, gyro));
-    sendableChooser.addOption("Double Score Blue Bump", new DoubleScoreBlueBump(s_Swerve, arm, grabber, limelight));
-    sendableChooser.addOption("Double Score Blue Easy", new DoubleScoreBlueEasy(s_Swerve, arm, grabber, limelight));
-    sendableChooser.addOption("Double Score Red Bump", new DoubleScoreRedBump(s_Swerve, arm, grabber, limelight));
-    sendableChooser.addOption("Double Score Red Easy", new DoubleScoreRedEasy(s_Swerve, arm, grabber, limelight));
-    sendableChooser.addOption("Charge Station Ultra Blue Bump", new ChargeStationUltraBlueBump(s_Swerve, arm, grabber, limelight));
-    sendableChooser.addOption("Charge Station Ultra Blue Easy", new ChargeStationUltraBlueEasy(s_Swerve, arm, grabber, limelight));
-    sendableChooser.addOption("Charge Station Ultra Red Bump", new ChargeStationUltraRedBump(s_Swerve, arm, grabber, limelight));
-    sendableChooser.addOption("Charge Station Ultra Red Easy", new ChargeStationUltraRedEasy(s_Swerve, arm, grabber, limelight));
+    //sendableChooser.addOption("Blue bump side high goal", new HighGoalBlueBumpSide(s_Swerve, arm, grabber, limelight));
+    //sendableChooser.addOption("Red bump side high goal", new HighGoalRedBumpSide(s_Swerve, arm, grabber, limelight));
+    //sendableChooser.addOption("Drive forward until level", new DriveDirectionUntilLevel(s_Swerve, Direction.FORWARD));
+    //sendableChooser.addOption("Scores high cone then gets a second peice and scores in ground goal", new PickUpSecondPieceAfterHighConeAndScoreInGroundGoal(s_Swerve, arm, grabber, limelight, gyro));
+    //sendableChooser.addOption("Rotate 180 by encoders", new TestRotationByEncoders(s_Swerve, gyro));
+    //sendableChooser.addOption("Rotate 180 by gyro", new TestRotationByGyro(s_Swerve, gyro));
     SmartDashboard.putData(sendableChooser);
   }
 

@@ -26,7 +26,7 @@ public class BaseHighGoalCone extends SequentialCommandGroup {
 
         SequentialCommandGroup delayedArmCommand = new SequentialCommandGroup(
             new DurationCommand(0.25),
-            new MoveArmCommand(armSubsystem, CONE_HIGH_GOAL, 4.0, holdArmCommand));  // FIXME: This should be lower than 4.0
+            new MoveArmCommand(armSubsystem, AUTO_CONE_HIGH_GOAL, 4.0, holdArmCommand));  // FIXME: This should be lower than 4.0
 
         ParallelCommandGroup liftConeToHighScoringPositionWhileMovingBack = new ParallelCommandGroup(
             delayedArmCommand,

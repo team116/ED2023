@@ -41,6 +41,10 @@ public class RotateInPlaceByGyroInDegrees extends SequentialCommandGroup {
         this(swerveSubsystem, desiredAngleDegrees * rotationDirection.getDirectionModifier(), maxPercentPower);
     }
 
+    public RotateInPlaceByGyroInDegrees(Swerve swerveSubsystem, double desiredAngleDegrees, RotationDirection rotationDirection) {
+        this(swerveSubsystem, desiredAngleDegrees * rotationDirection.getDirectionModifier(), 0.3);
+    }
+
     private class DriveAtSpeedUntilAngleThresholdReached extends DurationCommand {
         private int atAngleCount;
         private double angleToCheckForInDegrees;
@@ -53,7 +57,11 @@ public class RotateInPlaceByGyroInDegrees extends SequentialCommandGroup {
         public void initialize() {
             super.initialize();
             atAngleCount = 0;
-            angleToCheckForInDegrees = gyro.getYaw() + desiredAngleDegrees;  // Assign to computed angle from current angle
+            double currentYaw = gyro.getYaw();
+            //System.out.println("currentYaw: " + currentYaw);
+            //System.out.println("desiredAngleDegrees: " + desiredAngleDegrees);
+            angleToCheckForInDegrees = currentYaw - desiredAngleDegrees;  // Assign to computed angle from current angle
+            //System.out.println("angle to check: " + angleToCheckForInDegrees);
             SmartDashboard.putNumber("desiredRotationAngle", angleToCheckForInDegrees);   // FIXME: Remove later
         }
     
@@ -68,6 +76,7 @@ public class RotateInPlaceByGyroInDegrees extends SequentialCommandGroup {
                 ++atAngleCount;
                 swerve.stop();
             } else {
+                //System.out.println("currentAngle: " + gyro.getYaw() + " diff: " + angleDifference);
                 double absSpeed = Math.max(Math.min(absAngleDifference / 180.0, maxPercentPower), MIN_PERCENT_POWER);
                 swerve.setSpeedPercent(angleDifference < 0.0 ? -absSpeed : absSpeed);
                 atAngleCount = 0;
