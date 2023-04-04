@@ -7,7 +7,7 @@ import frc.robot.subsystems.Arm;
 public class MoveArmCommand extends BaseArmCommand {
 
     private static final double DEFAULT_MAX_SECONDS_TO_WAIT = 4.0;
-    private static final double DEGREES_AWAY_FROM_DESIRED_THRESHOLD = 1.0;
+    private static final double DEGREES_AWAY_FROM_DESIRED_THRESHOLD = 6.0;
 
     private int stabilizedCount;
     private final Arm.Position desiredArmPosition;

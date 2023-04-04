@@ -16,7 +16,7 @@ public class DoubleScoreRedEasy extends DoubleScore {
             Direction.RIGHT,
             16.0,
             150.0,
-            178.0,
+            162.0, // 178.0 - 16.0
             RotationDirection.COUNTER_CLOCKWISE,
             180.0);
     }
