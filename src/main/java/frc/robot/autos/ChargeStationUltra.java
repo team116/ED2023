@@ -48,7 +48,6 @@ public class ChargeStationUltra extends SequentialCommandGroup {
         // REVISIT: Potential Balancing hack by raising arm at the end
 
         SequentialCommandGroup internalCommandGroup = new SequentialCommandGroup(
-            baseHighGoalCone,
             strafeToLineUpToElement,
             moveBackwardsFast,
             turnAroundToGetElement,
@@ -59,6 +58,6 @@ public class ChargeStationUltra extends SequentialCommandGroup {
 
         ParallelCommandGroup holdArmAndOthers = new ParallelCommandGroup(holdArmCommand, internalCommandGroup);
 
-        addCommands(holdArmAndOthers);
+        addCommands(baseHighGoalCone, holdArmAndOthers);  // NOTE: baseHighGoalCone has own holdArm, so do NOT run in parallel with this one
     }
 }

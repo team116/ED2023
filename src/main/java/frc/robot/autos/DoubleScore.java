@@ -52,7 +52,6 @@ public class DoubleScore extends SequentialCommandGroup {
         );
 
         SequentialCommandGroup internalCommandGroup = new SequentialCommandGroup(
-            baseHighGoalCone,
             strafeToLineUpToElement,
             moveBackwardsFast,
             turnAroundToGetElement,
@@ -67,6 +66,6 @@ public class DoubleScore extends SequentialCommandGroup {
 
         ParallelCommandGroup holdArmAndOthers = new ParallelCommandGroup(holdArmCommand, internalCommandGroup);
 
-        addCommands(holdArmAndOthers);
+        addCommands(baseHighGoalCone, holdArmAndOthers);  // NOTE: baseHighGoal has own holdArm, so do NOT run in parallel with this one
     }
 }
