@@ -48,8 +48,8 @@ public class RobotContainer {
   private final JoystickButton robotCentric =
       new JoystickButton(driver, XboxController.Button.kRightBumper.value);
 
-  // private final JoystickButton toggleTesterButton =
-  //     new JoystickButton(driver, XboxController.Button.kX.value);
+  private final JoystickButton driverOutakeButton =
+       new JoystickButton(driver, XboxController.Button.kX.value);
 
   // private final JoystickButton armMotorForward =
   //     new JoystickButton(driver, XboxController.Button.kY.value);
@@ -123,7 +123,16 @@ public class RobotContainer {
     sendableChooser.addOption("Red bump side high goal", new HighGoalRedBumpSide(s_Swerve, arm, grabber, limelight));
     sendableChooser.addOption("Drive forward until level", new DriveDirectionUntilLevel(s_Swerve, Direction.FORWARD));
     sendableChooser.addOption("Scores high cone then gets a second peice and scores in ground goal", new PickUpSecondPieceAfterHighConeAndScoreInGroundGoal(s_Swerve, arm, grabber, limelight, gyro));
-    sendableChooser.addOption("Rotate 180", new TestRotation(s_Swerve, gyro));
+    sendableChooser.addOption("Rotate 180 by encoders", new TestRotationByEncoders(s_Swerve, gyro));
+    sendableChooser.addOption("Rotate 180 by gyro", new TestRotationByGyro(s_Swerve, gyro));
+    sendableChooser.addOption("Double Score Blue Bump", new DoubleScoreBlueBump(s_Swerve, arm, grabber, limelight));
+    sendableChooser.addOption("Double Score Blue Easy", new DoubleScoreBlueEasy(s_Swerve, arm, grabber, limelight));
+    sendableChooser.addOption("Double Score Red Bump", new DoubleScoreRedBump(s_Swerve, arm, grabber, limelight));
+    sendableChooser.addOption("Double Score Red Easy", new DoubleScoreRedEasy(s_Swerve, arm, grabber, limelight));
+    sendableChooser.addOption("Charge Station Ultra Blue Bump", new ChargeStationUltraBlueBump(s_Swerve, arm, grabber, limelight));
+    sendableChooser.addOption("Charge Station Ultra Blue Easy", new ChargeStationUltraBlueEasy(s_Swerve, arm, grabber, limelight));
+    sendableChooser.addOption("Charge Station Ultra Red Bump", new ChargeStationUltraRedBump(s_Swerve, arm, grabber, limelight));
+    sendableChooser.addOption("Charge Station Ultra Red Easy", new ChargeStationUltraRedEasy(s_Swerve, arm, grabber, limelight));
     SmartDashboard.putData(sendableChooser);
   }
 
@@ -168,6 +177,8 @@ public class RobotContainer {
 
     gunnerOutakeButton.whileTrue(new RepeatCommand(new InstantCommand(() -> grabber.getRidOfGamePiece(), grabber)));
     gunnerIntakeButton.whileTrue(new RepeatCommand(new InstantCommand(() -> grabber.intakeGamePiece(), grabber)));
+
+    driverOutakeButton.whileTrue(new RepeatCommand(new InstantCommand(() -> grabber.getRidOfGamePiece(), grabber)));
 
     driverRightTrigger.onTrue(new InstantCommand(() -> s_Swerve.toggleSlowMode()));
 
@@ -227,5 +238,13 @@ public class RobotContainer {
 
   public void resetRobotToCorrectAutonomousFieldPosition() {
     s_Swerve.reverseZeroGyro();
+  }
+
+  public void enableLeds() {
+    leds.enable();
+  }
+
+  public void disableLeds() {
+    leds.disable();
   }
 }

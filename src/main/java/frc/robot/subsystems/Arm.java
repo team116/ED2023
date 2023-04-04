@@ -25,14 +25,16 @@ public class Arm extends SubsystemBase{
     private double desiredCANCoderPosition;
 
     public enum Position{
-        CONE_HIGH_GOAL(32.255859375), 
-        CONE_MID_GOAL(17.490234375),
+        CONE_HIGH_GOAL(35.068359375), // 32.255859375
+        CONE_MID_GOAL(20.3), // 17.490234375
         CUBE_HIGH_GOAL(18.017578125),
         CUBE_MID_GOAL(-1.845703125),
         LOW_GOAL(-37.373046875),
         HUMAN_PLAYER_STATION(13.623046875),
         FLOOR_INTAKE(-77.431640625),
-        STOWED(-93.427734375);
+        STOWED(-93.427734375),
+        AUTO_CONE_HIGH_GOAL_SCORE(24.0),
+        AUTO_CONE_MID_GOAL_SCORE(9.0);
 
         private final double angleDegrees;
 

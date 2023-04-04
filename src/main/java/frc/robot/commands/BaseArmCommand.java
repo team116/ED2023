@@ -37,9 +37,9 @@ public abstract class BaseArmCommand extends CommandBase{
     public void execute(){
         // Use this default command to keep the arm at the desired position
         
-        // SmartDashboard.putNumber("Arm Motor Encoder", arm.getEncoder());
-        // SmartDashboard.putNumber("arm CAN Desired", desiredCanCoderPosition);
-        // SmartDashboard.putNumber("arm CAN Coder", arm.getCANCoderPosition());
+        SmartDashboard.putNumber("Arm Motor Encoder", arm.getEncoder());
+        SmartDashboard.putNumber("arm CAN Desired", desiredCanCoderPosition);
+        SmartDashboard.putNumber("arm CAN Coder", arm.getCANCoderPosition());
 
         checkForDriverInputs();
 

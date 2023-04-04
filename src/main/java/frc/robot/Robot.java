@@ -60,6 +60,7 @@ public class Robot extends TimedRobot {
   public void autonomousInit() {
     // NOTE: Believe all autonomous plays face towards alliance wall, if not, then need to move this down to individual auto plays
     m_robotContainer.resetRobotToCorrectAutonomousFieldPosition();
+    m_robotContainer.disableLeds();
 
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
@@ -86,6 +87,8 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
+
+    m_robotContainer.enableLeds();
   }
 
   /** This function is called periodically during operator control. */
