@@ -29,6 +29,7 @@ public class ChargeStationAfterHighConeSimple extends BaseHighGoalCone {
 
         SequentialCommandGroup internalCommandGroup = new SequentialCommandGroup(
             stowArm,
+            new InstantCommand(() -> holdArmCommand.enableStowItSpecial()),
             moveBackwardsOntoChargeStation,
             turnWheels,
             new InstantCommand(() -> holdArmCommand.killIt()));

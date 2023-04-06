@@ -27,7 +27,7 @@ public class DefaultLedCommand extends CommandBase {
 
     @Override
     public void execute() {
-        if (gunnerLogitech.getRawButton(6)) {  // FIXME: Might want as gunner station switch to "hold"
+        if (gunnerStation.getRawButton(6)) {  // FIXME: Might want as gunner station switch to "hold"
             SmartDashboard.putString("led element button", "PRESSED");
             setLedsToDesiredElementColor();
         } else {

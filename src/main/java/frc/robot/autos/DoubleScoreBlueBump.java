@@ -14,7 +14,7 @@ public class DoubleScoreBlueBump extends DoubleScore {
             grabberSubsystem,
             limelight,
             Direction.RIGHT,
-            16.0,
+            12.0,
             150.0,
             178.0,
             RotationDirection.CLOCKWISE,

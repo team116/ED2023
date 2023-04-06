@@ -6,6 +6,7 @@ import frc.robot.subsystems.Arm;
 public class HoldArmCommand extends BaseArmCommand {
     private boolean disabled;
     private boolean finished;
+    private boolean stowItSpecial;
 
     public HoldArmCommand(Arm armSubSystem) {
         super(armSubSystem, false);
@@ -16,12 +17,17 @@ public class HoldArmCommand extends BaseArmCommand {
         super.initialize();
         disabled = false;
         finished = false;
+        stowItSpecial = false;
     }
 
     @Override
     public void execute() {
         if (!disabled) {
-            super.execute();
+            if (stowItSpecial) {
+                arm.nudgeDown(0.2);
+            } else {
+                super.execute();
+            }
         }
     }
 
@@ -32,6 +38,18 @@ public class HoldArmCommand extends BaseArmCommand {
 
     public void disable() {
         disabled = true;
+    }
+
+    public void setStowItSpecial(boolean stowItOrNot) {
+        stowItSpecial = stowItOrNot;
+    }
+
+    public void enableStowItSpecial() {
+        setStowItSpecial(true);
+    }
+
+    public void disableStowItSpecial() {
+        setStowItSpecial(false);
     }
 
     @Override

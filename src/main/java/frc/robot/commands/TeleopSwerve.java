@@ -51,8 +51,8 @@ public class TeleopSwerve extends CommandBase {
 
     double maxAngularVelocity = Constants.Swerve.MAX_ANGULAR_VELOCITY_FAST_MODE;
     if (s_Swerve.inSlowMode()) {
-      rawTranslationVal *= 0.5;
-      rawStrafeVal *= 0.5;
+      rawTranslationVal *= 0.8;
+      rawStrafeVal *= 0.8;
       //rawRotationVal *= 0.5;
       maxAngularVelocity = Constants.Swerve.MAX_ANGULAR_VELOCITY_SLOW_MODE;
     }

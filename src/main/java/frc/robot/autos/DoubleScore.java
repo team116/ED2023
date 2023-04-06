@@ -56,7 +56,7 @@ public class DoubleScore extends SequentialCommandGroup {
             strafeToLineUpToElement,
             moveBackwardsFast,
             turnAroundToGetElement,
-            //grabElement,
+            grabElement,
             //turnBackAround,
             //liftToScoreAndMoveForwardsFast,
             //strafeToLineUpWithPole,

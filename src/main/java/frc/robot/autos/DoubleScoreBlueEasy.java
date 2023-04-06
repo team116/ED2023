@@ -14,7 +14,7 @@ public class DoubleScoreBlueEasy extends DoubleScore {
             grabberSubsystem,
             limelight,
             Direction.LEFT,
-            16.0,
+            12.0,
             150.0,
             178.0,
             RotationDirection.CLOCKWISE,

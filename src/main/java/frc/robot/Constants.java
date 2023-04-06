@@ -26,7 +26,7 @@ public final class Constants {
   public static final int GRABBER_LIMIT_SWITCH_CHANNEL = 0;
 
   public static final class Swerve {
-    public static final double STICK_DEADBAND = 0.06; // Was 0.1
+    public static final double STICK_DEADBAND = 0.04; // Was 0.1
 
     public static final int PIGEON_ID = 7;
     public static final int POWER_DISTRIBUTION_CENTER = 6;
