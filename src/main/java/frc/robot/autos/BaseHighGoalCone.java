@@ -32,9 +32,9 @@ public class BaseHighGoalCone extends SequentialCommandGroup {
             delayedArmCommand,
             moveTinyBackwardsAtStart);
 
-        DriveDistanceAtAngle moveForward = new DriveDistanceAtAngle(swerveSubsystem, 24.0, FORWARD);
+        DriveDistanceAtAngle moveForward = new DriveDistanceAtAngle(swerveSubsystem, 23.5, FORWARD);
 
-        MoveArmCommand lowerArm = new MoveArmCommand(armSubsystem, AUTO_CONE_HIGH_GOAL_SCORE, 0.25, holdArmCommand);
+        MoveArmCommand lowerArm = new MoveArmCommand(armSubsystem, AUTO_CONE_HIGH_GOAL_SCORE, 0.5, holdArmCommand);
 
         SequentialCommandGroup delayedStowArmCommand = new SequentialCommandGroup(
             new DurationCommand(1.0),

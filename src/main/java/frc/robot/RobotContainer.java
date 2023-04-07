@@ -68,6 +68,8 @@ public class RobotContainer {
 
   private final JoystickButton gunnerIntakeButton = new JoystickButton(gunnerStation, 1);
   private final JoystickButton gunnerOutakeButton = new JoystickButton(gunnerStation, 2);
+  private final JoystickButton gunnerLEDOnOffButton = new JoystickButton(gunnerLogitech, 6);
+  private final JoystickButton gunnerOutTakeCubeButton = new JoystickButton(gunnerLogitech, 5);
 
   private final CommandXboxController driverXBoxController = new CommandXboxController(Constants.DRIVER_XBOX_CONTROLLER_PORT);
 
@@ -175,6 +177,9 @@ public class RobotContainer {
 
     gunnerOutakeButton.whileTrue(new RepeatCommand(new InstantCommand(() -> grabber.getRidOfGamePiece(), grabber)));
     gunnerIntakeButton.whileTrue(new RepeatCommand(new InstantCommand(() -> grabber.intakeGamePiece(), grabber)));
+    gunnerOutTakeCubeButton.whileTrue(new RepeatCommand(new InstantCommand(() -> grabber.getRidOfGamePieceSlow())));
+    gunnerLEDOnOffButton.onTrue(new InstantCommand(() -> leds.disable()));
+    gunnerLEDOnOffButton.onFalse(new InstantCommand(() -> leds.enable()));
 
     driverOutakeButton.whileTrue(new RepeatCommand(new InstantCommand(() -> grabber.getRidOfGamePiece(), grabber)));
 

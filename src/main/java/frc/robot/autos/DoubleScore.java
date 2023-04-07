@@ -52,11 +52,14 @@ public class DoubleScore extends SequentialCommandGroup {
             new DriveDistanceAtAngle(swerveSubsystem, 28.0, Direction.REVERSE)
         );
 
+        MoveArmCommand bringToIntakeLevel = new MoveArmCommand(armSubsystem, Arm.Position.FLOOR_INTAKE, 0.5, holdArmCommand);
+
         SequentialCommandGroup internalCommandGroup = new SequentialCommandGroup(
             strafeToLineUpToElement,
             moveBackwardsFast,
             turnAroundToGetElement,
             grabElement,
+            bringToIntakeLevel,
             //turnBackAround,
             //liftToScoreAndMoveForwardsFast,
             //strafeToLineUpWithPole,

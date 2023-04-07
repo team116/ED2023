@@ -30,11 +30,11 @@ public class Arm extends SubsystemBase{
         CUBE_HIGH_GOAL(18.017578125),
         CUBE_MID_GOAL(-1.845703125),
         LOW_GOAL(-37.373046875),
-        HUMAN_PLAYER_STATION(13.623046875),
+        HUMAN_PLAYER_STATION(15.0),
         FLOOR_INTAKE(-77.431640625),
         STOWED(-93.427734375),
         AUTO_CONE_HIGH_GOAL(38.0),
-        AUTO_CONE_HIGH_GOAL_SCORE(24.0),
+        AUTO_CONE_HIGH_GOAL_SCORE(22.0),
         AUTO_CONE_MID_GOAL_SCORE(9.0);
 
         private final double angleDegrees;

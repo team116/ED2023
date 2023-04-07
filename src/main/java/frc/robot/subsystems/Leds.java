@@ -20,7 +20,8 @@ public class Leds extends SubsystemBase {
         BLUE(0.87),
         YELLOW(0.69),
         PURPLE(0.91),
-        PURPLE_BLUE(0.89)
+        PURPLE_BLUE(0.89),
+        BLACK(0.99)
         ;
 
         private double colorSpeed;
@@ -42,6 +43,9 @@ public class Leds extends SubsystemBase {
         this.enabled = enabled;
     }
 
+    public boolean getEnabled(){
+        return enabled;
+    }
     public void enable() {
         setEnabled(true);
     }

@@ -27,7 +27,9 @@ public class DefaultLedCommand extends CommandBase {
 
     @Override
     public void execute() {
-        if (gunnerStation.getRawButton(6)) {  // FIXME: Might want as gunner station switch to "hold"
+        if (gunnerLogitech.getRawButton(6)) {
+            leds.setColor(Leds.Color.BLACK);
+        } else if (gunnerStation.getRawButton(6)) {  // FIXME: Might want as gunner station switch to "hold"
             SmartDashboard.putString("led element button", "PRESSED");
             setLedsToDesiredElementColor();
         } else {
@@ -45,6 +47,7 @@ public class DefaultLedCommand extends CommandBase {
             leds.setColor(Leds.Color.PURPLE);
         }
     }
+
 
     private void setLedsToAllianceColor() {
         if (alliance == DriverStation.Alliance.Red) {
