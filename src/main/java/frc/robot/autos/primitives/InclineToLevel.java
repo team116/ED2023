@@ -5,6 +5,9 @@ import com.ctre.phoenix.sensors.Pigeon2;
 /**
  * Runs until it sees a significant incline angle, and then sees it come back close to level.
  */
+
+ // on ground gyro goes between -1.0986328 and -1.142578
+ //reversing up the ramp is positive 
 public class InclineToLevel extends DurationCommand {
 
     private static final double MINIMUM_INCLINE_ANGLE_DEGREES = 5.0;

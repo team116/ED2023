@@ -207,7 +207,12 @@ public class Swerve extends SubsystemBase {
     swerveOdometry.update(getYaw(), getPositions());
     // swerveOdometry.update(getYaw(), getStates());
     field.setRobotPose(getPose());
-
+    if (inSlowMode) {
+      SmartDashboard.putString("Slow Mode", "!!!!!!!!!!!!! SLOW !!!!!!!!!!!!!");
+    }else {
+      SmartDashboard.putString("Slow Mode", "");
+    }
+    
     // SmartDashboard.putString("Pose ", getPose().toString());
     // for (SwerveModule mod : mSwerveMods) {
     //   String modName = "Mod " + mod.moduleNumber;

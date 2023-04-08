@@ -30,7 +30,7 @@ public class Grabber extends SubsystemBase{
     }
 
     public void getRidOfGamePieceSlow(){
-        grabberMotor.set(-0.15);
+        grabberMotor.set(-0.2);
     }
 
     public void openClaw(){
