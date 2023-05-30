@@ -48,8 +48,8 @@ public class RobotContainer {
   private final JoystickButton robotCentric =
       new JoystickButton(driver, XboxController.Button.kRightBumper.value);
 
-  // private final JoystickButton toggleTesterButton =
-  //     new JoystickButton(driver, XboxController.Button.kX.value);
+  private final JoystickButton driverOutakeButton =
+       new JoystickButton(driver, XboxController.Button.kX.value);
 
   // private final JoystickButton armMotorForward =
   //     new JoystickButton(driver, XboxController.Button.kY.value);
@@ -113,17 +113,23 @@ public class RobotContainer {
     configureButtonBindings();
 
     sendableChooser.setDefaultOption("Do Nothing", new DoNothingCommand());
+    sendableChooser.addOption("Charge Station Balance By Gyro", new ChargeStationBalanceByGyro(s_Swerve, arm, grabber, limelight));
+    sendableChooser.addOption("Double Score Blue Bump", new DoubleScoreBlueBump(s_Swerve, arm, grabber, limelight));
+    sendableChooser.addOption("Double Score Blue Easy", new DoubleScoreBlueEasy(s_Swerve, arm, grabber, limelight));
+    sendableChooser.addOption("Double Score Red Bump", new DoubleScoreRedBump(s_Swerve, arm, grabber, limelight));
+    sendableChooser.addOption("Double Score Red Easy", new DoubleScoreRedEasy(s_Swerve, arm, grabber, limelight));
     sendableChooser.addOption("Score cone high goal", new HighGoalCone(s_Swerve, arm, grabber, limelight));
     //sendableChooser.addOption("Score cone mid goal", new MidGoalCone(s_Swerve, arm, grabber));
     sendableChooser.addOption("Score cone low goal", new GroundGoal(s_Swerve, arm, grabber));
     sendableChooser.addOption("Charge station after high goal", new ChargeStationAfterHighCone(s_Swerve, arm, grabber, limelight));
     sendableChooser.addOption("Charge station (simple) after high goal", new ChargeStationAfterHighConeSimple(s_Swerve, arm, grabber, limelight));
     sendableChooser.addOption("Charge station NO MOVE AFTER high goal", new ChargeStationAfterHighConeNoMove(s_Swerve, arm, grabber, limelight));
-    sendableChooser.addOption("Blue bump side high goal", new HighGoalBlueBumpSide(s_Swerve, arm, grabber, limelight));
-    sendableChooser.addOption("Red bump side high goal", new HighGoalRedBumpSide(s_Swerve, arm, grabber, limelight));
-    sendableChooser.addOption("Drive forward until level", new DriveDirectionUntilLevel(s_Swerve, Direction.FORWARD));
-    sendableChooser.addOption("Scores high cone then gets a second peice and scores in ground goal", new PickUpSecondPieceAfterHighConeAndScoreInGroundGoal(s_Swerve, arm, grabber, limelight, gyro));
-    sendableChooser.addOption("Rotate 180", new TestRotation(s_Swerve, gyro));
+    //sendableChooser.addOption("Blue bump side high goal", new HighGoalBlueBumpSide(s_Swerve, arm, grabber, limelight));
+    //sendableChooser.addOption("Red bump side high goal", new HighGoalRedBumpSide(s_Swerve, arm, grabber, limelight));
+    //sendableChooser.addOption("Drive forward until level", new DriveDirectionUntilLevel(s_Swerve, Direction.FORWARD));
+    //sendableChooser.addOption("Scores high cone then gets a second peice and scores in ground goal", new PickUpSecondPieceAfterHighConeAndScoreInGroundGoal(s_Swerve, arm, grabber, limelight, gyro));
+    //sendableChooser.addOption("Rotate 180 by encoders", new TestRotationByEncoders(s_Swerve, gyro));
+    //sendableChooser.addOption("Rotate 180 by gyro", new TestRotationByGyro(s_Swerve, gyro));
     SmartDashboard.putData(sendableChooser);
   }
 
@@ -168,6 +174,8 @@ public class RobotContainer {
 
     gunnerOutakeButton.whileTrue(new RepeatCommand(new InstantCommand(() -> grabber.getRidOfGamePiece(), grabber)));
     gunnerIntakeButton.whileTrue(new RepeatCommand(new InstantCommand(() -> grabber.intakeGamePiece(), grabber)));
+
+    driverOutakeButton.whileTrue(new RepeatCommand(new InstantCommand(() -> grabber.getRidOfGamePiece(), grabber)));
 
     driverRightTrigger.onTrue(new InstantCommand(() -> s_Swerve.toggleSlowMode()));
     dpadDown.onTrue(new InstantCommand(() -> s_Swerve.toggleSuperSlowMode()));
@@ -228,5 +236,13 @@ public class RobotContainer {
 
   public void resetRobotToCorrectAutonomousFieldPosition() {
     s_Swerve.reverseZeroGyro();
+  }
+
+  public void enableLeds() {
+    leds.enable();
+  }
+
+  public void disableLeds() {
+    leds.disable();
   }
 }

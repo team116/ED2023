@@ -22,6 +22,20 @@ public class DriveDistanceAtAngle extends SequentialCommandGroup {
             this.angleDegrees = angleDegrees;
             this.directionMultiplier = directionMultiplier;
         }
+
+        public Direction getInverse() {
+            switch(this) {
+                case FORWARD: return REVERSE;
+                case REVERSE: return FORWARD;
+                case LEFT:    return RIGHT;
+                case RIGHT:   return LEFT;
+                case DIAGONAL_FORWARD_LEFT: return DIAGONAL_BACKWARD_RIGHT;
+                case DIAGONAL_BACKWARD_RIGHT: return DIAGONAL_FORWARD_LEFT;
+                case DIAGONAL_FORWARD_RIGHT: return DIAGONAL_BACKWARD_LEFT;
+                case DIAGONAL_BACKWARD_LEFT: return DIAGONAL_FORWARD_RIGHT;
+                default: return REVERSE;
+            }
+        }
     }
 
     public enum Speed {

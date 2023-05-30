@@ -17,7 +17,7 @@ import frc.robot.subsystems.Swerve;
 import static frc.robot.autos.primitives.DriveDistanceAtAngle.Direction.*;
 import static frc.robot.subsystems.Arm.Position.*;
 
-public abstract class BaseHighGoalCone extends SequentialCommandGroup {
+public class BaseHighGoalCone extends SequentialCommandGroup {
 
     public BaseHighGoalCone(Swerve swerveSubsystem, Arm armSubsystem, Grabber grabberSubsystem, Limelight limelight) {
         HoldArmCommand holdArmCommand = new HoldArmCommand(armSubsystem);
@@ -26,17 +26,15 @@ public abstract class BaseHighGoalCone extends SequentialCommandGroup {
 
         SequentialCommandGroup delayedArmCommand = new SequentialCommandGroup(
             new DurationCommand(0.25),
-            new MoveArmCommand(armSubsystem, CONE_HIGH_GOAL, 4.0, holdArmCommand));
+            new MoveArmCommand(armSubsystem, AUTO_CONE_HIGH_GOAL, 4.0, holdArmCommand));  // FIXME: This should be lower than 4.0
 
         ParallelCommandGroup liftConeToHighScoringPositionWhileMovingBack = new ParallelCommandGroup(
             delayedArmCommand,
             moveTinyBackwardsAtStart);
 
-        //MoveArmCommand liftArmToScoringPosition = new MoveArmCommand(armSubsystem, CONE_HIGH_GOAL, 4.0, holdArmCommand);
-
         DriveDistanceAtAngle moveForward = new DriveDistanceAtAngle(swerveSubsystem, 24.0, FORWARD);
 
-        MoveArmCommand lowerArm = new MoveArmCommand(armSubsystem, CUBE_HIGH_GOAL, 0.25, holdArmCommand);
+        MoveArmCommand lowerArm = new MoveArmCommand(armSubsystem, AUTO_CONE_HIGH_GOAL_SCORE, 0.25, holdArmCommand);
 
         SequentialCommandGroup delayedStowArmCommand = new SequentialCommandGroup(
             new DurationCommand(1.0),
