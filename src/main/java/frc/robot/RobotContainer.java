@@ -75,9 +75,9 @@ public class RobotContainer {
   private final Trigger driverRightTrigger = driverXBoxController.rightTrigger(0.5);
 
   private final POVButton dpadUp = new POVButton(driver, 0);
-  private final POVButton dpadRight = new POVButton(driver, 90);
+  // private final POVButton dpadRight = new POVButton(driver, 90);
   private final POVButton dpadDown = new POVButton(driver, 180);
-  private final POVButton dpadLeft = new POVButton(driver, 270);
+  // private final POVButton dpadLeft = new POVButton(driver, 270);
 
    /* Subsystems */
   private final Arm arm = new Arm();
@@ -153,10 +153,10 @@ public class RobotContainer {
     // FIXME: LED Lights control will be a switch on driver station yellow/purple, triggered by a
     // whileTrue on a button press on the logitech joystick
 
-    Trigger armForwardTrigger = dpadUp.whileTrue(new RepeatCommand(new InstantCommand(() -> arm.moveUp(), arm)));
-    armForwardTrigger.onFalse(new InstantCommand(() -> arm.stop(), arm));
-    Trigger armReverseTrigger = dpadDown.whileTrue(new RepeatCommand(new InstantCommand(() -> arm.moveDown(), arm)));
-    armReverseTrigger.onFalse(new InstantCommand(() -> arm.stop(), arm));
+    // Trigger armForwardTrigger = dpadUp.whileTrue(new RepeatCommand(new InstantCommand(() -> arm.moveUp(), arm)));
+    // armForwardTrigger.onFalse(new InstantCommand(() -> arm.stop(), arm));
+    // Trigger armReverseTrigger = dpadDown.whileTrue(new RepeatCommand(new InstantCommand(() -> arm.moveDown(), arm)));
+    // armReverseTrigger.onFalse(new InstantCommand(() -> arm.stop(), arm));
 
     enableArmLimitSwitches.onTrue(new InstantCommand(() -> arm.disableLimitSwitches()));
     enableArmLimitSwitches.onFalse(new InstantCommand(() -> arm.enableLimitSwitches()));
@@ -170,6 +170,7 @@ public class RobotContainer {
     gunnerIntakeButton.whileTrue(new RepeatCommand(new InstantCommand(() -> grabber.intakeGamePiece(), grabber)));
 
     driverRightTrigger.onTrue(new InstantCommand(() -> s_Swerve.toggleSlowMode()));
+    dpadDown.onTrue(new InstantCommand(() -> s_Swerve.toggleSuperSlowMode()));
 
     robotCentric.onTrue(new InstantCommand(() -> robotCentricState.toggleState()));
     // XBox

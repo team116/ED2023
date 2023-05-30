@@ -56,6 +56,12 @@ public class TeleopSwerve extends CommandBase {
       //rawRotationVal *= 0.5;
       maxAngularVelocity = Constants.Swerve.MAX_ANGULAR_VELOCITY_SLOW_MODE;
     }
+
+    if (s_Swerve.inSuperSlowMode()) {
+      rawTranslationVal *= 0.25;
+      rawStrafeVal *= 0.25;
+      maxAngularVelocity = Constants.Swerve.MAX_ANGULAR_VELOCITY_SUPER_SLOW_MODE;
+    }
     // FIXME: Make slow-mode capability
     // Need to read state from somewhere... s_Swerve maintain state?  Probably...
 

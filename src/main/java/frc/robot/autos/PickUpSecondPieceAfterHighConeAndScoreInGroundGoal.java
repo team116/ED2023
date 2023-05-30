@@ -10,15 +10,12 @@ import frc.robot.autos.primitives.GrabberExpelCommand;
 import frc.robot.autos.primitives.GrabberIntakeCommand;
 import frc.robot.autos.primitives.HoldArmCommand;
 import frc.robot.autos.primitives.RotateInPlaceByGyroInDegrees;
-import frc.robot.autos.primitives.DriveDistanceAtAngle.Speed;
-import frc.robot.commands.PoleAlignmentCommand;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Grabber;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Swerve;
 
 import static frc.robot.autos.primitives.DriveDistanceAtAngle.Direction.*;
-import static frc.robot.subsystems.Arm.Position.*;
 
 public class PickUpSecondPieceAfterHighConeAndScoreInGroundGoal extends HighGoalCone{
     public PickUpSecondPieceAfterHighConeAndScoreInGroundGoal(Swerve swerveSubsystem, Arm armSubsystem, Grabber grabberSubsystem, Limelight limelight, Pigeon2 gyro){

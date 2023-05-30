@@ -86,6 +86,7 @@ public final class Constants {
     public static double MAX_ANGULAR_VELOCITY = 2.0;//8.0;//11.5;
     public static double MAX_ANGULAR_VELOCITY_FAST_MODE = 4.0;
     public static double MAX_ANGULAR_VELOCITY_SLOW_MODE = 2.0;
+    public static double MAX_ANGULAR_VELOCITY_SUPER_SLOW_MODE = 0.5;
 
     /* Neutral Modes */
     public static final IdleMode ANGLE_NEUTRAL_MODE = IdleMode.kBrake;
