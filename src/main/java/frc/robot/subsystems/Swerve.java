@@ -23,7 +23,7 @@ public class Swerve extends SubsystemBase {
   private Field2d field;
 
   private boolean inSlowMode = false;
-  private boolean superSlowMode = false;
+  private boolean superSlowMode = true;
 
   public Swerve() {
     gyro = new Pigeon2(Constants.Swerve.PIGEON_ID);

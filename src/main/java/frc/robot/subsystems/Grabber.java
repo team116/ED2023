@@ -58,7 +58,7 @@ public class Grabber extends SubsystemBase{
     }
 
     public void slowStallIntake() {
-        grabberMotor.set(0.04);
+        grabberMotor.set(0.00); // original value 0.04 changed for herndon fest
     }
     
 }
